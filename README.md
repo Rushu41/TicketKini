@@ -25,7 +25,6 @@
 ## 🎯 Overview
 
 **TicketKini** is a comprehensive, full-stack travel booking system that demonstrates advanced database management concepts in a real-world application. Built with modern technologies and best practices, it showcases professional-grade software development from database design to user interface.
-<img width="975" height="514" alt="image" src="https://github.com/user-attachments/assets/159be720-381d-40d2-a803-7f203e58fcb7" />
 
 
 ### 🌟 Why TicketKini?

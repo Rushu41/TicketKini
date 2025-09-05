@@ -1580,7 +1580,7 @@ class AdminDashboard {
             // Test basic connectivity first
             console.log('Testing API connection...');
             try {
-                const testResponse = await fetch('https://dbms-project-ljy4.onrender.com/', {
+                const testResponse = await fetch('https://ticketkini.onrender.com/', {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json'
@@ -1626,7 +1626,7 @@ class AdminDashboard {
                 // If the API service call fails, try a direct fetch as fallback
                 console.log('Trying direct API call as fallback...');
                 
-                const directResponse = await fetch(`https://dbms-project-ljy4.onrender.com/admin/vehicles/${vehicleId}`, {
+                const directResponse = await fetch(`https://ticketkini.onrender.com/admin/vehicles/${vehicleId}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -2517,7 +2517,7 @@ class AdminDashboard {
         try {
             // First test basic connectivity
             console.log('Testing basic API connectivity...');
-            const basicResp = await fetch('https://dbms-project-ljy4.onrender.com/');
+            const basicResp = await fetch('https://ticketkini.onrender.com/');
             console.log('Basic API response status:', basicResp.status);
             
             console.log('Testing admin stats endpoint...');

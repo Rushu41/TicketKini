@@ -253,7 +253,8 @@ class ApiService {
 
   constructor() {
   // Use deployed backend URL in production
-  this.baseUrl = 'https://dbms-project-ljy4.onrender.com';
+  // Keep baseUrl without trailing slash so endpoint concatenation remains correct
+  this.baseUrl = 'https://ticketkini.onrender.com';
     try {
       localStorage.setItem('api_base_url', this.baseUrl);
     } catch {}

@@ -21,7 +21,7 @@ def setup_cors(app: FastAPI) -> None:
         "file://",                  # Local file protocol
         "null",                     # Some browsers send Origin: null for file:// pages
         # Deployed frontend/backends
-        "https://dbms-project-ljy4.onrender.com",
+    "https://ticketkini.onrender.com",
     ]
     
     # Add origins from settings

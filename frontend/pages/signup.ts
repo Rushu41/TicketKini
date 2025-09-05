@@ -38,8 +38,6 @@ class SignupPage {
   // Background animation elements
   private dynamicBackground!: HTMLElement;
   // private particlesContainer!: HTMLElement; // DISABLED - No particles
-  private morphingShapes!: HTMLElement;
-  private stepVisuals!: HTMLElement;
   
   // Tunnel/Portal animation elements - DISABLED
   // private tunnelContainer!: HTMLElement;
@@ -94,8 +92,6 @@ class SignupPage {
     // Background animation system
     this.dynamicBackground = document.getElementById('dynamicBackground') as HTMLElement;
     // this.particlesContainer = document.getElementById('particlesContainer') as HTMLElement; // DISABLED
-    this.morphingShapes = document.getElementById('morphingShapes') as HTMLElement;
-    this.stepVisuals = document.getElementById('stepVisuals') as HTMLElement;
     
     // Tunnel/Portal animation system - DISABLED
     // this.tunnelContainer = document.getElementById('tunnelContainer') as HTMLElement;
@@ -694,7 +690,7 @@ class SignupPage {
 
   private async testBackendConnection(): Promise<void> {
     try {
-  const response = await fetch('https://dbms-project-ljy4.onrender.com/docs');
+  const response = await fetch('https://ticketkini.onrender.com/docs');
       if (!response.ok) {
         console.warn('Backend might not be running properly');
       }

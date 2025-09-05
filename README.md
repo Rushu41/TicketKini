@@ -7,14 +7,18 @@
 **Professional-grade travel booking platform with modern architecture and advanced database design**
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org)
-[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev)
-[![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-FCA121?style=for-the-badge&logo=python&logoColor=white)](https://sqlalchemy.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=w---
 
-[🚀 Live Demo](https://dbms-project-ljy4.onrender.com) • [📖 API Docs](https://dbms-project-ljy4.onrender.com/docs) • [🎯 Features](#-key-features) • [⚡ Quick Start](#-quick-start)
+## 👥 Contributors
 
-</div>
+Below are the primary contributors to TicketKini for this project.
+
+| Profile | Developer | GitHub | Key Contributions |
+|---------|-----------|--------|-------------------|
+| <img src="https://github.com/SHJony121.png" width="80" height="80" style="border-radius: 50%;"> | **Md. Shahria Hasan Jony** | [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/SHJony121) | 🎨 **Frontend & UI/UX**<br/>• Search, booking & seat-selection UI<br/>• Admin dashboard components and pages<br/>• Interactive seat map and animations<br/>• Integration of frontend with backend API (fetch/WS handling) |
+| <img src="https://github.com/Rushu41.png" width="80" height="80" style="border-radius: 50%;"> | **Md. Rushan Jamil** | [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Rushu41) | ⚙️ **Backend & Architecture**<br/>• FastAPI backend, database schema & migrations<br/>• REST API endpoints, JWT auth and payment hooks<br/>• WebSocket notifications and real-time updates<br/>• Deployment, DevOps and project documentation |
+
+[🚀 Live Demo](https://ticketkini.onrender.com) • [📖 API Docs](https://ticketkini.onrender.com/docs) • [🎯 Features](#-key-features) • [⚡ Quick Start](#-quick-start)
 
 ---
 
@@ -133,87 +137,7 @@ Our database follows strict normalization principles while maintaining performan
 - **Feedback**: User experience tracking
 - **Notifications**: Real-time communication
 
-### 🗂️ **Entity Relationship Model**
-
-```mermaid
-erDiagram
-    USERS ||--o{ BOOKINGS : makes
-    USERS ||--o{ PAYMENTS : performs
-    USERS ||--o{ NOTIFICATIONS : receives
-    OPERATORS ||--o{ VEHICLES : owns
-    VEHICLES ||--o{ SCHEDULES : has
-    VEHICLES ||--o{ BOOKINGS : assigned
-    LOCATIONS ||--o{ SCHEDULES : source
-    LOCATIONS ||--o{ SCHEDULES : destination
-    SCHEDULES ||--o{ BOOKINGS : includes
-    BOOKINGS ||--o{ PAYMENTS : triggers
-    BOOKINGS ||--o{ FEEDBACK : generates
-
-    USERS {
-        int id PK
-        string name
-        string email UK
-        string phone
-        string password_hash
-        bool is_admin
-        datetime created_at
-        datetime updated_at
-    }
-    
-    OPERATORS {
-        int id PK
-        string name UK
-        string contact_email
-        string contact_phone
-        bool is_active
-        datetime created_at
-    }
-    
-    VEHICLES {
-        int id PK
-        string vehicle_number UK
-        string vehicle_name
-        enum vehicle_type
-        int operator_id FK
-        int total_seats
-        jsonb seat_map
-        jsonb class_prices
-        jsonb facilities
-        enum status
-        bool is_active
-    }
-    
-    SCHEDULES {
-        int id PK
-        int vehicle_id FK
-        int source_id FK
-        int destination_id FK
-        time departure_time
-        time arrival_time
-        string duration
-        decimal base_price
-        string frequency
-        bool is_active
-    }
-    
-    BOOKINGS {
-        int id PK
-        int user_id FK
-        int vehicle_id FK
-        int schedule_id FK
-        jsonb seats
-        string seat_class
-        jsonb passenger_details
-        decimal total_price
-        enum status
-        string pnr UK
-        datetime booking_date
-        datetime travel_date
-        datetime expires_at
-    }
-```
-
-### 📈 **Performance Optimizations**
+###  **Performance Optimizations**
 
 #### **Strategic Indexing**
 ```sql
@@ -481,6 +405,35 @@ MAX_BOOKING_SEATS=6
 BOOKING_EXPIRY_MINUTES=15
 ```
 
+> ⚠️ Security note: Do NOT commit your `.env` file to source control. It contains secrets (database passwords, JWT keys). This repository includes a `.gitignore` entry to exclude `.env`. For deployment, set environment variables in your hosting provider.
+
+If you need a template for local setup, create a file named `.env.example` (safe to commit) with the values below (no secrets):
+
+```bash
+# Copy this file to `.env` and fill real values (DO NOT commit `.env`)
+DATABASE_URL=postgresql://<DB_USER>:<DB_PASS>@localhost/ticketkini
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=
+DB_NAME=ticketkini
+
+SECRET_KEY=your-super-secret-key-here
+JWT_SECRET_KEY=your-jwt-secret-key
+JWT_ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASSWORD=
+
+DEBUG=False
+CORS_ORIGINS=["http://localhost:3000", "http://127.0.0.1:5173"]
+MAX_BOOKING_SEATS=6
+BOOKING_EXPIRY_MINUTES=15
+```
+
 ### 🚀 **Production Deployment**
 
 #### **Render.com Deployment**
@@ -506,145 +459,6 @@ databases:
   - name: ticketkini-db
     databaseName: ticketkini
     user: ticketkini_user
-```
-
----
-
-## 📊 API Documentation
-
-### 🔐 **Authentication Endpoints**
-
-#### **User Registration**
-```http
-POST /auth/register
-Content-Type: application/json
-
-{
-  "name": "John Doe",
-  "email": "john@example.com",
-  "phone": "+8801234567890",
-  "password": "securePassword123"
-}
-```
-
-#### **User Login**
-```http
-POST /auth/login
-Content-Type: application/json
-
-{
-  "email": "john@example.com",
-  "password": "securePassword123"
-}
-```
-
-### 🔍 **Search & Discovery**
-
-#### **Search Routes**
-```http
-GET /search?source=Dhaka&destination=Chittagong&travel_date=2025-01-15&vehicle_type=BUS
-```
-
-#### **Seat Availability**
-```http
-GET /search/seats/{vehicle_id}?travel_date=2025-01-15&schedule_id=123
-```
-
-### 🎫 **Booking Management**
-
-#### **Create Booking**
-```http
-POST /booking
-Content-Type: application/json
-
-{
-  "schedule_id": 123,
-  "seats": [15, 16],
-  "seat_class": "ECONOMY",
-  "passenger_details": [
-    {
-      "name": "John Doe",
-      "age": 30,
-      "gender": "Male",
-      "seat_number": 15,
-      "phone": "+8801234567890"
-    },
-    {
-      "name": "Jane Doe",
-      "age": 28,
-      "gender": "Female",
-      "seat_number": 16,
-      "phone": "+8801234567891"
-    }
-  ],
-  "travel_date": "2025-01-15"
-}
-```
-
-#### **Get User Bookings**
-```http
-GET /booking/{user_id}?status=CONFIRMED&limit=20&offset=0
-```
-
-### 💳 **Payment Processing**
-
-#### **Process Payment**
-```http
-POST /payment
-Content-Type: application/json
-
-{
-  "booking_id": 456,
-  "payment_method": "CARD",
-  "amount": 1200.00,
-  "transaction_id": "txn_123456789"
-}
-```
-
-### 👑 **Admin Operations**
-
-#### **Get All Bookings**
-```http
-GET /admin/bookings?status=CONFIRMED&start_date=2025-01-01&end_date=2025-01-31
-```
-
-#### **Create Vehicle**
-```http
-POST /admin/vehicles
-Content-Type: application/json
-
-{
-  "vehicle_number": "DHK-123",
-  "vehicle_name": "Express Plus",
-  "vehicle_type": "BUS",
-  "operator_id": 1,
-  "total_seats": 40,
-  "facilities": ["AC", "WiFi", "Charging Port"],
-  "seat_map": {
-    "total_seats": 40,
-    "layout": "2-2",
-    "classes": {
-      "ECONOMY": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    }
-  }
-}
-```
-
-### 📡 **WebSocket Endpoints**
-
-#### **Real-time Notifications**
-```javascript
-// Connect to WebSocket
-const ws = new WebSocket('ws://localhost:8000/ws/notifications/{user_id}');
-
-// Listen for notifications
-ws.onmessage = (event) => {
-  const notification = JSON.parse(event.data);
-  console.log('New notification:', notification);
-};
-
-// Send ping to keep connection alive
-ws.send(JSON.stringify({ type: 'ping' }));
 ```
 
 ---
@@ -707,98 +521,22 @@ npm run test:coverage
 
 ---
 
-## 🚀 Advanced Features
+## � Performance Metrics
 
-### 🎯 **Smart Booking System**
-
-#### **Intelligent Seat Allocation**
-```python
-class SeatAllocationEngine:
-    """Advanced seat allocation with preference optimization"""
-    
-    def allocate_seats(self, preferences: SeatPreferences) -> List[int]:
-        # Group booking optimization
-        # Accessibility requirements
-        # Price tier preferences
-        # Window/aisle preferences
-        pass
-```
-
-#### **Dynamic Pricing Engine**
-```python
-class DynamicPricingService:
-    """Real-time pricing based on demand and availability"""
-    
-    def calculate_price(self, base_price: float, demand_factor: float, 
-                       days_to_travel: int) -> float:
-        # Demand-based pricing
-        # Early bird discounts
-        # Last-minute pricing
-        # Seasonal adjustments
-        pass
-```
-
-### 📊 **Analytics & Reporting**
-
-#### **Business Intelligence Dashboard**
-- **Revenue Analytics**: Daily, weekly, monthly revenue trends
-- **Occupancy Rates**: Vehicle utilization statistics
-- **Route Performance**: Popular routes and profitability
-- **Customer Insights**: Booking patterns and preferences
-- **Operator Metrics**: Performance comparison across operators
-
-#### **Real-time Metrics**
-```python
-class AnalyticsService:
-    """Real-time business metrics and KPIs"""
-    
-    async def get_live_metrics(self) -> Dict[str, Any]:
-        return {
-            "active_bookings": await self.count_active_bookings(),
-            "revenue_today": await self.calculate_daily_revenue(),
-            "occupancy_rate": await self.calculate_occupancy_rate(),
-            "top_routes": await self.get_popular_routes(),
-            "user_satisfaction": await self.get_satisfaction_score()
-        }
-```
-
-### 🔔 **Advanced Notification System**
-
-#### **Multi-channel Notifications**
-- **In-app Notifications**: Real-time WebSocket notifications
-- **Email Notifications**: Booking confirmations and updates
-- **SMS Integration**: Critical updates and reminders
-- **Push Notifications**: Mobile app notifications (future)
-
-#### **Smart Notification Rules**
-```python
-class NotificationRuleEngine:
-    """Intelligent notification routing and timing"""
-    
-    def should_send_notification(self, user: User, notification_type: str) -> bool:
-        # User preference checking
-        # Frequency limiting
-        # Time zone consideration
-        # Priority-based routing
-        pass
-```
-
----
-
-## 👥 Team & Contributors
-
-### 🎯 **Project Lead & Core Developer**
+### 🎯 **Development Team**
 
 <div align="center">
 
-| **Md. Rushan Jamil** |
-|:---------------------:|
-| [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Rushu41) |
-| **Lead Full-Stack Developer** |
+| **Md. Rushan Jamil** | **SH Jony** |
+|:---------------------:|:------------:|
+| [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Rushu41) | [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/SHJony121) |
+| **Lead Full-Stack Developer** | **Co-Developer & Frontend Specialist** |
 
 </div>
 
-#### 🏆 **Primary Contributions**
+### 🏆 **Md. Rushan Jamil - Lead Developer**
+
+#### **Primary Contributions**
 - **🏗️ System Architecture**: Complete system design and database architecture
 - **⚡ Backend Development**: FastAPI application with SQLAlchemy ORM
 - **🔐 Authentication System**: JWT-based security implementation
@@ -810,7 +548,7 @@ class NotificationRuleEngine:
 - **🧪 Testing Framework**: Comprehensive testing strategy implementation
 - **📚 Documentation**: Complete project documentation and setup guides
 
-#### 💻 **Technical Expertise**
+#### **Technical Expertise**
 - **Backend Technologies**: Python, FastAPI, SQLAlchemy, PostgreSQL
 - **Frontend Technologies**: TypeScript, HTML5, CSS3, Vite
 - **Database Management**: Advanced SQL, query optimization, indexing strategies
@@ -818,14 +556,44 @@ class NotificationRuleEngine:
 - **Version Control**: Git workflow, branching strategies, CI/CD
 - **Security**: JWT authentication, password hashing, data validation
 
+### 🎨 **SH Jony - Co-Developer & Frontend Specialist**
+
+#### **Key Contributions**
+- **🎨 UI/UX Design**: Modern interface design and user experience optimization
+- **📱 Frontend Development**: Interactive components and responsive layouts
+- **🎯 Component Architecture**: Reusable component design and implementation
+- **📊 Data Visualization**: Dashboard components and analytics interfaces
+- **🔧 Frontend Integration**: API integration and state management
+- **🎪 Animation & Interactions**: Smooth animations and user interactions
+- **📝 Content Management**: User interface content and documentation
+- **🧪 Frontend Testing**: Component testing and user experience validation
+
+#### **Technical Skills**
+- **Frontend Technologies**: TypeScript, JavaScript, HTML5, CSS3
+- **UI Frameworks**: Tailwind CSS, responsive design principles
+- **Component Development**: Modular component architecture
+- **State Management**: Frontend data management and API integration
+- **Design Tools**: Modern UI/UX design principles
+- **Testing**: Frontend testing frameworks and methodologies
+
 ### 🎓 **Academic Context**
 
-This project was developed as part of a **Database Management Systems (DBMS)** course project, demonstrating:
+This project was developed as part of a **Database Management Systems (DBMS)** course project by a collaborative team, demonstrating:
 
 - **Advanced Database Concepts**: Normalization, indexing, transaction management
 - **Real-world Application**: Practical implementation of theoretical concepts
 - **Modern Development Practices**: Agile methodology, version control, documentation
 - **Professional Standards**: Code quality, testing, deployment practices
+- **Team Collaboration**: Distributed development and integration practices
+
+### 🤝 **Team Collaboration**
+
+The development process showcased effective teamwork with:
+- **Role Distribution**: Clear separation of responsibilities between backend and frontend
+- **Code Integration**: Seamless integration of different components
+- **Quality Assurance**: Peer code review and collaborative testing
+- **Documentation**: Joint effort in creating comprehensive documentation
+- **Problem Solving**: Collaborative debugging and feature development
 
 ### 🤝 **Collaboration & Mentorship**
 
@@ -993,130 +761,6 @@ class BIService:
 
 ---
 
-## 🤝 Contributing
-
-### 🛠️ **Development Workflow**
-
-#### **Getting Started**
-1. **Fork the Repository**: Create your own fork on GitHub
-2. **Clone Locally**: `git clone https://github.com/YourUsername/DBMS-Project.git`
-3. **Create Feature Branch**: `git checkout -b feature/your-feature-name`
-4. **Set Up Environment**: Follow the installation guide above
-5. **Make Changes**: Implement your feature or bug fix
-6. **Test Thoroughly**: Ensure all tests pass
-7. **Submit Pull Request**: Include detailed description and testing notes
-
-#### **Code Standards**
-
-##### **Backend (Python)**
-```python
-# Type hints are mandatory
-def create_booking(user_id: int, booking_data: BookingCreate) -> BookingOut:
-    """
-    Create a new booking with comprehensive validation.
-    
-    Args:
-        user_id: The ID of the user creating the booking
-        booking_data: Validated booking creation data
-    
-    Returns:
-        BookingOut: The created booking with all details
-    
-    Raises:
-        HTTPException: If validation fails or booking cannot be created
-    """
-    pass
-
-# Use Pydantic models for all data validation
-class BookingCreate(BaseModel):
-    schedule_id: int = Field(..., gt=0, description="Valid schedule ID")
-    seats: List[int] = Field(..., min_items=1, max_items=6)
-    passenger_details: List[PassengerDetails]
-```
-
-##### **Frontend (TypeScript)**
-```typescript
-// Strict typing for all functions
-interface BookingRequest {
-  scheduleId: number;
-  seats: number[];
-  passengerDetails: PassengerDetails[];
-}
-
-// Error handling with proper types
-async function createBooking(request: BookingRequest): Promise<ApiResponse<Booking>> {
-  try {
-    const response = await apiService.post<Booking>('/booking', request);
-    return { success: true, data: response };
-  } catch (error) {
-    return { success: false, error: error.message };
-  }
-}
-```
-
-##### **Database (SQL)**
-```sql
--- All migrations must be reversible
--- UP migration
-ALTER TABLE bookings ADD COLUMN travel_date TIMESTAMP;
-CREATE INDEX idx_bookings_travel_date ON bookings(travel_date);
-
--- DOWN migration (in separate file)
-DROP INDEX idx_bookings_travel_date;
-ALTER TABLE bookings DROP COLUMN travel_date;
-```
-
-### 🐛 **Bug Reports**
-
-#### **Issue Template**
-```markdown
-## Bug Description
-Clear and concise description of the bug.
-
-## Steps to Reproduce
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
-
-## Expected Behavior
-What you expected to happen.
-
-## Actual Behavior
-What actually happened.
-
-## Environment
-- OS: [e.g. Windows 10]
-- Browser: [e.g. Chrome 91]
-- Backend Version: [e.g. v1.0.0]
-- Database Version: [e.g. PostgreSQL 14]
-
-## Additional Context
-Add any other context about the problem.
-```
-
-### 💡 **Feature Requests**
-
-#### **Request Template**
-```markdown
-## Feature Summary
-Brief description of the feature.
-
-## Problem Statement
-What problem does this feature solve?
-
-## Proposed Solution
-Detailed description of the proposed solution.
-
-## Alternative Solutions
-Any alternative approaches considered.
-
-## Additional Context
-Mockups, examples, or related issues.
-```
-
----
-
 ## 📜 License & Legal
 
 ### 📄 **MIT License**
@@ -1195,9 +839,15 @@ SOFTWARE.
 
 <div align="center">
 
+**Md. Rushan Jamil (Lead Developer)**
+
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Rushu41)
 [![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:rushanrushan.rr@gmail.com)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/rushanrr)
+
+**SH Jony (Co-Developer)**
+
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/SHJony121)
 
 </div>
 
@@ -1245,5 +895,5 @@ SOFTWARE.
 ---
 
 <div align="center">
-<sub>© 2024 Md. Rushan Jamil. Built as part of DBMS coursework with professional-grade implementation standards.</sub>
+<sub>© 2024 Md. Rushan Jamil & SH Jony. Built as part of DBMS coursework with professional-grade implementation standards.</sub>
 </div>

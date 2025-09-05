@@ -95,7 +95,7 @@ class UserNotificationService {
         try {
             const protocol = (window.location.protocol === 'https:' || (localStorage.getItem('api_base_url') || '').startsWith('https')) ? 'wss:' : 'ws:';
             const apiBase = localStorage.getItem('api_base_url');
-            const host = apiBase ? new URL(apiBase).host : (window.location.host || 'dbms-project-ljy4.onrender.com');
+            const host = apiBase ? new URL(apiBase).host : (window.location.host || 'ticketkini.onrender.com');
             const wsUrl = `${protocol}//${host}/ws/notifications/${this.userId}?role=${this.role}`;
             
             this.ws = new WebSocket(wsUrl);

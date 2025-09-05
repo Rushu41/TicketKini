@@ -2,7 +2,9 @@
 
 <div align="center">
 
-![TicketKini Logo](frontend/assets/images/logo.png)
+<img width="543" height="410" alt="image" src="https://github.com/user-attachments/assets/c70cebad-c45c-4f2f-ab61-10c29fa7e7d7" />
+
+
 
 **Professional-grade travel booking platform with modern architecture and advanced database design**
 
@@ -37,11 +39,37 @@ In the era of digital transformation, travel booking systems require sophisticat
 
 ## 📸 Application Screenshots
 
-### 🏠 **Landing Page - Your Gateway to Seamless Travel**
 
-![TicketKini Landing Page](frontend/assets/images/screenshots/landing-page.png)
+### 📸 **Application Screenshots**
 
-*Experience our intuitive search interface with multi-modal transport options (Bus, Train, Plane) and user-friendly booking system designed for seamless travel planning across Bangladesh.*
+#### 🏠 **Landing Page & Search Interface**
+<img width="1909" height="871" alt="Screenshot 2025-09-06 032422" src="https://github.com/user-attachments/assets/978d49e9-d522-4f13-80dd-4fbe388c7ac7" />
+
+*Modern landing page with intuitive search interface for buses, trains, and flights*
+
+#### 📋 **My Bookings Dashboard**
+<img width="1486" height="863" alt="Screenshot 2025-09-06 032508" src="https://github.com/user-attachments/assets/a1234989-8007-4a68-8178-794bbae16183" />
+*Comprehensive booking management with statistics and search functionality*
+
+#### 🔍 **Search Results & Filtering**
+<img width="1297" height="864" alt="Screenshot 2025-09-06 032544" src="https://github.com/user-attachments/assets/821b88d2-1e32-4fb7-afde-5f06286eec0b" />
+*Advanced search results with filters, sorting, and real-time availability*
+
+#### 🪑 **Interactive Seat Selection**
+<img width="1104" height="841" alt="Screenshot 2025-09-06 032718" src="https://github.com/user-attachments/assets/6c7e2460-6fbd-4593-a7de-f30b57e9080b" />
+*Real-time seat map with visual seat selection and pricing breakdown*
+
+#### 🔑 **User Authentication**
+<img width="1002" height="867" alt="Screenshot 2025-09-06 032829" src="https://github.com/user-attachments/assets/77ec38eb-adf6-4730-bb85-b4a2dd774702" />
+*Secure login interface with user and admin access options*
+
+#### 📊 **Admin Analytics Dashboard**
+<img width="1877" height="860" alt="Screenshot 2025-09-06 032933" src="https://github.com/user-attachments/assets/854dc5e8-b2ba-45a1-af20-6bc009e3ee46" />
+*Comprehensive analytics with revenue trends and route popularity charts*
+
+#### 📅 **Schedule Management**
+<img width="1881" height="846" alt="Screenshot 2025-09-06 033010" src="https://github.com/user-attachments/assets/aca5e63f-0a78-41bf-9d87-f3eec5d0c565" />
+*Admin interface for managing routes, timetables, and vehicle assignments*
 
 ---
 
@@ -163,65 +191,7 @@ CREATE INDEX idx_notifications_user_read ON notifications(user_id, is_read);
 
 ---
 
-## 🏗️ System Architecture
 
-```mermaid
-flowchart TB
-    subgraph "Frontend Layer"
-        A[Browser Client]
-        B[Vite Dev Server]
-        C[TypeScript Components]
-        D[Tailwind CSS]
-    end
-    
-    subgraph "API Layer"
-        E[FastAPI Application]
-        F[JWT Authentication]
-        G[WebSocket Manager]
-        H[Background Tasks]
-    end
-    
-    subgraph "Business Logic"
-        I[Booking Service]
-        J[Payment Service]
-        K[Notification Service]
-        L[Email Service]
-    end
-    
-    subgraph "Data Layer"
-        M[SQLAlchemy ORM]
-        N[PostgreSQL Database]
-        O[Connection Pool]
-    end
-    
-    A --> E
-    B --> C
-    C --> D
-    E --> F
-    E --> G
-    E --> H
-    E --> I
-    I --> J
-    I --> K
-    K --> L
-    I --> M
-    M --> N
-    M --> O
-    
-    G -.-> A
-    H -.-> K
-```
-
-### 🔄 **Data Flow Architecture**
-
-1. **Request Processing**: FastAPI handles HTTP requests with automatic validation
-2. **Authentication**: JWT tokens provide secure, stateless authentication
-3. **Business Logic**: Service layer processes complex business rules
-4. **Data Access**: SQLAlchemy ORM manages database interactions
-5. **Real-time Updates**: WebSockets provide live updates to connected clients
-6. **Background Processing**: Async tasks handle notifications and cleanup
-
----
 
 ## 🚀 Quick Start
 
@@ -449,29 +419,8 @@ Below are the primary contributors to TicketKini for this project.
 |---------|-----------|--------|-------------------|
 | <img src="https://github.com/SHJony121.png" width="80" height="80" style="border-radius: 50%;"> | **Md. Shahria Hasan Jony** | [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/SHJony121) | 🎨 **Frontend & UI/UX Design**<br/>• Search & booking interface<br/>• Interactive seat selection maps<br/>📱 **User Dashboard**<br/>• My Bookings management<br/>• User profile system<br/>⚙️ **Frontend Integration**<br/>• API integration with backend<br/>• Real-time data synchronization |
 | <img src="https://github.com/Rushu41.png" width="80" height="80" style="border-radius: 50%;"> | **Md. Rushan Jamil** | [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Rushu41) | 🏗️ **System Architecture**<br/>• Complete database design & schema<br/>📊 **Backend Development**<br/>• FastAPI REST API implementation<br/>• JWT authentication system<br/>🔔 **Real-time Features**<br/>• WebSocket notifications<br/>🚀 **DevOps & Deployment**<br/>• Production deployment setup<br/>⚡ **Database Management**<br/>• PostgreSQL optimization & queries |
-- **Cloud Technologies**: Render.com deployment, environment management
-- **Version Control**: Git workflow, branching strategies, CI/CD
-- **Security**: JWT authentication, password hashing, data validation
 
-### 🎨 **SH Jony - Co-Developer & Frontend Specialist**
 
-#### **Key Contributions**
-- **🎨 UI/UX Design**: Modern interface design and user experience optimization
-- **📱 Frontend Development**: Interactive components and responsive layouts
-- **🎯 Component Architecture**: Reusable component design and implementation
-- **📊 Data Visualization**: Dashboard components and analytics interfaces
-- **🔧 Frontend Integration**: API integration and state management
-- **🎪 Animation & Interactions**: Smooth animations and user interactions
-- **📝 Content Management**: User interface content and documentation
-- **🧪 Frontend Testing**: Component testing and user experience validation
-
-#### **Technical Skills**
-- **Frontend Technologies**: TypeScript, JavaScript, HTML5, CSS3
-- **UI Frameworks**: Tailwind CSS, responsive design principles
-- **Component Development**: Modular component architecture
-- **State Management**: Frontend data management and API integration
-- **Design Tools**: Modern UI/UX design principles
-- **Testing**: Frontend testing frameworks and methodologies
 
 ### 🎓 **Academic Context**
 

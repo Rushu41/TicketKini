@@ -2,7 +2,9 @@
 
 <div align="center">
 
-![TicketKini Logo](frontend/assets/images/logo.png)
+<img width="543" height="410" alt="image" src="https://github.com/user-attachments/assets/c70cebad-c45c-4f2f-ab61-10c29fa7e7d7" />
+
+
 
 **Professional-grade travel booking platform with modern architecture and advanced database design**
 

@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Notifications - TicketKini</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="../styles/site.css" rel="stylesheet">
+    <style>
+        /* Sky blue theme overrides to match My Bookings */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%);
+            min-height: 100vh;
+            color: #1f2937;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .navbar {
+            background: rgba(248, 250, 252, 0.9);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .notification-item {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .notification-item.unread {
+            background: rgba(59, 130, 246, 0.05);
+            border-left-color: #3b82f6;
+        }
+        
+        .notification-item.read {
+            opacity: 0.8;
+        }
+        
+        .notification-item:hover {
+            background: rgba(0, 0, 0, 0.05);
+            transform: translateX(4px);
+        }
+        
+        .notification-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+        }
+        
+        .notification-priority-urgent { 
+            border-left-color: #ef4444 !important; 
+            background: rgba(239, 68, 68, 0.05) !important;
+        }
+        
+        .notification-priority-high { 
+            border-left-color: #f59e0b !important; 
+            background: rgba(245, 158, 11, 0.05) !important;
+        }
+        
+        .notification-priority-medium { 
+            border-left-color: #3b82f6 !important; 
+            background: rgba(59, 130, 246, 0.05) !important;
+        }
+        
+        .notification-priority-low { 
+            border-left-color: #10b981 !important; 
+            background: rgba(16, 185, 129, 0.05) !important;
+        }
+        
+        .filter-button.active {
+            background: linear-gradient(135deg, #1e40af, #06b6d4);
+            color: white;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6b7280;
+        }
+        
+        .empty-state i {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="../index.html" class="text-2xl font-extrabold gradient-text flex items-center gap-2">
+                    <i class="fas fa-route text-cyan-600"></i>
+                    <span>TicketKini</span>
+                </a>
+                
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="../index.html" class="text-gray-700 hover:text-cyan-600 transition-colors">Home</a>
+                    <a href="./my-bookings.html" class="text-gray-700 hover:text-cyan-600 transition-colors">My Bookings</a>
+                    <a href="./notifications.html" class="text-cyan-600 font-semibold">Notifications</a>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <div id="auth-buttons"></div>
+                    <button id="mobile-menu-btn" class="md:hidden" aria-label="Open mobile menu">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-primary mb-2">My Notifications</h1>
+            <p class="text-neutral-600">Stay updated with your booking confirmations, updates, and important announcements.</p>
+        </div>
+
+        <!-- Action Bar -->
+        <div class="glass-card rounded-lg p-6 mb-6">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <!-- Filter Buttons -->
+                <div class="flex flex-wrap gap-2">
+                    <button class="filter-button active px-4 py-2 rounded-lg border transition-all" data-filter="all">
+                        All Notifications
+                    </button>
+                    <button class="filter-button px-4 py-2 rounded-lg border transition-all" data-filter="unread">
+                        Unread
+                    </button>
+                    <button class="filter-button px-4 py-2 rounded-lg border transition-all" data-filter="urgent">
+                        Urgent
+                    </button>
+                    <button class="filter-button px-4 py-2 rounded-lg border transition-all" data-filter="booking">
+                        Booking Related
+                    </button>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex gap-2">
+                    <button id="mark-all-read-btn" class="btn btn-outline">
+                        <i class="fas fa-check-double mr-2"></i>
+                        Mark All Read
+                    </button>
+                    <button id="refresh-btn" class="btn btn-gradient">
+                        <i class="fas fa-sync-alt mr-2"></i>
+                        Refresh
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notification Stats -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+            <div class="glass-card rounded-lg p-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-bell text-white"></i>
+                    </div>
+                    <div>
+                        <div class="text-sm text-neutral-600">Total</div>
+                        <div class="text-2xl font-bold text-primary" id="total-count">0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="glass-card rounded-lg p-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-envelope text-white"></i>
+                    </div>
+                    <div>
+                        <div class="text-sm text-neutral-600">Unread</div>
+                        <div class="text-2xl font-bold text-primary" id="unread-count">0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="glass-card rounded-lg p-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-red-500 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-exclamation-triangle text-white"></i>
+                    </div>
+                    <div>
+                        <div class="text-sm text-neutral-600">Urgent</div>
+                        <div class="text-2xl font-bold text-primary" id="urgent-count">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications List -->
+        <div class="glass-card rounded-lg overflow-hidden">
+            <div class="border-b border-neutral-200 p-4">
+                <h2 class="text-lg font-semibold text-primary">Notifications</h2>
+            </div>
+            
+            <!-- Loading State -->
+            <div id="loading-state" class="p-8 text-center">
+                <i class="fas fa-spinner fa-spin text-4xl text-neutral-400 mb-4"></i>
+                <p class="text-neutral-600">Loading notifications...</p>
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state" class="empty-state hidden">
+                <i class="fas fa-bell-slash"></i>
+                <h3 class="text-xl font-semibold mb-2">No notifications found</h3>
+                <p>You're all caught up! No new notifications at the moment.</p>
+            </div>
+
+            <!-- Notifications Container -->
+            <div id="notifications-container" class="hidden">
+                <!-- Notifications will be rendered here -->
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div id="pagination-container" class="mt-6 flex justify-center">
+            <!-- Pagination will be rendered here -->
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script type="module" src="../components/navbar.ts"></script>
+    <script type="module" src="../services/userNotificationService.ts"></script>
+    <script type="module">
+        import { apiService } from '../services/api.ts';
+        import userNotificationService from '../services/userNotificationService.ts';
+
+        let currentFilter = 'all';
+        let currentPage = 1;
+        let totalPages = 1;
+    let allNotifications = [];
+    const bookingDetailsCache = {}; // booking_id -> details
+    const feedbackDetailsCache = {}; // feedback_id -> details
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', async () => {
+            await initializeAuth();
+            await initializeNotifications();
+            setupEventListeners();
+            await loadNotifications();
+        });
+
+        async function initializeAuth() {
+            try {
+                const isAuthenticated = await apiService.isAuthenticated();
+                if (!isAuthenticated) {
+                    window.location.href = './login.html';
+                    return;
+                }
+
+                const user = JSON.parse(localStorage.getItem('user') || '{}');
+                const authContainer = document.getElementById('auth-buttons');
+                if (authContainer) {
+                    authContainer.innerHTML = `
+                        <a href="./profile.html" class="btn btn-outline">
+                            <i class="fas fa-user mr-2"></i>${user.name || 'Profile'}
+                        </a>
+                        <button onclick="logout()" class="btn btn-outline">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </button>
+                    `;
+                }
+            } catch (error) {
+                console.error('Auth initialization failed:', error);
+                window.location.href = './login.html';
+            }
+        }
+
+        async function initializeNotifications() {
+            try {
+                await userNotificationService.initialize();
+                
+                // Listen for new notifications
+                window.addEventListener('newNotification', (event) => {
+                    const notification = event.detail;
+                    allNotifications.unshift(notification);
+                    // Prefetch booking details for booking-related notifications
+                    if (isBookingType(notification) && notification.booking_id) {
+                        prefetchBookingDetails([notification]).then(() => {
+                            applyFilter(currentFilter);
+                        }).catch(() => {});
+                    }
+                    // Prefetch feedback details for feedback-related notifications
+                    if (isFeedbackType(notification) && notification.feedback_id) {
+                        prefetchFeedbackDetails([notification]).then(() => {
+                            applyFilter(currentFilter);
+                        }).catch(() => {});
+                    }
+                    updateStats();
+                    if (shouldShowNotification(notification, currentFilter)) {
+                        renderNotifications();
+                    }
+                });
+            } catch (error) {
+                console.error('Notification service initialization failed:', error);
+            }
+        }
+
+        function setupEventListeners() {
+            // Filter buttons
+            document.querySelectorAll('.filter-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const target = e.currentTarget || e.target;
+                    const filter = target && target.dataset ? target.dataset.filter : 'all';
+                    setActiveFilter(filter);
+                    applyFilter(filter);
+                });
+            });
+
+            // Mark all read button
+            document.getElementById('mark-all-read-btn').addEventListener('click', markAllAsRead);
+
+            // Refresh button
+            document.getElementById('refresh-btn').addEventListener('click', async () => {
+                const refreshBtn = document.getElementById('refresh-btn');
+                const icon = refreshBtn.querySelector('i');
+                icon.classList.add('fa-spin');
+                
+                await loadNotifications();
+                
+                icon.classList.remove('fa-spin');
+                userNotificationService.showToast('Notifications refreshed', { type: 'success' });
+            });
+        }
+
+        function setActiveFilter(filter) {
+            document.querySelectorAll('.filter-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
+            currentFilter = filter;
+        }
+
+        async function loadNotifications() {
+            try {
+                showLoadingState();
+                
+                const response = await apiService.getUserNotifications();
+                if (response.success && response.data) {
+                    allNotifications = response.data;
+                    // Prefetch booking details for booking-related items
+                    await prefetchBookingDetails(allNotifications);
+                    // Prefetch feedback details for feedback-related items
+                    await prefetchFeedbackDetails(allNotifications);
+                    updateStats();
+                    applyFilter(currentFilter);
+                } else {
+                    throw new Error(response.error || 'Failed to load notifications');
+                }
+            } catch (error) {
+                console.error('Error loading notifications:', error);
+                showEmptyState();
+                userNotificationService.showToast('Failed to load notifications', { type: 'error' });
+            }
+        }
+
+        function isBookingType(notification) {
+            const t = (notification.type || '').toLowerCase();
+            return t.includes('booking');
+        }
+
+        function isFeedbackType(notification) {
+            const t = (notification.type || '').toLowerCase();
+            return Boolean(notification.feedback_id) || t.includes('feedback');
+        }
+
+        async function prefetchBookingDetails(notifications) {
+            const ids = Array.from(new Set(
+                notifications
+                    .filter(n => isBookingType(n) && n.booking_id)
+                    .map(n => n.booking_id)
+            ));
+            const tasks = ids
+                .filter(id => !(id in bookingDetailsCache))
+                .map(async (id) => {
+                    bookingDetailsCache[id] = null; // mark as loading
+                    const resp = await apiService.getBookingDetails(id);
+                    if (resp.success && resp.data) {
+                        bookingDetailsCache[id] = resp.data;
+                        // Fallback: enrich with user bookings if route/vehicle missing
+                        const needsEnrich = !resp.data.route || !resp.data.vehicle;
+                        if (needsEnrich) {
+                            try {
+                                const list = await apiService.getUserBookings();
+                                if (list.success && Array.isArray(list.data)) {
+                                    const match = list.data.find(b => b.id === id);
+                                    if (match) {
+                                        bookingDetailsCache[id] = {
+                                            ...bookingDetailsCache[id],
+                                            ...match,
+                                            route: bookingDetailsCache[id].route || match.route,
+                                            vehicle: bookingDetailsCache[id].vehicle || match.vehicle,
+                                        };
+                                    }
+                                }
+                            } catch {}
+                        }
+                    } else {
+                        // Last resort: try from list only
+                        try {
+                            const list = await apiService.getUserBookings();
+                            if (list.success && Array.isArray(list.data)) {
+                                const match = list.data.find(b => b.id === id);
+                                if (match) bookingDetailsCache[id] = match;
+                            }
+                        } catch {}
+                    }
+                });
+            if (tasks.length) {
+                await Promise.allSettled(tasks);
+            }
+        }
+
+        async function prefetchFeedbackDetails(notifications) {
+            const ids = Array.from(new Set(
+                notifications
+                    .filter(n => isFeedbackType(n) && n.feedback_id)
+                    .map(n => n.feedback_id)
+            ));
+            const tasks = ids
+                .filter(id => !(id in feedbackDetailsCache))
+                .map(async (id) => {
+                    feedbackDetailsCache[id] = null; // loading
+                    try {
+                        const resp = await apiService.request(`/feedback/${id}`);
+                        if (resp.success && resp.data) {
+                            const data = (resp.data && resp.data.data) ? resp.data.data : resp.data;
+                            feedbackDetailsCache[id] = data;
+                        } else {
+                            feedbackDetailsCache[id] = undefined;
+                        }
+                    } catch {
+                        feedbackDetailsCache[id] = undefined;
+                    }
+                });
+            if (tasks.length) {
+                await Promise.allSettled(tasks);
+            }
+        }
+
+        function updateStats() {
+            const total = allNotifications.length;
+            const unread = allNotifications.filter(n => !n.is_read).length;
+            const urgent = allNotifications.filter(n => n.priority === 'urgent').length;
+
+            document.getElementById('total-count').textContent = total.toString();
+            document.getElementById('unread-count').textContent = unread.toString();
+            document.getElementById('urgent-count').textContent = urgent.toString();
+        }
+
+        function applyFilter(filter) {
+            let filtered = [...allNotifications];
+
+            switch (filter) {
+                case 'unread':
+                    filtered = filtered.filter(n => !n.is_read);
+                    break;
+                case 'urgent':
+                    filtered = filtered.filter(n => n.priority === 'urgent');
+                    break;
+                case 'booking':
+                    filtered = filtered.filter(n => 
+                        n.type.includes('booking') || 
+                        n.type.includes('payment') || 
+                        n.type.includes('refund') ||
+                        n.type.includes('reminder')
+                    );
+                    break;
+                case 'all':
+                default:
+                    // Show all notifications
+                    break;
+            }
+
+            if (filtered.length === 0) {
+                showEmptyState();
+            } else {
+                renderNotifications(filtered);
+            }
+        }
+
+        function shouldShowNotification(notification, filter) {
+            switch (filter) {
+                case 'unread':
+                    return !notification.is_read;
+                case 'urgent':
+                    return notification.priority === 'urgent';
+                case 'booking':
+                    return notification.type.includes('booking') || 
+                           notification.type.includes('payment') || 
+                           notification.type.includes('refund') ||
+                           notification.type.includes('reminder');
+                case 'all':
+                default:
+                    return true;
+            }
+        }
+
+        function renderNotifications(notifications = allNotifications) {
+            const container = document.getElementById('notifications-container');
+            hideLoadingState();
+            hideEmptyState();
+            container.classList.remove('hidden');
+
+            if (notifications.length === 0) {
+                showEmptyState();
+                return;
+            }
+
+            container.innerHTML = notifications.map(notification => `
+                <div class="notification-item ${notification.is_read ? 'read' : 'unread'} notification-priority-${notification.priority} p-6 border-b border-neutral-200 cursor-pointer" 
+                     onclick="handleNotificationClick(${notification.id})" data-id="${notification.id}">
+                    <div class="flex items-start gap-4">
+                        <div class="notification-icon ${getNotificationIconBg(notification.type)}">
+                            <i class="fas ${getNotificationIcon(notification.type)}"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between gap-4">
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="text-lg font-semibold text-primary mb-1">${notification.title}</h3>
+                                    <p class="text-neutral-600 mb-2 leading-relaxed">${notification.message}</p>
+                                    <div class="flex items-center gap-4 text-sm text-neutral-500">
+                                        <span class="flex items-center gap-1">
+                                            <i class="fas fa-clock"></i>
+                                            ${formatTime(notification.created_at)}
+                                        </span>
+                                        <span class="px-2 py-1 rounded-full text-xs ${getPriorityClass(notification.priority)}">
+                                            ${notification.priority.toUpperCase()}
+                                        </span>
+                                        <span class="px-2 py-1 rounded-full text-xs ${getTypeClass(notification.type)}">
+                                            ${isFeedbackType(notification) ? 'FEEDBACK' : notification.type.replace(/_/g, ' ').toUpperCase()}
+                                        </span>
+                                    </div>
+                    ${(() => {
+                                        // Inline booking details for booking notifications
+                                        const type = (notification.type || '').toLowerCase();
+                                        if (type.includes('booking') && notification.booking_id && !isFeedbackType(notification)) {
+                                            const b = bookingDetailsCache[notification.booking_id];
+                                            if (!b) {
+                                                return `<div class=\"mt-2 text-sm text-neutral-500\"><i class=\"fas fa-spinner fa-spin mr-2\"></i>Loading trip details...</div>`;
+                                            }
+                        const src = b.route?.source;
+                        const dest = b.route?.destination;
+                        const dep = b.route?.departure_time;
+                        const arr = b.route?.arrival_time;
+                                            const op = b.vehicle?.operator_name || '';
+                                            const vname = b.vehicle?.vehicle_name || '';
+                                            const vnum = b.vehicle?.vehicle_number || '';
+                                            const vehicleStr = [op, vname].filter(Boolean).join(' - ');
+                                            const numStr = vnum ? ` (${vnum})` : '';
+                        const pnr = b.pnr ? `<span class=\\"flex items-center gap-2\\"><i class=\\"fas fa-ticket-alt text-neutral-500\\"></i>PNR: ${b.pnr}</span>` : '';
+                        const dateStr = b.travel_date ? new Date(b.travel_date).toLocaleDateString() : '';
+                        const seatsStr = Array.isArray(b.seats) ? `${b.seats.length} seat(s)` : '';
+                        const seatInfo = (dateStr || seatsStr) ? `<span class=\\"flex items-center gap-2\\"><i class=\\"fas fa-calendar-day text-neutral-500\\"></i>${[dateStr, seatsStr].filter(Boolean).join(' · ')}</span>` : '';
+                        const routeInfo = (src && dest) ? `<span class=\\"flex items-center gap-2\\"><i class=\\"fas fa-route text-neutral-500\\"></i>${src} → ${dest}</span>` : '';
+                        const timeInfo = (dep || arr) ? `<span class=\\"flex items-center gap-2\\"><i class=\\"fas fa-clock text-neutral-500\\"></i>${dep || ''}${(dep && arr) ? ' - ' : ''}${arr || ''}</span>` : '';
+                                                const vehicleInfo = (vehicleStr || numStr) ? `<span class=\"flex items-center gap-2\"><i class=\"fas fa-bus text-neutral-500\"></i>${vehicleStr}${numStr}</span>` : '';
+                                                // Show final price if available (coupon or pass applied)
+                                                const finalAmt = (b && typeof b.final_amount === 'number') ? b.final_amount : undefined;
+                                                const priceInfo = (typeof finalAmt === 'number' && typeof b.total_price === 'number')
+                                                    ? `<span class=\"flex items-center gap-2\"><i class=\"fas fa-credit-card text-neutral-500\"></i>৳${finalAmt.toLocaleString()}${finalAmt < b.total_price ? ` <span class=\\\"text-green-600 text-xs\\\">(saved ৳${(b.total_price - finalAmt).toLocaleString()})</span>` : ''}</span>`
+                                                    : (typeof b.total_price === 'number' ? `<span class=\"flex items-center gap-2\"><i class=\"fas fa-credit-card text-neutral-500\"></i>৳${b.total_price.toLocaleString()}</span>` : '');
+                        const anyInfo = routeInfo || timeInfo || vehicleInfo || pnr || seatInfo;
+                        if (!anyInfo) return '';
+                        return `
+                                            <div class=\"mt-3 text-sm text-neutral-700\">
+                                                <div class=\"flex flex-wrap gap-3 items-center\">
+                            ${pnr}
+                            ${seatInfo}
+                            ${routeInfo}
+                            ${timeInfo}
+                            ${vehicleInfo}
+                                                        ${priceInfo}
+                                                </div>
+                                            </div>`;
+                                        }
+                                        // Inline feedback details for feedback notifications
+                                        if (isFeedbackType(notification) && notification.feedback_id) {
+                                            const fb = feedbackDetailsCache[notification.feedback_id];
+                                            if (fb === null) {
+                                                return `<div class=\"mt-2 text-sm text-neutral-500\"><i class=\"fas fa-spinner fa-spin mr-2\"></i>Loading feedback...</div>`;
+                                            }
+                                            if (!fb) return '';
+                                            const esc = (s) => String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                                            const userMsg = esc(fb.comment || fb.message || '');
+                                            const adminReply = esc(fb.admin_response || '');
+                                            return `
+                                            <div class=\"mt-3 text-sm text-neutral-700 space-y-2\">
+                                                <div class=\"p-3 bg-white/60 rounded border\">
+                                                    <div class=\"text-xs font-semibold text-neutral-500 mb-1\">Your feedback</div>
+                                                    <div>${userMsg || '<span class=\"text-neutral-500\">(no text)</span>'}</div>
+                                                </div>
+                                                <div class=\"p-3 bg-white/60 rounded border\">
+                                                    <div class=\"text-xs font-semibold text-neutral-500 mb-1\">Admin response</div>
+                                                    <div>${adminReply || '<span class=\"text-neutral-500\">(no response yet)</span>'}</div>
+                                                </div>
+                                            </div>`;
+                                        }
+                                        return '';
+                                    })()}
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    ${!notification.is_read ? '<div class="w-3 h-3 bg-blue-500 rounded-full"></div>' : ''}
+                                    <button onclick="markAsRead(event, ${notification.id})" 
+                                            class="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
+                                            title="${notification.is_read ? 'Already read' : 'Mark as read'}">
+                                        <i class="fas ${notification.is_read ? 'fa-check' : 'fa-envelope-open'} text-neutral-400"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            ${(() => { 
+                                // Build a safe action URL if missing for payment/booking/reminder (not for feedback)
+                                const type = (notification.type || '').toLowerCase();
+                                let url = notification.action_url || '';
+                                if (!url) {
+                                    if (type.includes('payment') && notification.payment_id) {
+                                        url = `/pages/confirmation.html?payment_id=${notification.payment_id}`;
+                                    } else if ((type.includes('booking') || type.includes('reminder')) && notification.booking_id) {
+                                        url = `/pages/my-bookings.html?booking_id=${notification.booking_id}`;
+                                    }
+                                }
+                                // Hide for payment, booking, and feedback types
+                                const isPaymentOrBooking = type.includes('payment') || type.includes('booking');
+                                const isFb = isFeedbackType(notification);
+                                return (url && !isPaymentOrBooking && !isFb) ? `
+                                <div class="mt-3">
+                                    <button onclick=\"handleNotificationAction(event, '${'${normalizeActionUrl(url)}'}')\" 
+                                            class="btn btn-outline btn-sm">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        View Details
+                                    </button>
+                                </div>
+                            ` : '';
+                            })()}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function normalizeActionUrl(url) {
+            if (!url || typeof url !== 'string') return url;
+            try {
+                // Handle absolute URLs that might include localhost:3000
+                const a = document.createElement('a');
+                a.href = url;
+                const path = a.pathname || url;
+                const search = a.search || '';
+                // If it's already pointing to our pages directory, keep as-is with query
+                if (path.startsWith('/pages/')) {
+                    return `${path}${search}`;
+                }
+                // Map backend-like paths to frontend pages
+                const paymentMatch = path.match(/^\/payment\/(\d+)/);
+                if (paymentMatch) {
+                    return `/pages/confirmation.html?payment_id=${paymentMatch[1]}`;
+                }
+                const bookingMatch = path.match(/^\/booking\/(\d+)/);
+                if (bookingMatch) {
+                    return `/pages/my-bookings.html?booking_id=${bookingMatch[1]}`;
+                }
+                    const feedbackMatch = path.match(/^\/feedback\/(\d+)/);
+                    if (feedbackMatch) {
+                        return `/pages/feedback-details.html?id=${feedbackMatch[1]}`;
+                    }
+                    return `${path}${search}`; // already a page path or external
+            } catch {
+                return url;
+            }
+        }
+
+        function getNotificationIcon(type) {
+            const iconMap = {
+                'booking_confirmation': 'fa-check-circle',
+                'payment_success': 'fa-credit-card',
+                'booking_cancellation': 'fa-times-circle',
+                'schedule_change': 'fa-clock',
+                'refund_processed': 'fa-money-bill-wave',
+                'promotional': 'fa-tags',
+                'system_alert': 'fa-exclamation-triangle',
+                'reminder': 'fa-bell',
+                'trip_reminder': 'fa-bell'
+            };
+            return iconMap[type] || 'fa-info-circle';
+        }
+
+        function getNotificationIconBg(type) {
+            const bgMap = {
+                'booking_confirmation': 'bg-green-500',
+                'payment_success': 'bg-blue-500',
+                'booking_cancellation': 'bg-red-500',
+                'schedule_change': 'bg-yellow-500',
+                'refund_processed': 'bg-purple-500',
+                'promotional': 'bg-pink-500',
+                'system_alert': 'bg-orange-500',
+                'reminder': 'bg-indigo-500',
+                'trip_reminder': 'bg-indigo-500'
+            };
+            return bgMap[type] || 'bg-gray-500';
+        }
+
+        function getPriorityClass(priority) {
+            const classMap = {
+                'low': 'bg-green-100 text-green-800',
+                'medium': 'bg-blue-100 text-blue-800',
+                'high': 'bg-yellow-100 text-yellow-800',
+                'urgent': 'bg-red-100 text-red-800'
+            };
+            return classMap[priority] || 'bg-gray-100 text-gray-800';
+        }
+
+        function getTypeClass(type) {
+            return 'bg-gray-100 text-gray-800';
+        }
+
+        function formatTime(dateString) {
+            // Compute local relative time, then adjust the hours case by -6 as requested
+            const date = new Date(dateString);
+            const now = new Date();
+            let diffMs = now.getTime() - date.getTime();
+            if (diffMs < 0) diffMs = 0; // guard for future timestamps
+
+            const minutes = Math.floor(diffMs / (1000 * 60));
+            const hours = Math.floor(diffMs / (1000 * 60 * 60));
+            const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+            if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
+            if (hours > 0) {
+                const adjusted = hours - 6;
+                if (adjusted <= 0) return 'Now';
+                return `${adjusted} hour${adjusted > 1 ? 's' : ''} ago`;
+            }
+            if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+            return 'Now';
+        }
+
+        function showLoadingState() {
+            document.getElementById('loading-state').classList.remove('hidden');
+            document.getElementById('empty-state').classList.add('hidden');
+            document.getElementById('notifications-container').classList.add('hidden');
+        }
+
+        function hideLoadingState() {
+            document.getElementById('loading-state').classList.add('hidden');
+        }
+
+        function showEmptyState() {
+            hideLoadingState();
+            document.getElementById('empty-state').classList.remove('hidden');
+            document.getElementById('notifications-container').classList.add('hidden');
+        }
+
+        function hideEmptyState() {
+            document.getElementById('empty-state').classList.add('hidden');
+        }
+
+    async function handleNotificationClick(notificationId) {
+            const notification = allNotifications.find(n => n.id === notificationId);
+            if (!notification) return;
+
+            // Mark as read if not already read
+            if (!notification.is_read) {
+                await markAsRead(null, notificationId);
+            }
+
+            // Handle action URL (derive if missing for payment/booking). For feedback, do not navigate.
+            let url = notification.action_url || '';
+            const type = (notification.type || '').toLowerCase();
+            // Do not navigate for booking, payment, or feedback notifications to keep info inline
+            if (type.includes('booking') || type.includes('payment') || type.includes('feedback') || notification.feedback_id) {
+                return;
+            }
+            if (!url) {
+                if (type.includes('payment') && notification.payment_id) {
+                    url = `/pages/confirmation.html?payment_id=${notification.payment_id}`;
+                } else if ((type.includes('booking') || type.includes('reminder')) && notification.booking_id) {
+                    url = `/pages/my-bookings.html?booking_id=${notification.booking_id}`;
+                }
+            }
+            if (url) {
+                const target = normalizeActionUrl(url);
+                window.location.href = target;
+            }
+        }
+
+        async function markAsRead(event, notificationId) {
+            if (event) {
+                event.stopPropagation();
+            }
+
+            try {
+                const response = await apiService.markNotificationRead(notificationId);
+                if (response.success) {
+                    // Update local state
+                    const notification = allNotifications.find(n => n.id === notificationId);
+                    if (notification) {
+                        notification.is_read = true;
+                    }
+                    
+                    updateStats();
+                    applyFilter(currentFilter);
+                    userNotificationService.showToast('Notification marked as read', { type: 'success' });
+                } else {
+                    throw new Error(response.error || 'Failed to mark notification as read');
+                }
+            } catch (error) {
+                console.error('Error marking notification as read:', error);
+                userNotificationService.showToast('Failed to mark notification as read', { type: 'error' });
+            }
+        }
+
+        async function markAllAsRead() {
+            const unreadNotifications = allNotifications.filter(n => !n.is_read);
+            if (unreadNotifications.length === 0) {
+                userNotificationService.showToast('No unread notifications', { type: 'info' });
+                return;
+            }
+
+            const confirmed = confirm(`Mark all ${unreadNotifications.length} unread notifications as read?`);
+            if (!confirmed) return;
+
+            try {
+                const response = await apiService.markAllNotificationsRead();
+                if (response.success) {
+                    // Update local state
+                    allNotifications.forEach(notification => {
+                        notification.is_read = true;
+                    });
+                    
+                    updateStats();
+                    applyFilter(currentFilter);
+                    userNotificationService.showToast('All notifications marked as read', { type: 'success' });
+                } else {
+                    throw new Error(response.error || 'Failed to mark all notifications as read');
+                }
+            } catch (error) {
+                console.error('Error marking all notifications as read:', error);
+                userNotificationService.showToast('Failed to mark all notifications as read', { type: 'error' });
+            }
+        }
+
+        function handleNotificationAction(event, actionUrl) {
+            event.stopPropagation();
+            const target = normalizeActionUrl(actionUrl);
+            window.location.href = target;
+        }
+
+        async function logout() {
+            try {
+                await apiService.logout();
+                localStorage.removeItem('user');
+                userNotificationService.disconnect();
+                window.location.href = '../index.html';
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        }
+
+        // Expose functions globally
+        window.handleNotificationClick = handleNotificationClick;
+        window.markAsRead = markAsRead;
+        window.handleNotificationAction = handleNotificationAction;
+        window.logout = logout;
+    </script>
+</body>
+</html>

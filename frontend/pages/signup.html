@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Join TicketKini - Create Your Account</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="../styles/site.css" rel="stylesheet">
+  
+  <!-- GSAP Animation Library -->
+  <!-- Removing GSAP dependency for better compatibility -->
+  
+  <style>
+    /* Enable smooth scrolling globally */
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    /* Custom cursor inspired by thebluedesert.com */
+    .blue-desert-cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .cursor-inner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: all 0.1s cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+
+    .cursor-inner__icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
+      align-items: center;
+      justify-items: center;
+    }
+
+    .cursor-inner__icon > * {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .cursor-border {
+      width: 44px;
+      height: 44px;
+<<<<<<< HEAD
+      border: 2px solid #00B4DB;
+      border-radius: 50%;
+      background: rgba(0, 180, 219, 0.1);
+=======
+      border: 2px solid #5d3136;
+      border-radius: 50%;
+      background: rgba(93, 49, 54, 0.1);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      backdrop-filter: blur(10px);
+      transform: scale(0);
+      transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+      position: relative;
+    }
+
+    .cursor-dot {
+      width: 11px;
+      height: 11px;
+<<<<<<< HEAD
+      background: #00B4DB;
+=======
+      background: #5d3136;
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      border-radius: 50%;
+      transform: scale(1);
+      transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+      position: relative;
+    }
+
+    /* Hide default cursor on non-touch devices */
+    @media (pointer: fine) {
+      * {
+        cursor: none !important;
+      }
+    }
+
+    /* Show default cursor on touch devices */
+    @media (pointer: coarse) {
+      .blue-desert-cursor {
+        display: none;
+      }
+    }
+    
+    /* Clean off-white background */
+    .clean-bg {
+<<<<<<< HEAD
+      background: #f0f8ff;
+=======
+      background: #f9ecdf;
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      position: relative;
+      overflow-x: hidden;
+      overflow-y: auto;
+      min-height: 100vh;
+    }
+    
+    /* Dynamic Background Animation System - CSS Only */
+    .dynamic-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+      opacity: 1;
+    }
+    
+    .bg-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 2s ease-in-out, transform 3s ease-in-out;
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+    }
+    
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .bg-layer-1 {
+      background: linear-gradient(-45deg, 
+<<<<<<< HEAD
+        rgba(0, 180, 219, 0.15), 
+        rgba(0, 131, 176, 0.12), 
+        rgba(240, 248, 255, 0.1), 
+        rgba(0, 180, 219, 0.08)),
+=======
+        rgba(93, 49, 54, 0.15), 
+        rgba(216, 191, 192, 0.12), 
+        rgba(249, 236, 223, 0.1), 
+        rgba(93, 49, 54, 0.08)),
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+        url('../assets/images/pattern.svg');
+      animation-duration: 20s; /* Back to original speed */
+      background-size: 400% 400%, 60px 60px;
+    }
+    
+    .bg-layer-2 {
+      background: linear-gradient(45deg, 
+<<<<<<< HEAD
+        rgba(240, 248, 255, 0.2), 
+        rgba(0, 180, 219, 0.08), 
+        rgba(0, 131, 176, 0.15), 
+        rgba(240, 248, 255, 0.1)),
+=======
+        rgba(249, 236, 223, 0.2), 
+        rgba(93, 49, 54, 0.08), 
+        rgba(216, 191, 192, 0.15), 
+        rgba(249, 236, 223, 0.1)),
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+        url('../assets/images/pattern.svg');
+      animation-duration: 25s; /* Back to original speed */
+      animation-delay: -10s; /* Back to original delay */
+      background-size: 400% 400%, 80px 80px;
+    }
+    
+    .bg-layer-3 {
+      background: linear-gradient(90deg, 
+<<<<<<< HEAD
+        rgba(0, 131, 176, 0.18), 
+        rgba(240, 248, 255, 0.15), 
+        rgba(0, 180, 219, 0.1), 
+        rgba(0, 131, 176, 0.12)),
+=======
+        rgba(216, 191, 192, 0.18), 
+        rgba(249, 236, 223, 0.15), 
+        rgba(93, 49, 54, 0.1), 
+        rgba(216, 191, 192, 0.12)),
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+        url('../assets/images/pattern.svg');
+      animation-duration: 30s; /* Back to original speed */
+      animation-delay: -20s; /* Back to original delay */
+      background-size: 400% 400%, 100px 100px;
+    }
+    
+    /* Particles System - DISABLED */
+    /*
+    .particles-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+<<<<<<< HEAD
+      background: rgba(0, 180, 219, 0.6);
+      pointer-events: none;
+      animation: floatParticle 20s infinite linear;
+      box-shadow: 0 0 10px rgba(0, 180, 219, 0.3);
+    }
+    
+    .particle:nth-child(3n) {
+      background: rgba(0, 131, 176, 0.6);
+      box-shadow: 0 0 8px rgba(0, 131, 176, 0.4);
+    }
+    
+    .particle:nth-child(5n) {
+      background: rgba(240, 248, 255, 0.8);
+      box-shadow: 0 0 6px rgba(240, 248, 255, 0.5);
+=======
+      background: rgba(93, 49, 54, 0.6);
+      pointer-events: none;
+      animation: floatParticle 20s infinite linear;
+      box-shadow: 0 0 10px rgba(93, 49, 54, 0.3);
+    }
+    
+    .particle:nth-child(3n) {
+      background: rgba(216, 191, 192, 0.6);
+      box-shadow: 0 0 8px rgba(216, 191, 192, 0.4);
+    }
+    
+    .particle:nth-child(5n) {
+      background: rgba(249, 236, 223, 0.8);
+      box-shadow: 0 0 6px rgba(249, 236, 223, 0.5);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+    }
+    
+    @keyframes floatParticle {
+      0% { 
+        transform: translateY(100vh) translateX(var(--random-x, 0px)) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% { 
+        transform: translateY(-100px) translateX(var(--random-x, 100px)) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    */
+    
+    .morphing-shapes {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .morph-shape {
+      position: absolute;
+<<<<<<< HEAD
+      background: rgba(0, 180, 219, 0.15);
+=======
+      background: rgba(216, 191, 192, 0.15);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0;
+      animation: morphFloat 12s ease-in-out infinite; /* Back to original speed */
+    }
+    
+    @keyframes morphFloat {
+      0%, 100% { 
+        transform: translateY(0px) scale(1) rotate(0deg);
+        opacity: 0.3;
+      }
+      50% { 
+        transform: translateY(-20px) scale(1.1) rotate(180deg);
+        opacity: 0.7;
+      }
+    }
+    
+    .morph-1 {
+      width: 300px;
+      height: 300px;
+      top: 10%;
+      left: 10%;
+      animation-delay: 0s;
+      animation-duration: 15s; /* Back to original speed */
+    }
+    
+    .morph-2 {
+      width: 200px;
+      height: 200px;
+      top: 60%;
+      right: 20%;
+      animation-delay: -5s; /* Back to original delay */
+      animation-duration: 18s; /* Back to original speed */
+    }
+    
+    .morph-3 {
+      width: 250px;
+      height: 250px;
+      bottom: 20%;
+      left: 30%;
+      animation-delay: -10s; /* Back to original delay */
+      animation-duration: 20s; /* Back to original speed */
+    }
+    
+    .step-visuals {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Step-specific states with enhanced visibility */
+    .step-1 .bg-layer-1 { 
+      opacity: 1; 
+      transform: scale(1.05);
+    }
+    .step-1 .morph-1 { 
+      opacity: 0.8; 
+      transform: scale(1.2);
+<<<<<<< HEAD
+      background: rgba(0, 180, 219, 0.2);
+=======
+      background: rgba(93, 49, 54, 0.2);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+    }
+    
+    .step-2 .bg-layer-2 { 
+      opacity: 1; 
+      transform: scale(1.05);
+    }
+    .step-2 .morph-2 { 
+      opacity: 0.9; 
+      transform: scale(1.3);
+<<<<<<< HEAD
+      background: rgba(0, 131, 176, 0.25);
+=======
+      background: rgba(216, 191, 192, 0.25);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+    }
+    
+    .step-3 .bg-layer-3 { 
+      opacity: 1; 
+      transform: scale(1.05);
+    }
+    .step-3 .visual-3 { 
+      opacity: 1; 
+      transform: translate(-50%, -50%) scale(1.5) rotate(180deg); 
+    }
+    .step-3 .morph-3 { 
+      opacity: 0.8; 
+      transform: scale(1.4);
+<<<<<<< HEAD
+      background: rgba(240, 248, 255, 0.3);
+=======
+      background: rgba(249, 236, 223, 0.3);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+    }
+    
+    .step-4 .bg-layer-1, 
+    .step-4 .bg-layer-2, 
+    .step-4 .bg-layer-3 { 
+      opacity: 0.7; 
+      transform: scale(1.1);
+    }
+    .step-4 .morph-1, 
+    .step-4 .morph-2, 
+    .step-4 .morph-3 { 
+      opacity: 1; 
+<<<<<<< HEAD
+      background: rgba(0, 180, 219, 0.3);
+=======
+      background: rgba(93, 49, 54, 0.3);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+    }
+    
+    /* Transition animations */
+    .transitioning .bg-layer {
+      transition: all 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    .transitioning .morph-shape {
+      transition: all 2s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    
+    /* Additional visual enhancement - Geometric patterns */
+    .dynamic-background::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+<<<<<<< HEAD
+        radial-gradient(circle at 25% 25%, rgba(0, 180, 219, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(0, 131, 176, 0.1) 0%, transparent 50%);
+=======
+        radial-gradient(circle at 25% 25%, rgba(93, 49, 54, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(216, 191, 192, 0.1) 0%, transparent 50%);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      animation: patternShift 20s ease-in-out infinite;
+    }
+    
+    @keyframes patternShift {
+      0%, 100% {
+        transform: rotate(0deg) scale(1);
+        opacity: 0.5;
+      }
+      50% {
+        transform: rotate(180deg) scale(1.1);
+        opacity: 0.8;
+      }
+    }
+    
+    /* Enhanced step transitions with more visible effects */
+    .step-1 .dynamic-background::before {
+      background-image: 
+<<<<<<< HEAD
+        radial-gradient(circle at 20% 30%, rgba(0, 180, 219, 0.2) 0%, transparent 60%),
+        radial-gradient(circle at 80% 70%, rgba(0, 180, 219, 0.15) 0%, transparent 50%);
+=======
+        radial-gradient(circle at 20% 30%, rgba(93, 49, 54, 0.2) 0%, transparent 60%),
+        radial-gradient(circle at 80% 70%, rgba(93, 49, 54, 0.15) 0%, transparent 50%);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+    }
+    
+    .step-2 .dynamic-background::before {
+      background-image: 
+<<<<<<< HEAD
+        radial-gradient(circle at 30% 20%, rgba(0, 131, 176, 0.25) 0%, transparent 60%),
+        radial-gradient(circle at 70% 80%, rgba(0, 131, 176, 0.2) 0%, transparent 50%);
+=======
+        radial-gradient(circle at 30% 20%, rgba(216, 191, 192, 0.25) 0%, transparent 60%),
+        radial-gradient(circle at 70% 80%, rgba(216, 191, 192, 0.2) 0%, transparent 50%);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+    }
+    
+    .step-3 .dynamic-background::before {
+      background-image: 
+<<<<<<< HEAD
+        radial-gradient(circle at 40% 60%, rgba(240, 248, 255, 0.3) 0%, transparent 60%),
+        radial-gradient(circle at 60% 40%, rgba(240, 248, 255, 0.25) 0%, transparent 50%);
+=======
+        radial-gradient(circle at 40% 60%, rgba(249, 236, 223, 0.3) 0%, transparent 60%),
+        radial-gradient(circle at 60% 40%, rgba(249, 236, 223, 0.25) 0%, transparent 50%);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+    }
+    
+    .step-4 .dynamic-background::before {
+      background-image: 
+<<<<<<< HEAD
+        radial-gradient(circle at 50% 50%, rgba(0, 180, 219, 0.2) 0%, transparent 70%),
+        radial-gradient(circle at 30% 70%, rgba(0, 131, 176, 0.15) 0%, transparent 60%),
+        radial-gradient(circle at 70% 30%, rgba(240, 248, 255, 0.2) 0%, transparent 50%);
+=======
+        radial-gradient(circle at 50% 50%, rgba(93, 49, 54, 0.2) 0%, transparent 70%),
+        radial-gradient(circle at 30% 70%, rgba(216, 191, 192, 0.15) 0%, transparent 60%),
+        radial-gradient(circle at 70% 30%, rgba(249, 236, 223, 0.2) 0%, transparent 50%);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+    }
+    
+    /* Tunnel/Portal Transition Effects */
+    .tunnel-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 100;
+      pointer-events: none;
+      opacity: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    
+    .tunnel-active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .tunnel-rings {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+<<<<<<< HEAD
+      border: 2px solid rgba(0, 180, 219, 0.6);
+=======
+      border: 2px solid rgba(93, 49, 54, 0.6);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      border-radius: 50%;
+      animation: tunnelExpand 2s ease-out forwards;
+    }
+    
+    @keyframes tunnelExpand {
+      0% {
+        width: 50px;
+        height: 50px;
+        opacity: 1;
+        transform: translateZ(0) scale(1);
+      }
+      100% {
+        width: 2000px;
+        height: 2000px;
+        opacity: 0;
+        transform: translateZ(100px) scale(1.5);
+      }
+    }
+    
+    /* Tunnel Particles - DISABLED */
+    /*
+    .tunnel-particles {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+<<<<<<< HEAD
+      background: rgba(0, 131, 176, 0.8);
+=======
+      background: rgba(216, 191, 192, 0.8);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      border-radius: 50%;
+      animation: tunnelParticle 1.5s ease-out forwards;
+    }
+    
+    @keyframes tunnelParticle {
+      0% {
+        transform: scale(1) translateZ(0);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(3) translateZ(200px);
+        opacity: 0;
+      }
+    }
+    */
+    
+    .wormhole-effect {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, 
+        transparent 20%, 
+<<<<<<< HEAD
+        rgba(0, 180, 219, 0.1) 40%,
+        rgba(0, 131, 176, 0.2) 60%,
+        rgba(240, 248, 255, 0.3) 80%,
+        rgba(0, 180, 219, 0.4) 100%);
+=======
+        rgba(93, 49, 54, 0.1) 40%,
+        rgba(216, 191, 192, 0.2) 60%,
+        rgba(249, 236, 223, 0.3) 80%,
+        rgba(93, 49, 54, 0.4) 100%);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      animation: wormholeRotate 2s ease-in-out forwards; /* Back to original speed */
+      transform-origin: center;
+    }
+    
+    @keyframes wormholeRotate {
+      0% {
+        transform: rotate(0deg) scale(0.1);
+        opacity: 0;
+      }
+      50% {
+        transform: rotate(180deg) scale(1.2);
+        opacity: 1;
+      }
+      100% {
+        transform: rotate(360deg) scale(2);
+        opacity: 0;
+      }
+    }
+    
+    .dimension-shift {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg,
+<<<<<<< HEAD
+        rgba(0, 180, 219, 0.8) 0%,
+        transparent 20%,
+        rgba(0, 131, 176, 0.6) 40%,
+        transparent 60%,
+        rgba(240, 248, 255, 0.8) 80%,
+=======
+        rgba(93, 49, 54, 0.8) 0%,
+        transparent 20%,
+        rgba(216, 191, 192, 0.6) 40%,
+        transparent 60%,
+        rgba(249, 236, 223, 0.8) 80%,
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+        transparent 100%);
+      animation: dimensionWarp 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; /* Back to original speed */
+      transform-origin: center;
+    }
+    
+    @keyframes dimensionWarp {
+      0% {
+        transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1);
+        opacity: 0;
+      }
+      25% {
+        transform: perspective(1000px) rotateX(15deg) rotateY(15deg) scale(1.1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: perspective(1000px) rotateX(30deg) rotateY(30deg) scale(1.3);
+        opacity: 1;
+      }
+      75% {
+        transform: perspective(1000px) rotateX(45deg) rotateY(45deg) scale(1.5);
+        opacity: 0.6;
+      }
+      100% {
+        transform: perspective(1000px) rotateX(90deg) rotateY(90deg) scale(2);
+        opacity: 0;
+      }
+    }
+    
+    .cosmic-rays {
+      position: absolute;
+      width: 2px;
+      height: 100vh;
+      background: linear-gradient(to bottom,
+        transparent 0%,
+<<<<<<< HEAD
+        rgba(0, 131, 176, 0.8) 20%,
+        rgba(240, 248, 255, 1) 50%,
+        rgba(0, 131, 176, 0.8) 80%,
+=======
+        rgba(216, 191, 192, 0.8) 20%,
+        rgba(249, 236, 223, 1) 50%,
+        rgba(216, 191, 192, 0.8) 80%,
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+        transparent 100%);
+      animation: cosmicRay 1.8s ease-out forwards; /* Back to original speed */
+      transform-origin: center;
+    }
+    
+    @keyframes cosmicRay {
+      0% {
+        transform: translateX(0) rotate(0deg) scaleY(0);
+        opacity: 0;
+      }
+      30% {
+        transform: translateX(0) rotate(0deg) scaleY(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(var(--ray-x, 0)) rotate(var(--ray-rotation, 0deg)) scaleY(0.5);
+        opacity: 0;
+      }
+    }
+    
+<<<<<<< HEAD
+=======
+    /* Universe transition overlay */
+    .universe-transition {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 99;
+      background: radial-gradient(circle at center,
+        transparent 0%,
+        rgba(93, 49, 54, 0.3) 30%,
+        rgba(93, 49, 54, 0.8) 70%,
+        #5d3136 100%);
+      opacity: 0;
+      pointer-events: none;
+      animation: universeShift 2s ease-in-out forwards; /* Back to original speed */
+    }
+    
+    @keyframes universeShift {
+      0% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      40% {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+      60% {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1);
+      }
+    }
+    
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+    /* Form step transition with 3D effect */
+    .form-step-3d {
+      transform-style: preserve-3d;
+      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    .step-entering {
+      animation: stepEnter 1s ease-out forwards; /* Back to original speed */
+    }
+    
+    .step-exiting {
+      animation: stepExit 0.8s ease-in forwards; /* Back to original speed */
+    }
+    
+    @keyframes stepEnter {
+      0% {
+        opacity: 0;
+        transform: perspective(1000px) rotateY(-90deg) translateZ(-200px) scale(0.8);
+      }
+      50% {
+        opacity: 0.5;
+        transform: perspective(1000px) rotateY(-30deg) translateZ(-100px) scale(0.9);
+      }
+      100% {
+        opacity: 1;
+        transform: perspective(1000px) rotateY(0deg) translateZ(0px) scale(1);
+      }
+    }
+    
+    @keyframes stepExit {
+      0% {
+        opacity: 1;
+        transform: perspective(1000px) rotateY(0deg) translateZ(0px) scale(1);
+      }
+      50% {
+        opacity: 0.5;
+        transform: perspective(1000px) rotateY(30deg) translateZ(-100px) scale(0.9);
+      }
+      100% {
+        opacity: 0;
+        transform: perspective(1000px) rotateY(90deg) translateZ(-200px) scale(0.8);
+      }
+    }
+    
+    /* Glass Morphism Signup Components with adjusted styling for light background */
+    .signup-container {
+      position: relative;
+      z-index: 2;
+      overflow-x: hidden;
+      overflow-y: auto;
+      min-height: 100vh;
+    }
+    
+    /* Floating Shapes Animation - DISABLED */
+    /*
+    .floating-shapes {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .floating-shapes span {
+      position: absolute;
+      display: block;
+      width: 20px;
+      height: 20px;
+<<<<<<< HEAD
+      background: rgba(0, 180, 219, 0.08);
+=======
+      background: rgba(93, 49, 54, 0.08);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      animation: float 25s linear infinite;
+      border-radius: 50%;
+    }
+    
+    .floating-shapes span:nth-child(1) {
+      left: 10%;
+      animation-duration: 20s;
+    }
+    
+    .floating-shapes span:nth-child(2) {
+      left: 20%;
+      animation-duration: 25s;
+      animation-delay: 2s;
+    }
+    
+    .floating-shapes span:nth-child(3) {
+      left: 70%;
+      animation-duration: 30s;
+      animation-delay: 4s;
+    }
+    
+    .floating-shapes span:nth-child(4) {
+      left: 90%;
+      animation-duration: 15s;
+      animation-delay: 6s;
+    }
+    
+    @keyframes float {
+      0% {
+        opacity: 1;
+        transform: translateY(100vh) scale(0);
+      }
+      10% {
+        opacity: 1;
+        transform: translateY(90vh) scale(1);
+      }
+      90% {
+        opacity: 1;
+        transform: translateY(10vh) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(0vh) scale(0);
+      }
+    }
+    */
+    
+    .signup-glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.15);
+    }
+    
+    .progress-bar-container {
+      background: rgba(0, 0, 0, 0.08);
+      border-radius: 20px;
+      height: 8px;
+      overflow: hidden;
+    }
+    
+    .progress-bar {
+<<<<<<< HEAD
+      background: linear-gradient(90deg, #00B4DB 0%, #87CEEB 100%);
+=======
+      background: linear-gradient(90deg, #5d3136 0%, #d8bfc0 100%);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      height: 100%;
+      border-radius: 20px;
+      transition: width 0.6s ease;
+      width: 25%; /* Initial width for step 1 */
+    }
+    
+    .step-header {
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 15px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Multi-step form container */
+    .multi-step-form {
+      position: relative;
+      min-height: 500px;
+      overflow: hidden;
+    }
+    
+    .form-step {
+      transition: all 0.5s ease;
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    
+    .form-step.hidden {
+      opacity: 0;
+      transform: translateX(50px);
+      pointer-events: none;
+      position: absolute;
+      width: 100%;
+    }
+    
+    .form-step.active {
+      opacity: 1;
+      transform: translateX(0);
+      position: relative;
+    }
+    
+    .glass-input {
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 12px;
+      padding: 16px;
+      padding-left: 50px;
+      color: #2d2d2d;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+    
+    .glass-input::placeholder {
+      color: rgba(0, 0, 0, 0.4);
+    }
+    
+    .glass-input:focus {
+      outline: none;
+<<<<<<< HEAD
+      border-color: #00B4DB;
+      box-shadow: 0 0 20px rgba(0, 180, 219, 0.2);
+=======
+      border-color: #5d3136;
+      box-shadow: 0 0 20px rgba(93, 49, 54, 0.2);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      background: rgba(255, 255, 255, 0.85);
+    }
+    
+    .glass-input.error {
+      border-color: #ff6b6b;
+      box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+    }
+    
+    .glass-input.success {
+      border-color: #51cf66;
+      box-shadow: 0 0 20px rgba(81, 207, 102, 0.3);
+    }
+    
+    .input-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(0, 0, 0, 0.4);
+      z-index: 10;
+    }
+    
+    .shimmer-button {
+<<<<<<< HEAD
+      background: linear-gradient(135deg, #00B4DB 0%, #0083B0 100%);
+      border: 1px solid rgba(0, 180, 219, 0.2);
+      border-radius: 12px;
+      color: #ffffff;
+=======
+      background: linear-gradient(135deg, #5d3136 0%, #4a2a2f 100%);
+      border: 1px solid rgba(216, 191, 192, 0.2);
+      border-radius: 12px;
+      color: #f9ecdf;
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      font-weight: 600;
+      font-size: 16px;
+      padding: 16px 32px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+<<<<<<< HEAD
+      box-shadow: 0 4px 15px rgba(0, 180, 219, 0.2);
+=======
+      box-shadow: 0 4px 15px rgba(93, 49, 54, 0.2);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+    }
+    
+    .shimmer-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+<<<<<<< HEAD
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+=======
+      background: linear-gradient(90deg, transparent, rgba(216, 191, 192, 0.4), transparent);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      transition: left 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+    }
+    
+    .shimmer-button:hover::before {
+      left: 100%;
+    }
+    
+    .shimmer-button:hover {
+      transform: translateY(-3px);
+<<<<<<< HEAD
+      box-shadow: 0 20px 40px rgba(0, 180, 219, 0.4);
+      border-color: rgba(0, 180, 219, 0.4);
+      background: linear-gradient(135deg, #0083B0 0%, #00B4DB 100%);
+=======
+      box-shadow: 0 20px 40px rgba(93, 49, 54, 0.4);
+      border-color: rgba(216, 191, 192, 0.4);
+      background: linear-gradient(135deg, #6b373c 0%, #5d3136 100%);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+    }
+    
+    .shimmer-button:active {
+      transform: translateY(-1px);
+<<<<<<< HEAD
+      box-shadow: 0 10px 25px rgba(0, 180, 219, 0.3);
+=======
+      box-shadow: 0 10px 25px rgba(93, 49, 54, 0.3);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+    }
+    
+    .shimmer-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+<<<<<<< HEAD
+      background: linear-gradient(135deg, #4a90a4 0%, #2a5c6c 100%);
+=======
+      background: linear-gradient(135deg, #3d2428 0%, #2f1d20 100%);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+    }
+    
+    .shimmer-button:disabled::before {
+      display: none;
+    }
+    
+    .feedback-message {
+      font-size: 14px;
+      margin-top: 8px;
+      transition: all 0.3s ease;
+<<<<<<< HEAD
+      color: #00B4DB; /* Default color matching the design theme */
+=======
+      color: #5d3136; /* Default color matching the design theme */
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      font-weight: 500;
+    }
+    
+    .feedback-message.error {
+      color: #dc2626; /* Darker red for better contrast */
+      font-weight: 600;
+    }
+    
+    .feedback-message.success {
+      color: #059669; /* Darker green for better contrast */
+      font-weight: 600;
+    }
+    
+    .password-strength-bar {
+      height: 4px;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 2px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    
+    .strength-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    
+    .strength-weak { background: #d63384; width: 25%; }
+    .strength-fair { background: #fd7e14; width: 50%; }
+    .strength-good { background: #198754; width: 75%; }
+    .strength-strong { background: #20c997; width: 100%; }
+    
+    .step-navigation {
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 15px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    
+    .benefit-card {
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      transition: all 0.3s ease;
+      color: #2d2d2d;
+    }
+    
+    .benefit-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .step-indicator {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 2px solid rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.6);
+      color: #2d2d2d;
+    }
+    
+    .step-indicator.completed {
+      background: linear-gradient(45deg, #198754, #20c997);
+      border-color: #198754;
+      color: white;
+    }
+    
+    .step-indicator.active {
+<<<<<<< HEAD
+      background: linear-gradient(45deg, #00B4DB, #87CEEB);
+      border-color: #00B4DB;
+=======
+      background: linear-gradient(45deg, #5d3136, #d8bfc0);
+      border-color: #5d3136;
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      color: white;
+    }
+    
+    /* Responsive design improvements */
+    @media (max-width: 768px) {
+      .benefits-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .signup-glass-card {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+      
+      .multi-step-form {
+        min-height: 400px;
+      }
+      
+      .form-step {
+        min-height: 350px;
+      }
+    }
+    
+    /* Ensure proper spacing and scrolling */
+    .signup-content {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
+    
+    /* Text color adjustments for light background */
+    .signup-glass-card h1,
+    .signup-glass-card h2,
+    .signup-glass-card h3,
+    .step-header h2,
+    .benefit-card h3 {
+      color: #2d2d2d !important;
+    }
+    
+    .signup-glass-card p,
+    .signup-glass-card .text-white,
+    .signup-glass-card .text-white\/80,
+    .signup-glass-card .text-white\/70,
+    .signup-glass-card .text-white\/60,
+    .step-navigation .text-white\/60 {
+<<<<<<< HEAD
+      color: #2c5282 !important;
+=======
+      color: #4a4a4a !important;
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+    }
+    
+    .benefit-card p {
+      color: #666 !important;
+    }
+    
+    /* Icon colors for light background */
+    .benefit-card i {
+<<<<<<< HEAD
+      color: #00B4DB !important;
+=======
+      color: #5d3136 !important;
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+    }
+    
+    /* VWLab.io Inspired Navbar Styles */
+    .navbar-glass {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 20px;
+<<<<<<< HEAD
+      box-shadow: 0 8px 32px rgba(0, 180, 219, 0.1);
+=======
+      box-shadow: 0 8px 32px rgba(93, 49, 54, 0.1);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .navbar-glass:hover {
+      transform: translateY(-1px);
+<<<<<<< HEAD
+      box-shadow: 0 12px 40px rgba(0, 180, 219, 0.15);
+=======
+      box-shadow: 0 12px 40px rgba(93, 49, 54, 0.15);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+    }
+    
+    /* Logo Section */
+    .navbar-logo .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .navbar-logo .logo-icon {
+      width: 32px;
+      height: 24px;
+<<<<<<< HEAD
+      color: #00B4DB;
+=======
+      color: #5d3136;
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      transition: transform 0.3s ease;
+    }
+    
+    .navbar-logo:hover .logo-icon {
+      transform: scale(1.05);
+    }
+    
+    .navbar-logo .brand-text {
+      font-size: 24px;
+      font-weight: 700;
+<<<<<<< HEAD
+      color: #00B4DB;
+=======
+      color: #5d3136;
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      letter-spacing: -0.02em;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    
+    /* Navigation Links */
+    .navbar-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    
+    .nav-link {
+      position: relative;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      background: transparent;
+    }
+    
+    .nav-link:hover {
+<<<<<<< HEAD
+      background: rgba(0, 180, 219, 0.06);
+=======
+      background: rgba(93, 49, 54, 0.06);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      transform: translateY(-1px);
+    }
+    
+    .nav-link-text {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+<<<<<<< HEAD
+      color: #00B4DB;
+=======
+      color: #5d3136;
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      text-transform: uppercase;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    
+    /* Auth Section */
+    .navbar-auth {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .login-link {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 20px;
+<<<<<<< HEAD
+      background: linear-gradient(135deg, #00B4DB 0%, #0083B0 100%);
+=======
+      background: linear-gradient(135deg, #5d3136 0%, #6d3b46 100%);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      color: #f9ecdf;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+<<<<<<< HEAD
+      box-shadow: 0 4px 16px rgba(0, 180, 219, 0.2);
+    }
+    
+    .login-link:hover {
+      background: linear-gradient(135deg, #0083B0 0%, #006B92 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(0, 180, 219, 0.3);
+=======
+      box-shadow: 0 4px 16px rgba(93, 49, 54, 0.2);
+    }
+    
+    .login-link:hover {
+      background: linear-gradient(135deg, #6d3b46 0%, #7d4556 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(93, 49, 54, 0.3);
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      color: #f9ecdf;
+    }
+    
+    .auth-text {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      letter-spacing: -0.01em;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .navbar-links {
+        display: none;
+      }
+      
+      .navbar-glass {
+        padding: 1rem 1.5rem;
+      }
+      
+      .navbar-logo .brand-text {
+        font-size: 20px;
+      }
+      
+      .navbar-logo .logo-icon {
+        width: 28px;
+        height: 20px;
+      }
+    }
+    
+    @media (max-width: 640px) {
+      .navbar-auth .login-link {
+        padding: 8px 16px;
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body class="clean-bg signup-container">
+<<<<<<< HEAD
+  <!-- Tunnel/Portal Transition Container - DISABLED -->
+  <!-- 
+=======
+  <!-- Tunnel/Portal Transition Container -->
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+  <div class="tunnel-container" id="tunnelContainer">
+    <div class="wormhole-effect" id="wormholeEffect"></div>
+    <div class="dimension-shift" id="dimensionShift"></div>
+  </div>
+<<<<<<< HEAD
+  -->
+  
+=======
+  
+  <!-- Universe Transition Overlay -->
+  <div class="universe-transition" id="universeTransition"></div>
+
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+  <!-- Dynamic Background Animation System -->
+  <div class="dynamic-background" id="dynamicBackground">
+    <!-- Animated Background Layers -->
+    <div class="bg-layer bg-layer-1" id="bgLayer1"></div>
+    <div class="bg-layer bg-layer-2" id="bgLayer2"></div>
+    <div class="bg-layer bg-layer-3" id="bgLayer3"></div>
+    
+    <!-- Floating Particles System - REMOVED -->
+    <!-- <div class="particles-container" id="particlesContainer"> -->
+      <!-- Particles will be generated dynamically -->
+    <!-- </div> -->
+    
+    <!-- Morphing Shapes -->
+    <div class="morphing-shapes" id="morphingShapes">
+      <div class="morph-shape morph-1" id="morph1"></div>
+      <div class="morph-shape morph-2" id="morph2"></div>
+      <div class="morph-shape morph-3" id="morph3"></div>
+    </div>
+  </div>
+
+  <!-- Custom cursor elements inspired by thebluedesert.com -->
+  <div class="blue-desert-cursor">
+    <div class="cursor-inner">
+      <div class="cursor-inner__icon">
+        <div class="cursor-border"></div>
+        <div class="cursor-dot"></div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Floating Background Animation - REMOVED -->
+  <!-- <div class="floating-shapes">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div> -->
+
+  <!-- Main Content -->
+  <div class="signup-content">
+    <!-- Navigation -->
+    <nav class="relative z-20 p-6">
+      <div class="flex justify-between items-center navbar-glass px-8 py-6">
+        <!-- Logo Section -->
+        <div class="navbar-logo">
+          <div class="logo-container">
+            <svg class="logo-icon" viewBox="0 0 41 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M26.079 11.4074C29.0709 11.4074 31.4963 8.98193 31.4963 5.99002C31.4963 2.99811 29.0709 0.572685 26.079 0.572685C23.0871 0.572685 20.6616 2.99811 20.6616 5.99002C20.6616 6.39637 20.7064 6.79227 20.7912 7.17307C20.9549 7.90791 20.9032 8.7067 20.4453 9.30423V9.30423C19.7454 10.2174 18.4154 10.3079 17.3238 9.94476C16.7859 9.76583 16.2106 9.66894 15.6126 9.66894C12.6207 9.66894 10.1953 12.0944 10.1953 15.0863C10.1953 15.5898 10.264 16.0773 10.3925 16.5399C10.7983 18.0005 10.997 19.6915 10.0749 20.8947V20.8947C9.16345 22.0838 7.50275 22.3435 6.00448 22.3435V22.3435C3.01257 22.3435 0.587147 24.7689 0.587147 27.7608C0.587147 30.7527 3.01257 33.1781 6.00448 33.1781C8.9964 33.1781 11.4218 30.7527 11.4218 27.7608C11.4218 27.635 11.4175 27.5101 11.4091 27.3864C11.2931 25.6878 11.1889 23.8098 12.2246 22.4585L12.8856 21.5961C13.5099 20.7816 14.5863 20.5036 15.6126 20.5036V20.5036V20.5036C16.6389 20.5036 17.7153 20.7816 18.3396 21.5961L19.0849 22.5685C20.1426 23.9485 20.0606 25.8625 20.0101 27.6005C20.0086 27.6537 20.0078 27.7072 20.0078 27.7608C20.0078 30.7527 22.4332 33.1781 25.4251 33.1781C28.417 33.1781 30.8425 30.7527 30.8425 27.7608C30.8425 24.7689 28.417 22.3435 25.4251 22.3435C25.3996 22.3435 25.3742 22.3436 25.3488 22.344C23.8101 22.3652 22.0916 22.1228 21.1555 20.9014V20.9014C20.2304 19.6944 20.4301 17.9976 20.835 16.5317C20.962 16.0715 21.0299 15.5868 21.0299 15.0863C21.0299 14.9144 21.0219 14.7444 21.0063 14.5767C20.9305 13.7642 21.0282 12.9123 21.5246 12.2647V12.2647C22.3179 11.2297 23.7984 11.0766 25.0804 11.3155C25.404 11.3758 25.7378 11.4074 26.079 11.4074ZM40.9062 18.5366C40.9062 21.5285 38.4808 23.9539 35.4889 23.9539C32.497 23.9539 30.0716 21.5285 30.0716 18.5366C30.0716 15.5447 32.497 13.1192 35.4889 13.1192C38.4808 13.1192 40.9062 15.5447 40.9062 18.5366Z" fill="currentColor"/>
+            </svg>
+            <span class="brand-text">TicketKini</span>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="navbar-links">
+          <a href="../index.html" class="nav-link">
+            <div class="nav-link-text">HOME</div>
+          </a>
+          <a href="../about.html" class="nav-link">
+            <div class="nav-link-text">ABOUT</div>
+          </a>
+        </div>
+
+        <!-- Auth Section -->
+        <div class="navbar-auth">
+          <a href="login.html" class="login-link">
+            <span class="auth-text">Login</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Signup Container -->
+    <div class="flex items-start justify-center min-h-screen p-6 py-12 relative z-10">
+    <div class="signup-glass-card w-full max-w-2xl p-8 my-8">
+      
+      <!-- Header with Progress -->
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-white mb-2">Join TicketKini</h1>
+        <p class="text-white/80 mb-6">Create your account in just a few simple steps</p>
+        
+        <!-- Progress Bar -->
+        <div class="progress-bar-container mb-4">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <!-- Step Indicators -->
+        <div class="flex justify-center space-x-4 mb-6">
+          <div class="step-indicator active" id="step-1-indicator">1</div>
+          <div class="step-indicator" id="step-2-indicator">2</div>
+          <div class="step-indicator" id="step-3-indicator">3</div>
+          <div class="step-indicator" id="step-4-indicator">4</div>
+        </div>
+      </div>
+
+      <!-- Alert Messages -->
+      <div id="alertContainer" class="mb-6"></div>
+
+      <!-- Multi-Step Form -->
+      <div class="multi-step-form">
+        <form id="signupForm" class="space-y-6">
+        
+        <!-- Step 1: Welcome & Benefits -->
+        <div class="form-step active" id="step-1">
+          <div class="step-header p-6 mb-6">
+            <h2 class="text-xl font-semibold text-white mb-4">
+              <i class="fas fa-star mr-2"></i>Why Choose TicketKini?
+            </h2>
+            <div class="benefits-grid">
+              <div class="benefit-card">
+                <i class="fas fa-shield-alt text-blue-300 text-2xl mb-2"></i>
+                <h3 class="text-white font-medium mb-1">Secure Travel</h3>
+                <p class="text-white/70 text-sm">100% secure booking with verified operators</p>
+              </div>
+              <div class="benefit-card">
+                <i class="fas fa-clock text-green-300 text-2xl mb-2"></i>
+                <h3 class="text-white font-medium mb-1">24/7 Support</h3>
+                <p class="text-white/70 text-sm">Round-the-clock customer assistance</p>
+              </div>
+              <div class="benefit-card">
+                <i class="fas fa-tags text-yellow-300 text-2xl mb-2"></i>
+                <h3 class="text-white font-medium mb-1">Best Prices</h3>
+                <p class="text-white/70 text-sm">Guaranteed lowest fares and deals</p>
+              </div>
+              <div class="benefit-card">
+                <i class="fas fa-mobile-alt text-purple-300 text-2xl mb-2"></i>
+                <h3 class="text-white font-medium mb-1">Easy Booking</h3>
+                <p class="text-white/70 text-sm">Book tickets in just a few clicks</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="relative">
+              <i class="input-icon fas fa-user"></i>
+              <input type="text" id="fullName" name="fullName" class="glass-input w-full" 
+                     placeholder="Enter your full name" required>
+              <div class="feedback-message" id="fullName-feedback"></div>
+            </div>
+            
+            <div class="relative">
+              <i class="input-icon fas fa-envelope"></i>
+              <input type="email" id="email" name="email" class="glass-input w-full" 
+                     placeholder="Enter your email address" required>
+              <div class="feedback-message" id="email-feedback"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Personal Information -->
+        <div class="form-step hidden" id="step-2">
+          <div class="step-header p-6 mb-6">
+            <h2 class="text-xl font-semibold text-white mb-2">
+              <i class="fas fa-user-circle mr-2"></i>Personal Information
+            </h2>
+            <p class="text-white/70">Tell us a bit more about yourself</p>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="relative">
+              <i class="input-icon fas fa-phone"></i>
+              <input type="tel" id="phone" name="phone" class="glass-input w-full" 
+                     placeholder="Enter your phone number" required>
+              <div class="feedback-message" id="phone-feedback"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="relative">
+                <i class="input-icon fas fa-venus-mars"></i>
+                <select id="gender" name="gender" class="glass-input w-full" required title="Select your gender">
+                  <option value="">Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+                <div class="feedback-message" id="gender-feedback"></div>
+              </div>
+              
+              <div class="relative">
+                <i class="input-icon fas fa-calendar"></i>
+                <input type="date" id="dateOfBirth" name="dateOfBirth" class="glass-input w-full" 
+                       title="Select your date of birth" placeholder="Date of Birth" required>
+                <div class="feedback-message" id="dateOfBirth-feedback"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: ID Verification -->
+        <div class="form-step hidden" id="step-3">
+          <div class="step-header p-6 mb-6">
+            <h2 class="text-xl font-semibold text-white mb-2">
+              <i class="fas fa-id-card mr-2"></i>ID Verification
+            </h2>
+            <p class="text-white/70">Verify your identity for secure travel</p>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="relative">
+              <i class="input-icon fas fa-id-badge"></i>
+              <select id="idType" name="idType" class="glass-input w-full" required title="Select your ID type">
+                <option value="">Select ID Type</option>
+                <option value="nid">National ID</option>
+                <option value="passport">Passport</option>
+                <option value="birth_certificate">Birth Certificate</option>
+                <option value="driving_license">Driving License</option>
+              </select>
+              <div class="feedback-message" id="idType-feedback"></div>
+            </div>
+            
+            <div class="relative">
+              <i class="input-icon fas fa-hashtag"></i>
+              <input type="text" id="idNumber" name="idNumber" class="glass-input w-full" 
+                     placeholder="Enter your ID number" required>
+              <div class="feedback-message" id="idNumber-feedback"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Security Setup -->
+        <div class="form-step hidden" id="step-4">
+          <div class="step-header p-6 mb-6">
+            <h2 class="text-xl font-semibold text-white mb-2">
+              <i class="fas fa-lock mr-2"></i>Security Setup
+            </h2>
+            <p class="text-white/70">Create a strong password to secure your account</p>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="relative">
+              <i class="input-icon fas fa-lock"></i>
+              <input type="password" id="password" name="password" class="glass-input w-full" 
+                     placeholder="Create a strong password" required minlength="8">
+              <button type="button" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white/60 hover:text-white" 
+                      id="togglePassword" title="Toggle password visibility" aria-label="Show/hide password">
+                <i class="fas fa-eye"></i>
+              </button>
+              <div class="feedback-message" id="password-feedback"></div>
+              <div class="password-strength-bar">
+                <div class="strength-fill" id="strengthFill"></div>
+              </div>
+              <div class="text-sm text-white/60 mt-2" id="strengthText">
+                Password strength: <span id="strengthLabel">Enter password</span>
+              </div>
+            </div>
+            
+            <div class="relative">
+              <i class="input-icon fas fa-lock"></i>
+              <input type="password" id="confirmPassword" name="confirmPassword" class="glass-input w-full" 
+                     placeholder="Confirm your password" required minlength="8">
+              <button type="button" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white/60 hover:text-white" 
+                      id="toggleConfirmPassword" title="Toggle password visibility" aria-label="Show/hide confirm password">
+                <i class="fas fa-eye"></i>
+              </button>
+              <div class="feedback-message" id="confirmPassword-feedback"></div>
+            </div>
+            
+            <div class="flex items-start space-x-3 mt-6">
+              <input type="checkbox" id="terms" name="terms" class="mt-1" required>
+              <label for="terms" class="text-white/80 text-sm">
+                I agree to the <a href="#" class="text-sky-300 hover:text-sky-200 underline">Terms of Service</a> 
+                and <a href="#" class="text-sky-300 hover:text-sky-200 underline">Privacy Policy</a>. 
+                I consent to receive promotional emails and updates from TicketKini.
+              </label>
+            </div>
+            </div>
+          </div>
+        </form>
+      </div>      <!-- Step Navigation -->
+      <div class="step-navigation p-4 mt-8">
+        <div class="flex justify-between items-center">
+          <button type="button" id="prevStep" class="shimmer-button bg-transparent border border-white/30 hover:bg-white/10 disabled:opacity-50" disabled>
+            <i class="fas fa-chevron-left mr-2"></i>Previous
+          </button>
+          
+          <div class="text-white/60 text-sm" id="stepCounter">
+            Step 1 of 4
+          </div>
+          
+          <button type="button" id="nextStep" class="shimmer-button">
+            Next<i class="fas fa-chevron-right ml-2"></i>
+          </button>
+          
+          <button type="submit" id="submitBtn" class="shimmer-button hidden" form="signupForm">
+            <i class="fas fa-user-plus mr-2"></i>Create Account
+          </button>
+        </div>
+      </div>
+      
+      <!-- Login Link -->
+      <div class="text-center mt-6">
+        <p class="text-white/70">
+          Already have an account? 
+          <a href="login.html" class="text-blue-300 hover:text-blue-200 underline font-medium">Sign In</a>
+        </p>
+      </div>
+    </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="relative z-10 text-center py-6">
+      <div class="bg-white rounded-xl mx-6 px-6 py-4 shadow-lg border border-gray-100">
+        <div class="text-gray-600 text-sm">
+          <p>&copy; 2025 TicketKini. All rights reserved.</p>
+          <div class="mt-2 space-x-4">
+            <a href="#" class="hover:text-gray-800 transition-colors">Privacy Policy</a>
+            <a href="#" class="hover:text-gray-800 transition-colors">Terms of Service</a>
+            <a href="#" class="hover:text-gray-800 transition-colors">Support</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>  
+  
+  <!-- Custom Cursor JavaScript inspired by thebluedesert.com -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Only activate on non-touch devices
+      if (window.matchMedia("(pointer: coarse)").matches) {
+        return;
+      }
+
+      const cursor = document.querySelector('.cursor-inner');
+      const cursorBorder = document.querySelector('.cursor-border');
+      const cursorDot = document.querySelector('.cursor-dot');
+      
+      if (!cursor || !cursorBorder || !cursorDot) return;
+
+      let mouseX = 0;
+      let mouseY = 0;
+
+      // Mouse move handler
+      document.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        // Update cursor position with smooth transform
+        cursor.style.transform = `translateX(${mouseX}px) translateY(${mouseY}px)`;
+      });
+
+      // Hover effects for interactive elements
+      const interactiveElements = document.querySelectorAll('a, button, input, textarea, select, [role="button"], [tabindex="0"]');
+      
+      interactiveElements.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+          cursorBorder.style.transform = 'scale(1)';
+          cursorDot.style.transform = 'scale(0.8)';
+          cursor.style.transition = 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)';
+        });
+
+        element.addEventListener('mouseleave', () => {
+          cursorBorder.style.transform = 'scale(0)';
+          cursorDot.style.transform = 'scale(1)';
+          cursor.style.transition = 'all 0.1s cubic-bezier(0.215, 0.61, 0.355, 1)';
+        });
+      });
+
+      // Click animation
+      document.addEventListener('mousedown', () => {
+        cursorBorder.style.transform = 'scale(1.2)';
+        cursorDot.style.transform = 'scale(0.6)';
+<<<<<<< HEAD
+        cursorBorder.style.background = 'rgba(0, 180, 219, 0.3)';
+=======
+        cursorBorder.style.background = 'rgba(93, 49, 54, 0.3)';
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      });
+
+      document.addEventListener('mouseup', () => {
+        cursorBorder.style.transform = 'scale(0)';
+        cursorDot.style.transform = 'scale(1)';
+<<<<<<< HEAD
+        cursorBorder.style.background = 'rgba(0, 180, 219, 0.1)';
+=======
+        cursorBorder.style.background = 'rgba(93, 49, 54, 0.1)';
+>>>>>>> 85bcfae0a160e860fa2f26dcc5df97282234d917
+      });
+
+      // Initialize cursor position
+      cursor.style.transform = `translateX(${window.innerWidth / 2}px) translateY(${window.innerHeight / 2}px)`;
+      
+      // Handle window resize
+      window.addEventListener('resize', () => {
+        cursor.style.transform = `translateX(${mouseX}px) translateY(${mouseY}px)`;
+      });
+    });
+  </script>
+
+  <script type="module" src="signup.ts"></script>
+</body>
+</html>
+

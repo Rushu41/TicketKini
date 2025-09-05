@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seat Selection - TicketKini</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="../styles/site.css" rel="stylesheet">
+</head>
+<body class="min-h-screen site-bg bg-grid relative">
+  <div class="floating-shapes"><span></span><span></span><span></span><span></span></div>
+  <!-- Navigation -->
+  <nav class="bg-white/90 backdrop-blur shadow-sm relative z-10">
+    <div class="max-w-6xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <a href="../index.html" class="text-2xl font-extrabold text-blue-600">
+          <i class="fas fa-route"></i> TicketKini
+        </a>
+        <div class="flex items-center gap-4">
+          <a href="../index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="py-8 relative z-10">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Seat Map -->
+        <div class="lg:col-span-2">
+          <div class="bg-white/90 glass-card rounded-lg shadow p-6 card-animated">
+            <h2 class="text-2xl font-semibold mb-6">Select Your Seats</h2>
+            
+            <!-- Trip Info -->
+            <div class="bg-blue-50 p-4 rounded-lg mb-6">
+              <div class="flex justify-between items-center">
+                <div>
+                  <h3 class="font-semibold text-lg" id="trip-route">Dhaka → Chittagong</h3>
+                  <p class="text-gray-600" id="trip-date">Travel Date: December 28, 2024</p>
+                  <p class="text-gray-600" id="trip-vehicle">Vehicle: Green Line Paribahan</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-sm text-gray-600">Available Seats</p>
+                  <p class="text-2xl font-bold text-blue-600" id="available-seats">24</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Seat Map -->
+            <div class="seat-map-container">
+              <div class="text-center mb-4">
+                <h4 class="font-semibold text-gray-800">Bus Layout</h4>
+                <div class="flex justify-center items-center gap-8 mt-2 text-sm">
+                  <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 bg-gray-300 rounded border"></div>
+                    <span>Available</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 bg-blue-600 rounded border"></div>
+                    <span>Selected</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 bg-red-500 rounded border"></div>
+                    <span>Occupied</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div id="seat-map" class="grid grid-cols-4 gap-2 max-w-md mx-auto">
+                <!-- Seats will be generated here -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Selection Summary -->
+        <div>
+          <div class="bg-white/90 glass-card rounded-lg shadow p-6 card-animated">
+            <h3 class="text-lg font-semibold mb-4">Selection Summary</h3>
+            
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium mb-2" for="seat-count">Number of Seats</label>
+                <input type="number" id="seat-count" min="1" max="10" value="1" title="Number of seats"
+                       placeholder="Enter seats" 
+                       class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium mb-2" for="seat-class">Seat Class</label>
+                <select id="seat-class" title="Seat class" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <option value="economy">Economy</option>
+                  <option value="business">Business</option>
+                  <option value="premium">Premium</option>
+                </select>
+              </div>
+              
+              <div id="selected-seats-display" class="bg-gray-50 p-3 rounded">
+                <p class="text-sm text-gray-600">No seats selected</p>
+              </div>
+              
+              <div class="border-t pt-4">
+                <div class="flex justify-between mb-2">
+                  <span>Base Fare:</span>
+                  <span id="base-fare">৳0</span>
+                </div>
+                <div class="flex justify-between mb-2">
+                  <span>Service Charge:</span>
+                  <span id="service-charge">৳0</span>
+                </div>
+                <div class="flex justify-between font-semibold text-lg">
+                  <span>Total:</span>
+                  <span id="total-amount">৳0</span>
+                </div>
+              </div>
+              
+              <button id="continue-btn" class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>
+                Continue to Booking
+              </button>
+            </div>
+          </div>
+          
+          <!-- Back Button -->
+          <div class="mt-4">
+            <a href="../index.html" class="block w-full text-center py-3 px-6 border-2 border-blue-600 text-blue-600 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition-colors">
+              Back to Home
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900/90 text-white py-8 mt-16 relative z-10">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <p>&copy; 2025 TicketKini. All rights reserved. | Made with ❤️ in Bangladesh</p>
+    </div>
+  </footer>
+
+  <script type="module" src="seat-selection.ts"></script>
+</body>
+</html>

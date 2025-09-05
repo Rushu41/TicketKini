@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment - TicketKini</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="../styles/site.css" rel="stylesheet">
+</head>
+<body class="min-h-screen site-bg bg-grid relative">
+  <div class="floating-shapes">
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <!-- Navigation -->
+  <nav class="bg-white/90 backdrop-blur shadow-sm relative z-10">
+    <div class="max-w-6xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <a href="../index.html" class="text-2xl font-extrabold text-blue-600">
+          <i class="fas fa-route"></i> TicketKini
+        </a>
+        <div class="flex items-center gap-4">
+          <a href="../index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+          <a href="my-bookings.html" class="text-gray-700 hover:text-blue-600">My Bookings</a>
+          <a href="profile.html" class="text-gray-700 hover:text-blue-600">Profile</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="py-8 relative z-10">
+    <div class="max-w-4xl mx-auto px-4">
+      <!-- Info Banner -->
+      <div class="bg-white/90 glass-card rounded-lg p-4 mb-6 shadow card-animated">
+        <div class="flex items-center">
+          <i class="fas fa-info-circle text-blue-600 mr-3"></i>
+          <div>
+            <h3 class="text-sm font-semibold text-blue-800">Complete your booking</h3>
+            <p class="text-sm text-blue-700">Your seats are reserved for 15 minutes. Complete payment to confirm your booking.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step Indicator -->
+      <div class="mb-6 stepper">
+        <div class="step completed" aria-current="true">
+          <span class="sr-only">Step 1</span>
+          <div>
+            <div class="text-sm font-semibold">Review</div>
+            <div class="text-xs muted">Check your selection</div>
+          </div>
+        </div>
+        <div class="step active">
+          <span class="sr-only">Step 2</span>
+          <div>
+            <div class="text-sm font-semibold">Payment</div>
+            <div class="text-xs muted">Enter payment details</div>
+          </div>
+        </div>
+        <div class="step">
+          <span class="sr-only">Step 3</span>
+          <div>
+            <div class="text-sm font-semibold">Confirmation</div>
+            <div class="text-xs muted">Get your ticket</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Payment Form -->
+        <div class="lg:col-span-2">
+          <div class="bg-white/90 glass-card rounded-lg shadow p-6 card-animated">
+            <h2 class="text-2xl font-semibold mb-6">Payment Details</h2>
+
+            <!-- Live Card Preview -->
+            <div id="card-preview-container" class="mb-8 flex flex-col items-center">
+              <div id="cardPreview" class="card-preview fade-in mb-6" aria-label="Card preview">
+                <div class="card-face front">
+                  <div class="brand" id="cardBrand">VISA</div>
+                  <div class="chip"></div>
+                  <div class="number" id="previewNumber">•••• •••• •••• ••••</div>
+                  <div class="meta">
+                    <span id="previewHolder">CARDHOLDER</span>
+                    <span id="previewExpiry">MM/YY</span>
+                  </div>
+                </div>
+                <div class="card-face back">
+                  <div class="stripe"></div>
+                  <div class="cvv-box">
+                    <span>CVV</span>
+                    <div id="previewCVV">•••</div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Payment Step Indicator -->
+              <div class="payment-steps">
+                <div class="step completed" data-step="1">
+                  <div class="step-circle">✓</div>
+                  <span>Payment Method</span>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step active" data-step="2">
+                  <div class="step-circle">2</div>
+                  <span>Card Details</span>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step" data-step="3">
+                  <div class="step-circle">3</div>
+                  <span>Confirmation</span>
+                </div>
+              </div>
+            </div>
+            
+            <form id="paymentForm" class="space-y-6">
+              <!-- Coupon opt-in -->
+              <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-start gap-3" aria-live="polite">
+                <i class="fas fa-ticket text-blue-600 mt-1" aria-hidden="true"></i>
+                <label class="inline-flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" id="apply-coupon-toggle" class="accent-blue-600" checked>
+                  <span class="text-sm text-blue-900">Apply coupon at checkout</span>
+                </label>
+              </div>
+              <!-- Payment Method -->
+              <div id="payment-method-section">
+                <h3 class="text-lg font-medium mb-3">Select Payment Method</h3>
+                <div class="space-y-3">
+                  <label class="payment-method-card flex items-center p-4 border-2 rounded-lg hover:bg-gray-50 cursor-pointer transition-all duration-200">
+                    <input type="radio" name="payment_method" value="card" class="mr-3" checked>
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-credit-card text-blue-600"></i>
+                      </div>
+                      <div>
+                        <div class="font-medium">Credit/Debit Card</div>
+                        <div class="text-sm text-gray-500">Visa, Mastercard, American Express</div>
+                      </div>
+                    </div>
+                  </label>
+                  <label class="payment-method-card flex items-center p-4 border-2 rounded-lg hover:bg-gray-50 cursor-pointer transition-all duration-200">
+                    <input type="radio" name="payment_method" value="bkash" class="mr-3">
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-mobile-alt text-pink-600"></i>
+                      </div>
+                      <div>
+                        <div class="font-medium">bKash</div>
+                        <div class="text-sm text-gray-500">Mobile wallet payment</div>
+                      </div>
+                    </div>
+                  </label>
+                  <label class="payment-method-card flex items-center p-4 border-2 rounded-lg hover:bg-gray-50 cursor-pointer transition-all duration-200">
+                    <input type="radio" name="payment_method" value="nagad" class="mr-3">
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-mobile-alt text-orange-600"></i>
+                      </div>
+                      <div>
+                        <div class="font-medium">Nagad</div>
+                        <div class="text-sm text-gray-500">Mobile wallet payment</div>
+                      </div>
+                    </div>
+                  </label>
+                  <label class="payment-method-card flex items-center p-4 border-2 rounded-lg hover:bg-gray-50 cursor-pointer transition-all duration-200">
+                    <input type="radio" name="payment_method" value="rocket" class="mr-3">
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-mobile-alt text-purple-600"></i>
+                      </div>
+                      <div>
+                        <div class="font-medium">Rocket</div>
+                        <div class="text-sm text-gray-500">Mobile wallet payment</div>
+                      </div>
+                    </div>
+                  </label>
+                  <label class="payment-method-card flex items-center p-4 border-2 rounded-lg hover:bg-gray-50 cursor-pointer transition-all duration-200">
+                    <input type="radio" name="payment_method" value="bank_transfer" class="mr-3">
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-university text-green-600"></i>
+                      </div>
+                      <div>
+                        <div class="font-medium">Bank Transfer</div>
+                        <div class="text-sm text-gray-500">Direct bank transfer</div>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Card Details -->
+              <div id="card-fields" class="space-y-4">
+                <div>
+                  <label for="card_number" class="block text-sm font-medium mb-2">Card Number</label>
+                  <input type="text" id="card_number" name="card_number" placeholder="1234 5678 9012 3456" 
+                         class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label for="card_holder" class="block text-sm font-medium mb-2">Card Holder Name</label>
+                    <input type="text" id="card_holder" name="card_holder" placeholder="Enter cardholder name" 
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  </div>
+                  <div>
+                    <label for="expiry_date" class="block text-sm font-medium mb-2">Expiry Date</label>
+                    <input type="text" id="expiry_date" name="expiry_date" placeholder="MM/YY" 
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  </div>
+                </div>
+                
+                <div>
+                  <label for="cvv" class="block text-sm font-medium mb-2">CVV</label>
+                  <input type="text" id="cvv" name="cvv" placeholder="123" 
+                         class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+              </div>
+
+              <!-- Mobile Banking Fields -->
+              <div id="mobile-fields" class="space-y-4 hidden">
+                <div>
+                  <label for="mobile_number" class="block text-sm font-medium mb-2">Mobile Number</label>
+                  <input type="tel" id="mobile_number" name="mobile_number" placeholder="01XXXXXXXXX" 
+                         class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                
+                <div>
+                  <label for="transaction_id" class="block text-sm font-medium mb-2">Transaction ID (Optional)</label>
+                  <input type="text" id="transaction_id" name="transaction_id" placeholder="Enter transaction ID" 
+                         class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <h4 class="font-medium text-blue-800 mb-2">Payment Instructions:</h4>
+                  <ol class="text-sm text-blue-700 space-y-1">
+                    <li>1. Open your mobile banking app</li>
+                    <li>2. Select "Send Money" or "Payment"</li>
+                    <li>3. Enter the merchant number: <strong>01XXXXXXXXX</strong></li>
+                    <li>4. Enter the amount: <strong id="mobile-amount">৳0</strong></li>
+                    <li>5. Complete the transaction</li>
+                    <li>6. Enter your mobile number and transaction ID above</li>
+                  </ol>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" id="paymentBtn" 
+                      class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors btn-shimmer">
+                Pay Now
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Booking Summary -->
+        <div class="sticky-summary">
+          <div id="booking-summary" class="fade-in">
+            <!-- Booking summary will be loaded here -->
+          </div>
+
+          <!-- Coupon Section -->
+          <div class="mt-6 bg-white rounded-lg p-4 shadow-md glass-card coupon-section" id="coupon-section">
+            <label for="coupon-input" class="block text-sm font-medium mb-3 text-gray-800">Have a coupon?</label>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <input id="coupon-input" type="text" placeholder="Enter coupon code" aria-label="Coupon code"
+                     class="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-w-0" />
+              <button id="apply-coupon-btn" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors whitespace-nowrap">Apply</button>
+            </div>
+            <p id="coupon-message" class="text-sm mt-2 text-gray-600 hidden"></p>
+            <div id="applied-coupon" class="mt-3 hidden">
+              <span class="discount-badge"><i class="fa-solid fa-ticket"></i> <span id="applied-coupon-code"></span> applied</span>
+              <button id="remove-coupon-btn" class="ml-2 text-red-600 hover:underline" aria-label="Remove coupon">Remove</button>
+            </div>
+            <div id="coupon-hint" class="mt-4 p-3 bg-blue-50 rounded-lg border-l-4 border-blue-400">
+              <p class="text-sm font-semibold text-blue-800 mb-2">Pass System:</p>
+              <div class="text-xs text-blue-700 space-y-1">
+                <p>🥈 Silver Pass: 5% discount (20+ bookings) - Use codes: SILVER20, SILVERPASS</p>
+                <p>🥇 Gold Pass: 8% discount (40+ bookings) - Use codes: GOLD40, GOLDPASS</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Discount info placeholder removed: auto loyalty discounts disabled -->
+
+          <!-- Back Button -->
+          <div class="mt-6 mb-4">
+            <a href="booking.html" class="block w-full text-center py-3 px-6 border-2 border-blue-600 text-blue-600 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition-colors bg-white shadow-sm">
+              <i class="fas fa-arrow-left mr-2"></i>Back to Booking
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900/90 text-white py-8 mt-16 relative z-10">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <p>&copy; 2025 TicketKini. All rights reserved. | Made with ❤️ in Bangladesh</p>
+    </div>
+  </footer>
+
+  <script type="module" src="payment.ts"></script>
+</body>
+</html>

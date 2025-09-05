@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed - TicketKini</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-navy: #0f172a;
+            --primary-blue: #1e40af;
+            --accent-cyan: #06b6d4;
+            --success-green: #10b981;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, #1e3a8a 50%, var(--accent-cyan) 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .festive-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(6, 182, 212, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(99, 102, 241, 0.2) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .success-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--success-green), #34d399);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            animation: successPulse 2s ease-in-out infinite;
+        }
+
+        .success-icon::before {
+            content: '';
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            border: 3px solid var(--success-green);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: ripple 2s ease-out infinite;
+        }
+
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #fbbf24;
+            animation: confetti-fall 3s linear infinite;
+        }
+
+        .confetti:nth-child(odd) {
+            background: #f59e0b;
+        }
+
+        .confetti:nth-child(3n) {
+            background: #10b981;
+        }
+
+        .confetti:nth-child(4n) {
+            background: #06b6d4;
+        }
+
+        .confetti:nth-child(5n) {
+            background: #8b5cf6;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes successPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0.8);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .animate-slide-up {
+            animation: slideUp 0.6s ease-out forwards;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
+            color: white;
+            padding: 12px 32px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(30, 64, 175, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 12px 32px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .info-value {
+            color: white;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .pnr-badge {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #92400e;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 18px;
+            display: inline-block;
+            margin: 16px 0;
+        }
+
+        .route-display {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .route-location {
+            flex: 1;
+            text-align: center;
+        }
+
+        .route-location h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .route-location p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .route-arrow {
+            color: var(--accent-cyan);
+            font-size: 32px;
+            animation: pulse 2s infinite;
+        }
+
+        .next-steps {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 32px;
+        }
+
+        .next-steps h3 {
+            color: var(--success-green);
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .next-steps ul {
+            list-style: none;
+            space-y: 8px;
+        }
+
+        .next-steps li {
+            color: rgba(255, 255, 255, 0.9);
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .next-steps li::before {
+            content: '✓';
+            color: var(--success-green);
+            font-weight: bold;
+            width: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .route-display {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .route-arrow {
+                transform: rotate(90deg);
+            }
+            
+            .actions {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Festive Background -->
+    <div class="festive-bg"></div>
+    
+    <!-- Confetti Animation -->
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto max-w-4xl px-4 py-8">
+        <!-- Success Header -->
+        <div class="text-center mb-8 animate-slide-up">
+            <div class="success-icon">
+                <i class="fas fa-check text-white text-5xl"></i>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mt-6 mb-4">
+                Booking Confirmed! 🎉
+            </h1>
+            <p class="text-xl text-blue-100 mb-6">
+                Your journey is all set. Get ready for an amazing trip!
+            </p>
+            <div class="pnr-badge animate-fade-in">
+                PNR: <span id="pnrNumber">TK789456</span>
+            </div>
+        </div>
+
+        <!-- Booking Summary Card -->
+        <div class="glass-card p-8 mb-8 animate-slide-up" style="animation-delay: 0.2s;">
+            <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                <i class="fas fa-ticket-alt text-cyan-400"></i>
+                Booking Summary
+            </h2>
+
+            <!-- Route Display -->
+            <div class="route-display">
+                <div class="route-location">
+                    <h3 id="sourceLocation">Dhaka</h3>
+                    <p id="sourceTime">08:00 AM</p>
+                </div>
+                <div class="route-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="route-location">
+                    <h3 id="destinationLocation">Chittagong</h3>
+                    <p id="destinationTime">02:00 PM</p>
+                </div>
+            </div>
+
+            <!-- Booking Details -->
+            <div class="booking-details">
+                <div class="info-row">
+                    <span class="info-label">Operator</span>
+                    <span class="info-value" id="operatorName">TicketKini Express</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Service</span>
+                    <span class="info-value" id="serviceName">Premium AC Coach</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Travel Date</span>
+                    <span class="info-value" id="travelDate">August 18, 2025</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Departure Time</span>
+                    <span class="info-value" id="departureTime">08:00 AM</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Seats</span>
+                    <span class="info-value" id="seatNumbers">A1, A2</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Class</span>
+                    <span class="info-value" id="seatClass">Executive</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Passengers</span>
+                    <span class="info-value" id="passengerCount">2 Adults</span>
+                </div>
+                
+                <!-- Dynamic Pricing Information -->
+                <div id="dynamicPricingSection" class="hidden">
+                    <div class="info-row">
+                        <span class="info-label">Base Price</span>
+                        <span class="info-value line-through text-gray-500" id="basePrice">৳0</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Smart Pricing Discount</span>
+                        <span class="info-value text-green-400" id="pricingDiscount">-৳0</span>
+                    </div>
+                </div>
+                
+                <div class="info-row border-t border-gray-600 pt-4">
+                    <span class="info-label">Total Amount</span>
+                    <span class="info-value text-2xl text-green-400 font-bold" id="totalAmount">৳1,000</span>
+                </div>
+                
+                <!-- Price Trend Information -->
+                <div id="priceTrendInfo" class="hidden mt-4 p-3 bg-blue-900/20 border border-blue-500/30 rounded-lg">
+                    <div class="flex items-center gap-2 mb-2">
+                        <i class="fas fa-chart-line text-blue-400"></i>
+                        <span class="text-blue-300 text-sm font-medium">Pricing Insight</span>
+                    </div>
+                    <div class="text-xs text-gray-300" id="priceTrendText">
+                        You booked at the right time!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons (only My Bookings) -->
+        <div class="flex flex-wrap gap-4 justify-center mb-8 actions animate-slide-up" style="animation-delay: 0.4s;">
+            <button class="btn-secondary" onclick="goToBookings()">
+                <i class="fas fa-list"></i>
+                My Bookings
+            </button>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="next-steps animate-fade-in" style="animation-delay: 0.6s;">
+            <h3>
+                <i class="fas fa-map-marked-alt"></i>
+                What's Next?
+            </h3>
+            <ul>
+                <li>Arrive at the departure point 30 minutes before departure time</li>
+                <li>Carry a valid government-issued ID proof for verification</li>
+                <li>Show this confirmation or your downloaded ticket to the operator</li>
+                <li>Keep your PNR number handy for any queries</li>
+                <li>Contact our 24/7 support for any assistance: +880-1234-567890</li>
+            </ul>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="text-center mt-8 animate-fade-in" style="animation-delay: 0.8s;">
+            <p class="text-blue-100 mb-4">
+                Thank you for choosing TicketKini! Have a safe journey! 🚌✨
+            </p>
+            <button class="btn-primary" onclick="bookAnother()">
+                <i class="fas fa-plus"></i>
+                Book Another Trip
+            </button>
+        </div>
+    </div>
+
+    <script type="module" src="confirmation.ts"></script>
+    <script type="module">
+        import { feedbackPromptService } from '../services/feedbackPromptService.ts';
+        
+        // Check for feedback prompt after booking confirmation
+        setTimeout(() => {
+            feedbackPromptService.checkForFeedbackPrompt();
+        }, 2000);
+    </script>
+</body>
+</html>

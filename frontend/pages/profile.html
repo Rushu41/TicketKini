@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - TicketKini</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #0f172a;
+            --primary-blue: #1e40af;
+            --accent-cyan: #06b6d4;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);
+            min-height: 100vh;
+            color: #1e293b;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(59, 130, 246, 0.1);
+        }
+
+        .glass-input {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            color: #1e293b;
+            transition: all 0.3s ease;
+        }
+
+        .glass-input:focus {
+            outline: none;
+            border-color: #06b6d4;
+            box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2);
+        }
+
+        .glass-input::placeholder {
+            color: rgba(30, 41, 59, 0.5);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1e40af, #06b6d4);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(6, 182, 212, 0.3);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1e40af, #06b6d4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            font-weight: bold;
+            border: 4px solid rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .status-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--primary-dark);
+            font-size: 16px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .info-section {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .info-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.1);
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: rgba(30, 41, 59, 0.7);
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: #1e293b;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #1e40af, #06b6d4);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .edit-btn {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            color: #1e293b;
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: scale(1.05);
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid #06b6d4;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.1);
+        }
+
+        .stat-number {
+            font-family: 'Poppins', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #06b6d4;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: rgba(30, 41, 59, 0.8);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .avatar-container {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .avatar {
+                width: 100px;
+                height: 100px;
+                font-size: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar sticky top-0 z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <a href="../index.html" class="text-2xl font-bold gradient-text">🎫 TicketKini</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="../index.html" class="text-sky-500 hover:text-sky-600 transition-colors">
+                    <i class="fas fa-home mr-2"></i>Home
+                </a>
+                <a href="my-bookings.html" class="text-sky-500 hover:text-sky-600 transition-colors">
+                    <i class="fas fa-list mr-2"></i>My Bookings
+                </a>
+                <button onclick="logout()" class="text-gray-700 hover:text-red-500 transition-colors">
+                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="min-h-screen py-8">
+        <div class="max-w-6xl mx-auto px-4">
+            <!-- Loading State -->
+            <div id="loadingState" class="text-center py-20">
+                <div class="loading-spinner"></div>
+                <p class="mt-4 text-gray-600">Loading profile...</p>
+            </div>
+
+            <!-- Profile Content -->
+            <div id="profileContent" class="hidden">
+                <!-- Header Section -->
+                <div class="text-center mb-8">
+                    <div class="avatar-container">
+                        <div class="avatar" id="userAvatar">
+                            <span id="avatarText">U</span>
+                        </div>
+                        <div class="status-badge" title="Verified Account">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                    <h1 class="text-3xl font-bold mt-6 mb-2 text-gray-800" id="userName">User Name</h1>
+                    <p class="text-gray-600" id="userEmail">user@example.com</p>
+                    <div class="flex justify-center gap-4 mt-4">
+                        <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium">
+                            <i class="fas fa-shield-check mr-1"></i>Verified
+                        </span>
+                        <span class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-sm font-medium">
+                            <i class="fas fa-star mr-1"></i>Premium
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="stats-grid mb-8">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalBookings">0</div>
+                        <div class="stat-label">Total Bookings</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalSpent">৳0</div>
+                        <div class="stat-label">Total Spent</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="memberSince">2024</div>
+                        <div class="stat-label">Member Since</div>
+                    </div>
+                </div>
+
+                <!-- Profile Information -->
+                <div class="info-grid">
+                    <!-- Personal Information -->
+                    <div class="info-section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h2 class="section-title">Personal Information</h2>
+                        </div>
+                        <div class="space-y-0">
+                            <div class="info-item">
+                                <span class="info-label">Full Name</span>
+                                <span class="info-value" id="profileName">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Date of Birth</span>
+                                <span class="info-value" id="profileDob">Not provided</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Gender</span>
+                                <span class="info-value" id="profileGender">Not specified</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Nationality</span>
+                                <span class="info-value" id="profileNationality">Bangladeshi</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Details -->
+                    <div class="info-section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i class="fas fa-address-book"></i>
+                            </div>
+                            <h2 class="section-title">Contact Details</h2>
+                        </div>
+                        <div class="space-y-0">
+                            <div class="info-item">
+                                <span class="info-label">Email Address</span>
+                                <span class="info-value" id="profileEmail">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Phone Number</span>
+                                <span class="info-value" id="profilePhone">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Identification -->
+                    <div class="info-section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i class="fas fa-id-card"></i>
+                            </div>
+                            <h2 class="section-title">Identification</h2>
+                        </div>
+                        <div class="space-y-0">
+                            <div class="info-item">
+                                <span class="info-label">ID Type</span>
+                                <span class="info-value" id="profileIdType">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">ID Number</span>
+                                <span class="info-value" id="profileIdNumber">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Passport Number</span>
+                                <span class="info-value" id="profilePassport">Not provided</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Verification Status</span>
+                                <span class="info-value">
+                                    <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-sm">
+                                        <i class="fas fa-check-circle mr-1"></i>Verified
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Status -->
+                    <div class="info-section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <h2 class="section-title">Account Status</h2>
+                        </div>
+                        <div class="space-y-0">
+                            <div class="info-item">
+                                <span class="info-label">Account Type</span>
+                                <span class="info-value">
+                                    <span class="bg-blue-500/20 text-blue-400 px-2 py-1 rounded text-sm">
+                                        <i class="fas fa-star mr-1"></i>Premium
+                                    </span>
+                                </span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Member Since</span>
+                                <span class="info-value" id="profileMemberSince">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Last Login</span>
+                                <span class="info-value" id="profileLastLogin">Just now</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Two-Factor Auth</span>
+                                <span class="info-value">
+                                    <span class="bg-red-500/20 text-red-400 px-2 py-1 rounded text-sm">
+                                        <i class="fas fa-times-circle mr-1"></i>Disabled
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap gap-4 justify-center mt-8">
+                    <button onclick="changePassword()" class="btn-primary px-6 py-3">
+                        <i class="fas fa-key mr-2"></i>Change Password
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal (will be populated by JavaScript) -->
+    <div id="editModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50">
+        <div class="glass-card p-8 max-w-md w-full mx-4">
+            <div id="modalContent">
+                <!-- Modal content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="profile.ts"></script>
+</body>
+</html>

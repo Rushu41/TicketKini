@@ -1,0 +1,2039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TicketKini - Your Gateway to Seamless Travel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="./styles/site.css" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'primary': '#0D1B2A',
+            'accent-start': '#00B4DB',
+            'accent-end': '#0083B0',
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.5s ease-in-out',
+            'slide-up': 'slideUp 0.6s ease-out',
+            'float': 'float 3s ease-in-out infinite',
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideUp: {
+              '0%': { transform: 'translateY(20px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .hero-bg {
+      position: relative;
+      overflow: hidden;
+      transition: background 0.8s ease-in-out;
+    }
+
+    /* Transport-specific backgrounds */
+    .hero-bg.bg-bus {
+      background: linear-gradient(135deg, rgba(0, 180, 219, 0.1) 0%, rgba(0, 131, 176, 0.05) 100%),
+                  url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3') center/cover;
+    }
+
+    .hero-bg.bg-train {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(21, 128, 61, 0.05) 100%),
+                  url('https://images.unsplash.com/photo-1474487548417-781cb71495f3?ixlib=rb-4.0.3') center/cover;
+    }
+
+    .hero-bg.bg-plane {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(124, 58, 237, 0.05) 100%),
+                  url('https://images.unsplash.com/photo-1540962351504-03099e0a754b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80') center/cover;
+    }
+    
+    /* Exact ReactBits Style Pill Navigation */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Body padding for fixed navbar */
+    body {
+      padding-top: 80px;
+    }
+    
+    .pill-nav-container {
+      --nav-h: 42px;
+      --logo: 36px;
+      --pill-pad-x: 18px;
+      --pill-gap: 3px;
+      --base: #ffffff;
+      --pill-bg: #0D1B2A;
+      --hover-text: #0D1B2A;
+      --pill-text: #ffffff;
+      
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      width: max-content;
+      gap: 12px;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 6px 12px;
+      border-radius: 50px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    
+    .logo-text {
+      margin-left: 8px;
+      z-index: 10;
+    }
+    
+    .logo-text a {
+      color: #0D1B2A !important;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-weight: 900 !important;
+      font-size: 1.35rem !important;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      letter-spacing: -0.5px;
+    }
+    
+    .logo-text a:hover {
+      color: #00B4DB !important;
+      transform: scale(1.05);
+    }
+    
+    .pill-nav-items {
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: var(--nav-h);
+      background: var(--base);
+      border-radius: 9999px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    
+    .pill-logo {
+      width: var(--nav-h);
+      height: var(--nav-h);
+      border-radius: 50%;
+      background: var(--base);
+      padding: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-right: 12px;
+      transition: transform 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    
+    .pill-logo:hover {
+      transform: rotate(360deg);
+    }
+    
+    .pill-logo .logo-icon {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      color: var(--pill-bg);
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
+    /* Debug visibility */
+    .pill-nav-container > * {
+      visibility: visible !important;
+      opacity: 1 !important;
+      z-index: 10 !important;
+    }
+    
+    /* Ensure navbar is always on top */
+    .navbar {
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+    
+    .navbar * {
+      visibility: visible !important;
+    }
+    
+    /* Ensure auth buttons are visible */
+    #auth-buttons {
+      visibility: visible !important;
+      opacity: 1 !important;
+      z-index: 10 !important;
+      min-width: 200px;
+      overflow: visible !important;
+      display: flex !important;
+    }
+    
+    #auth-buttons .auth-btn {
+      visibility: visible !important;
+      opacity: 1 !important;
+      position: relative !important;
+      display: inline-flex !important;
+    }
+    
+    .pill-list {
+      list-style: none;
+      display: flex;
+      align-items: stretch;
+      gap: var(--pill-gap);
+      margin: 0;
+      padding: 3px;
+      height: 100%;
+    }
+    
+    .pill-list > li {
+      display: flex;
+      height: 100%;
+    }
+    
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 var(--pill-pad-x);
+      background: var(--pill-bg);
+      color: var(--pill-text);
+      text-decoration: none;
+      border-radius: 9999px;
+      box-sizing: border-box;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+    
+    .pill .hover-circle {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      border-radius: 50%;
+      background: var(--base);
+      z-index: 1;
+      display: block;
+      pointer-events: none;
+      will-change: transform;
+      transform: scale(0);
+    }
+    
+    .pill .label-stack {
+      position: relative;
+      display: inline-block;
+      line-height: 1;
+      z-index: 2;
+    }
+    
+    .pill .pill-label {
+      position: relative;
+      z-index: 2;
+      display: inline-block;
+      line-height: 1;
+      will-change: transform;
+    }
+    
+    .pill .pill-label-hover {
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--hover-text);
+      z-index: 3;
+      display: inline-block;
+      will-change: transform, opacity;
+      opacity: 0;
+    }
+    
+    .pill.is-active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 8px;
+      background: var(--pill-bg);
+      border-radius: 50px;
+      z-index: 4;
+    }
+    
+    .auth-buttons {
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: 48px; /* Increased from var(--nav-h) which is 42px */
+      background: var(--base);
+      border-radius: 9999px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+      gap: var(--pill-gap);
+      margin-left: 20px;
+      padding: 4px; /* Increased padding */
+      list-style: none;
+    }
+    
+    .auth-buttons > * {
+      display: flex;
+      height: 100%;
+    }
+    
+    .auth-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px; /* Increased from var(--pill-pad-x) which is 18px */
+      background: var(--pill-bg);
+      color: var(--pill-text);
+      text-decoration: none;
+      border-radius: 9999px;
+      box-sizing: border-box;
+      font-weight: 600;
+      font-size: 15px; /* Increased from 14px */
+      line-height: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      border: none;
+      transition: all 0.2s ease;
+      gap: 8px; /* Increased gap for icons */
+      z-index: 10;
+    }
+    
+    .auth-btn .hover-circle {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      border-radius: 50%;
+      background: var(--base);
+      z-index: 1;
+      display: block;
+      pointer-events: none;
+      will-change: transform;
+      transform: scale(0);
+    }
+    
+    .auth-btn .label-stack {
+      position: relative;
+      display: inline-block;
+      line-height: 1;
+      z-index: 2;
+    }
+    
+    .auth-btn .pill-label {
+      position: relative;
+      z-index: 2;
+      display: inline-block;
+      line-height: 1;
+      will-change: transform;
+    }
+    
+    .auth-btn .pill-label-hover {
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--hover-text);
+      z-index: 3;
+      display: inline-block;
+      will-change: transform, opacity;
+      opacity: 0;
+    }
+    
+    .auth-btn.primary {
+      background: var(--base) !important; /* White/light background */
+      --pill-text: #0D1B2A; /* Black text */
+      --hover-text: #0D1B2A; /* Keep black text on hover */
+      color: #0D1B2A !important; /* Black text */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(13, 27, 42, 0.1);
+    }
+    
+    .auth-btn.secondary {
+      background: var(--base) !important; /* White/light background */
+      --pill-text: #0D1B2A; /* Black text */
+      --hover-text: #0D1B2A; /* Keep black text on hover */
+      color: #0D1B2A !important; /* Black text */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(13, 27, 42, 0.1);
+    }
+    
+    .mobile-nav {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 20px 20px 0 0;
+    }
+    
+    @media (max-width: 768px) {
+      .pill-nav-container {
+        width: 100%;
+        justify-content: space-between;
+        padding: 0 1rem;
+        flex-wrap: nowrap;
+      }
+      
+      .pill-nav-items {
+        display: flex;
+        min-width: 0;
+        flex-shrink: 0;
+      }
+      
+      .logo-text {
+        display: block;
+        margin-left: 8px;
+      }
+      
+      .mobile-nav .pill {
+        width: 100%;
+        text-align: center;
+        padding: 16px;
+        margin: 4px 0;
+        border-radius: 12px;
+      }
+    }
+    
+    .route-chip {
+      background: rgba(255, 255, 255, 0.9);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .route-chip:hover {
+      background: rgba(0, 180, 219, 0.1);
+      border-color: rgba(0, 180, 219, 0.3);
+      transform: translateY(-2px);
+    }
+    
+    .feature-card {
+      background: rgba(255, 255, 255, 0.9);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .search-container {
+      background: rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .autocomplete-dropdown {
+      background: rgba(255, 255, 255, 0.98);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  max-height: 16rem; /* ~256px */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+    }
+    
+    .nav-link { color: #374151; font-weight: 500; transition: color 0.3s; }
+    .nav-link:hover { color: #2563eb; }
+    .vehicle-type-option input:checked + div { border-color: #60a5fa; background-color: rgba(255,255,255,0.2); }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(to bottom, #3b82f6, #6366f1);
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(to bottom, #2563eb, #4f46e5);
+    }
+
+    /* Transport Button Styles */
+    .transport-selector {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 24px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .transport-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 24px;
+      border: none;
+      background: transparent;
+      border-radius: 18px;
+      font-weight: 600;
+      font-size: 16px;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      min-width: 120px;
+      outline: none;
+    }
+
+    .transport-btn:hover {
+      background: rgba(59, 130, 246, 0.08);
+      color: #3b82f6;
+      transform: translateY(-1px);
+    }
+
+    .transport-btn.active {
+      color: white;
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* Transport-specific active button colors */
+    .transport-btn.active[data-type="bus"] {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    }
+
+    .transport-btn.active[data-type="train"] {
+      background: linear-gradient(135deg, #22c55e, #15803d);
+      box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
+    }
+
+    .transport-btn.active[data-type="plane"] {
+      background: linear-gradient(135deg, #a855f7, #7c3aed);
+      box-shadow: 0 8px 20px rgba(168, 85, 247, 0.3);
+    }
+
+    .transport-btn i {
+      font-size: 18px;
+      transition: transform 0.3s ease;
+    }
+
+    .transport-btn.active i {
+      transform: scale(1.1);
+    }
+
+    /* Circle indicator for active state */
+    .transport-btn::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      width: 12px;
+      height: 12px;
+      background: #10b981;
+      border: 2px solid white;
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .transport-btn.active::before {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Transport-specific circle indicator colors */
+    .transport-btn.active[data-type="bus"]::before {
+      background: #3b82f6;
+    }
+
+    .transport-btn.active[data-type="train"]::before {
+      background: #22c55e;
+    }
+
+    .transport-btn.active[data-type="plane"]::before {
+      background: #a855f7;
+    }
+
+    /* Enhanced search container spacing */
+    .search-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 40px;
+      border-radius: 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Notification Styles - Currently used for badge and potential future dropdown features */
+    .notification-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px;
+      border-bottom: 1px solid #f1f5f9;
+      transition: background-color 0.2s;
+      cursor: pointer;
+    }
+
+    .notification-item:hover {
+      background-color: #f8fafc;
+    }
+
+    .notification-item:last-child {
+      border-bottom: none;
+    }
+
+    .notification-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .notification-icon.booking { background: linear-gradient(135deg, #10b981, #059669); }
+    .notification-icon.payment { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+    .notification-icon.system { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .notification-icon.reminder { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+    .notification-icon.promo { background: linear-gradient(135deg, #ec4899, #db2777); }
+
+    .notification-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .notification-title {
+      font-weight: 600;
+      color: #1f2937;
+      font-size: 14px;
+      line-height: 1.4;
+      margin-bottom: 4px;
+    }
+
+    .notification-message {
+      color: #6b7280;
+      font-size: 13px;
+      line-height: 1.4;
+      margin-bottom: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2; /* standard */
+  -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .notification-time {
+      color: #9ca3af;
+      font-size: 12px;
+    }
+
+    .notification-dismiss {
+      background: none;
+      border: none;
+      color: #9ca3af;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      opacity: 0;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .notification-item:hover .notification-dismiss {
+      opacity: 1;
+    }
+
+    .notification-dismiss:hover {
+      color: #ef4444;
+      background-color: #fef2f2;
+    }
+
+    .notification-empty {
+      padding: 32px 16px;
+      text-align: center;
+      color: #9ca3af;
+    }
+
+    .notification-empty i {
+      font-size: 32px;
+      margin-bottom: 8px;
+      color: #d1d5db;
+    }
+
+    /* Connection Status Indicator */
+    .connection-status {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      font-size: 12px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      z-index: 1000;
+    }
+
+    .connection-status.connected {
+      background: rgba(34, 197, 94, 0.9);
+    }
+
+    .connection-status.disconnected {
+      background: rgba(239, 68, 68, 0.9);
+    }
+
+    .connection-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    /* Montserrat Font for Hero Heading */
+    .hero-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 5vw, 4rem);
+      line-height: 1.1;
+    }
+    
+    @media (max-width: 768px) {
+      .hero-heading {
+        font-size: clamp(1.8rem, 6vw, 3rem);
+      }
+    }
+  </style>
+</head>
+<body class="site-bg">
+  <!-- Floating Abstract Shapes -->
+  <div class="floating-shapes">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between w-full">
+        <div class="pill-nav-container">
+          <a href="#" class="pill-logo" aria-label="Home">
+            <i class="fas fa-route logo-icon"></i>
+          </a>
+          
+          <div class="logo-text">
+            <a href="#" class="text-xl font-extrabold text-primary flex items-center gap-2">
+              <span>TicketKini</span>
+            </a>
+          </div>
+          
+          <div class="pill-nav-items">
+            <ul class="pill-list" role="menubar">
+              <li role="none">
+                <a href="#" class="pill" role="menuitem" data-section="home">
+                  <span class="hover-circle" aria-hidden="true"></span>
+                  <span class="label-stack">
+                    <span class="pill-label">Home</span>
+                    <span class="pill-label-hover" aria-hidden="true">Home</span>
+                  </span>
+                </a>
+              </li>
+              <li role="none">
+                <a href="#about" class="pill" role="menuitem" data-section="about">
+                  <span class="hover-circle" aria-hidden="true"></span>
+                  <span class="label-stack">
+                    <span class="pill-label">About</span>
+                    <span class="pill-label-hover" aria-hidden="true">About</span>
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="flex items-center gap-4">
+          <!-- Notification Bell for Authenticated Users -->
+          <div id="notification-section" class="relative hidden">
+            <button id="notification-button" class="relative p-2 text-neutral-600 hover:text-accent-end transition-colors rounded-full hover:bg-white/10" title="Go to Notifications">
+              <i class="fas fa-bell text-xl"></i>
+              <span id="notification-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+            </button>
+          </div>
+
+          <div id="auth-buttons" class="auth-buttons">
+            <!-- Default auth buttons for immediate display -->
+            <a href="./pages/login.html" class="auth-btn secondary">
+              <span class="hover-circle" aria-hidden="true"></span>
+              <span class="label-stack">
+                <span class="pill-label">Login</span>
+                <span class="pill-label-hover" aria-hidden="true">Login</span>
+              </span>
+            </a>
+            <a href="./pages/signup.html" class="auth-btn primary">
+              <span class="hover-circle" aria-hidden="true"></span>
+              <span class="label-stack">
+                <span class="pill-label">Register</span>
+                <span class="pill-label-hover" aria-hidden="true">Register</span>
+              </span>
+            </a>
+          </div>
+          
+          <button id="mobile-menu-btn" class="md:hidden" aria-label="Open mobile menu" title="Menu">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div id="mobile-menu" class="hidden md:hidden mt-4 pt-4 border-t border-neutral-200 mobile-nav">
+        <div class="flex flex-col gap-2">
+          <a href="#" class="pill">
+            <span class="label-stack">
+              <span class="pill-label">Home</span>
+            </span>
+          </a>
+          <a href="#about" class="pill">
+            <span class="label-stack">
+              <span class="pill-label">About</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="hero-section" class="hero-bg bg-bus min-h-screen flex items-center relative" style="margin-top: 0; padding-top: 100px;">
+    <div class="max-w-7xl mx-auto px-4 py-20 relative z-10">
+      <div class="text-center max-w-6xl mx-auto mb-16">
+        <h1 class="h1 text-primary mb-6 fade-in hero-heading" id="hero-text">
+          Your Gateway to <span class="text-accent-end">Seamless Travel</span>
+        </h1>
+        <p class="text-xl text-neutral-600 mb-8 fade-in">
+          Book buses, trains, and flights across Bangladesh with ease. Experience luxury travel planning with real-time availability and instant confirmation.
+        </p>
+      </div>
+
+      <!-- Multi-Transport Search -->
+      <div id="search" class="search-container rounded-2xl max-w-6xl mx-auto glass-card">
+        <form id="search-form" class="space-y-8">
+          <!-- Transport Type Selector -->
+          <div class="transport-selector">
+            <button type="button" class="transport-btn active" data-type="bus">
+              <i class="fas fa-bus"></i>
+              <span>Bus</span>
+            </button>
+            <button type="button" class="transport-btn" data-type="train">
+              <i class="fas fa-train"></i>
+              <span>Train</span>
+            </button>
+            <button type="button" class="transport-btn" data-type="plane">
+              <i class="fas fa-plane"></i>
+              <span>Plane</span>
+            </button>
+          </div>
+
+          <!-- Search Fields -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Source -->
+            <div class="relative md:col-span-1 lg:col-span-1">
+              <label for="source" class="label text-sm font-semibold text-neutral-700 mb-3 block">From</label>
+              <div class="relative">
+                <input 
+                  type="text" 
+                  id="source" 
+                  placeholder="Departure city" 
+                  class="input pr-12 h-16 text-lg font-medium border-2 border-neutral-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 rounded-xl" 
+                  autocomplete="off"
+                />
+                <i class="fas fa-map-marker-alt absolute right-4 top-1/2 transform -translate-y-1/2 text-blue-400 text-lg"></i>
+                <div id="source-dropdown" class="autocomplete-dropdown hidden absolute top-full left-0 right-0 z-50 mt-1 rounded-lg"></div>
+              </div>
+            </div>
+
+            <!-- Destination -->
+            <div class="relative md:col-span-1 lg:col-span-1">
+              <label for="destination" class="label text-sm font-semibold text-neutral-700 mb-3 block">To</label>
+              <div class="relative">
+                <input 
+                  type="text" 
+                  id="destination" 
+                  placeholder="Destination city" 
+                  class="input pr-12 h-16 text-lg font-medium border-2 border-neutral-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 rounded-xl" 
+                  autocomplete="off"
+                />
+                <i class="fas fa-map-marker-alt absolute right-4 top-1/2 transform -translate-y-1/2 text-blue-400 text-lg"></i>
+                <div id="destination-dropdown" class="autocomplete-dropdown hidden absolute top-full left-0 right-0 z-50 mt-1 rounded-lg"></div>
+              </div>
+            </div>
+
+            <!-- Date -->
+            <div class="md:col-span-1">
+              <label for="travel-date" class="label text-sm font-semibold text-neutral-700 mb-3 block">Departure Date</label>
+              <input 
+                type="date" 
+                id="travel-date" 
+                class="input h-16 text-lg font-medium border-2 border-neutral-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 rounded-xl" 
+                title="Select departure date"
+                required
+              />
+            </div>
+
+            
+
+            <!-- Search Button -->
+            <div class="md:col-span-2 lg:col-span-1 flex flex-col justify-end">
+              <button 
+                type="submit" 
+                class="btn btn-gradient btn-shimmer w-full h-16 text-lg font-bold tracking-wide shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl"
+              >
+                <i class="fas fa-search mr-2"></i>
+                Search Trips
+              </button>
+            </div>
+          </div>
+
+          
+        </form>
+      </div>
+
+      <!-- Popular Routes -->
+      <div id="popular-routes" class="mt-12">
+        <h3 class="text-center text-lg font-semibold text-neutral-700 mb-6">Popular Routes</h3>
+        <div class="flex flex-wrap justify-center gap-3" id="popular-routes-container">
+          <!-- Popular routes will be loaded dynamically -->
+          <div class="route-chip rounded-full px-4 py-2 text-sm font-medium cursor-pointer" data-source="Mohakhali Bus Terminal" data-destination="Chittagong Central Bus Terminal">
+            Mohakhali Bus Terminal → Chittagong Central Bus Terminal
+          </div>
+          <div class="route-chip rounded-full px-4 py-2 text-sm font-medium cursor-pointer" data-source="Chittagong Central Bus Terminal" data-destination="Mohakhali Bus Terminal">
+            Chittagong Central Bus Terminal → Mohakhali Bus Terminal
+          </div>
+          <div class="route-chip rounded-full px-4 py-2 text-sm font-medium cursor-pointer" data-source="Mohakhali Bus Terminal" data-destination="Sylhet Bus Terminal">
+            Mohakhali Bus Terminal → Sylhet Bus Terminal
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="py-20 bg-neutral-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="h2 text-primary mb-4">Why Choose TicketKini?</h2>
+        <p class="text-lg text-neutral-600 max-w-2xl mx-auto">
+          Experience the future of travel booking with our cutting-edge platform designed for modern travelers.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="feature-card rounded-2xl p-8 text-center card-animated">
+          <div class="w-16 h-16 bg-gradient-to-br from-accent-start to-accent-end rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-bolt text-2xl text-white"></i>
+          </div>
+          <h3 class="h3 text-primary mb-4">Instant Booking</h3>
+          <p class="text-neutral-600">
+            Book your tickets in seconds with our lightning-fast booking system. Real-time seat availability and instant confirmation.
+          </p>
+        </div>
+
+        <div class="feature-card rounded-2xl p-8 text-center card-animated">
+          <div class="w-16 h-16 bg-gradient-to-br from-accent-start to-accent-end rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-shield-alt text-2xl text-white"></i>
+          </div>
+          <h3 class="h3 text-primary mb-4">Secure Payments</h3>
+          <p class="text-neutral-600">
+            Multiple payment options including cards, mobile banking, and digital wallets. Your transactions are protected with bank-level security.
+          </p>
+        </div>
+
+        <div class="feature-card rounded-2xl p-8 text-center card-animated">
+          <div class="w-16 h-16 bg-gradient-to-br from-accent-start to-accent-end rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-headset text-2xl text-white"></i>
+          </div>
+          <h3 class="h3 text-primary mb-4">24/7 Support</h3>
+          <p class="text-neutral-600">
+            Our dedicated support team is always ready to help. Get assistance anytime, anywhere for a smooth travel experience.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="py-16 bg-gradient-to-r from-accent-start to-accent-end">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 class="h2 text-white mb-4">Stay Updated</h2>
+      <p class="text-lg text-white/90 mb-8">
+        Get the latest travel deals, route updates, and exclusive offers delivered to your inbox.
+      </p>
+      
+      <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+        <input 
+          type="email" 
+          placeholder="Enter your email" 
+          class="input flex-1 border-white/30 bg-white/10 text-white placeholder-white/70"
+          aria-label="Email address for newsletter subscription"
+          required
+        />
+        <button 
+          type="submit" 
+          class="btn bg-white text-accent-end hover:bg-neutral-100 px-8"
+        >
+          Subscribe
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="py-16 bg-gradient-to-r from-gray-50 to-blue-50/30 relative overflow-hidden">
+    <div class="text-center mb-8 px-4">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        What travelers say
+      </h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        Real experiences from our community of happy travelers
+      </p>
+    </div>
+    
+    <!-- Full-screen width carousel container - breaks out of max-width constraints -->
+    <div class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+      <div id="testimonials" class="w-full"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer py-16">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div class="md:col-span-2">
+          <a href="#" class="text-2xl font-extrabold text-white flex items-center gap-2 mb-4">
+            <i class="fas fa-route text-accent-end"></i>
+            <span>TicketKini</span>
+          </a>
+          <p class="text-neutral-300 mb-6 max-w-md">
+            Your trusted travel companion for seamless journey planning across Bangladesh. Experience luxury travel booking with cutting-edge technology.
+          </p>
+          <div class="flex gap-4">
+            <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-accent-end transition-colors" aria-label="Facebook" title="Facebook">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-accent-end transition-colors" aria-label="Twitter" title="Twitter">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-accent-end transition-colors" aria-label="Instagram" title="Instagram">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-accent-end transition-colors" aria-label="LinkedIn" title="LinkedIn">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-neutral-300 hover:text-white transition-colors">Home</a></li>
+            <li><a href="./pages/search.html" class="text-neutral-300 hover:text-white transition-colors">Search</a></li>
+            <li><a href="./pages/my-bookings.html" class="text-neutral-300 hover:text-white transition-colors">My Bookings</a></li>
+            <li><a href="./pages/profile.html" class="text-neutral-300 hover:text-white transition-colors">Profile</a></li>
+            <li><a href="#about" class="text-neutral-300 hover:text-white transition-colors">About Us</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-lg font-semibold text-white mb-4">Support</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-neutral-300 hover:text-white transition-colors">Help Center</a></li>
+            <li><a href="#" class="text-neutral-300 hover:text-white transition-colors">Contact Us</a></li>
+            <li><a href="#" class="text-neutral-300 hover:text-white transition-colors">Terms & Conditions</a></li>
+            <li><a href="#" class="text-neutral-300 hover:text-white transition-colors">Privacy Policy</a></li>
+            <li><a href="#" class="text-neutral-300 hover:text-white transition-colors">Refund Policy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-white/20 pt-8 text-center">
+        <p class="text-neutral-300">
+          &copy; 2025 TicketKini. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Connection Status Indicator -->
+  <div id="connection-status" class="connection-status">
+    <div class="connection-indicator"></div>
+    <span id="connection-text">Connecting...</span>
+  </div>
+
+  <script type="module" src="./components/navbar.ts"></script>
+  <script type="module" src="./services/userNotificationService.ts"></script>
+  <script type="module" src="./services/feedbackPromptService.ts"></script>
+  <script type="module">
+    import { apiService } from './services/api.ts';
+    import userNotificationService from './services/userNotificationService.ts';
+    import { feedbackPromptService } from './services/feedbackPromptService.ts';
+    import { initFeedbackCarousel } from './components/feedbackCarousel.ts';
+
+    // Cache locations per vehicle type to avoid repeated requests
+    const locationsCache = new Map();
+
+    async function preloadLocations(vehicleType = 'bus') {
+      if (locationsCache.has(vehicleType)) return locationsCache.get(vehicleType);
+      try {
+        const resp = await apiService.searchLocations(vehicleType, 1000, "");
+        const data = (resp && resp.success && Array.isArray(resp.data)) ? resp.data : [];
+        locationsCache.set(vehicleType, data);
+        return data;
+      } catch (e) {
+        console.warn('Preload locations failed:', e);
+        locationsCache.set(vehicleType, []);
+        return [];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const today = new Date().toISOString().split('T')[0];
+      const travelDate = document.getElementById('travel-date');
+      if (travelDate) { travelDate.setAttribute('min', today); travelDate.value = today; }
+
+  // Additional Options removed (round-trip, return date, swap routes)
+
+      const transportBtns = document.querySelectorAll('.transport-btn');
+      let selectedTransport = 'bus';
+      
+      // Function to change background based on transport type
+      function changeHeroBackground(transportType) {
+        const heroSection = document.getElementById('hero-section');
+        if (heroSection) {
+          // Remove all transport background classes
+          heroSection.classList.remove('bg-bus', 'bg-train', 'bg-plane');
+          // Add the new transport background class
+          heroSection.classList.add(`bg-${transportType}`);
+        }
+      }
+      
+      transportBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          transportBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          selectedTransport = btn.dataset.type || 'bus';
+          
+          // Change background image based on selected transport
+          changeHeroBackground(selectedTransport);
+          
+          // Round-trip UI removed
+          
+          const sourceInput = document.getElementById('source');
+          const destinationInput = document.getElementById('destination');
+          if (sourceInput) sourceInput.value = '';
+          if (destinationInput) destinationInput.value = '';
+          preloadLocations(selectedTransport).then(() => {
+            setupAutocomplete('source', selectedTransport);
+            setupAutocomplete('destination', selectedTransport);
+          });
+        });
+      });
+
+  // Round-trip visibility logic removed
+
+      const searchForm = document.getElementById('search-form');
+      if (searchForm) {
+        searchForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const formData = {
+            source: document.getElementById('source').value,
+            destination: document.getElementById('destination').value,
+            travel_date: document.getElementById('travel-date').value,
+            vehicle_type: selectedTransport,
+            
+          };
+          if (!formData.source || !formData.destination) { alert('Please select both departure and destination cities.'); return; }
+          sessionStorage.setItem('searchData', JSON.stringify(formData));
+          window.location.href = './pages/search.html';
+        });
+      }
+
+      await preloadLocations(selectedTransport);
+      setupAutocomplete('source', selectedTransport);
+      setupAutocomplete('destination', selectedTransport);
+      loadPopularRoutes();
+      
+      // Initialize authentication and notifications
+      try { 
+        await initializeAuthButtons(); 
+        await initializeNotifications();
+        
+        // Check for feedback prompt after a delay
+        setTimeout(() => {
+          feedbackPromptService.checkForFeedbackPrompt();
+        }, 3000);
+      } catch (e) { 
+        console.warn('Auth/notification init failed:', e); 
+      }
+    });
+
+    function setupAutocomplete(inputId, vehicleType) {
+      const input = document.getElementById(inputId);
+      const dropdown = document.getElementById(`${inputId}-dropdown`);
+      if (!input || !dropdown) return;
+      let searchTimeout;
+
+      const hideDropdown = () => dropdown.classList.add('hidden');
+      const showLoading = () => { dropdown.innerHTML = `<div class="p-3 text-center text-neutral-500"><i class=\"fas fa-spinner fa-spin\"></i> Searching...</div>`; dropdown.classList.remove('hidden'); };
+      const showNoResults = () => { dropdown.innerHTML = `<div class=\"p-3 text-center text-neutral-500\">No locations found</div>`; dropdown.classList.remove('hidden'); };
+      const escapeHtml = (s = '') => s
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+
+      const renderResults = (locations) => {
+        if (!locations || locations.length === 0) { showNoResults(); return; }
+        dropdown.innerHTML = locations.slice(0, 50).map((loc, idx) => {
+          const name = loc.name || loc.location_name || '';
+          const city = loc.city || '';
+          const full = city && city !== name ? `${name}, ${city}` : name;
+          const safeName = escapeHtml(name);
+          const safeCity = escapeHtml(city);
+          const safeFull = escapeHtml(full);
+          return `
+            <div class="p-3 hover:bg-blue-50 cursor-pointer border-b last:border-b-0" data-value="${safeName}" data-full="${safeFull}" data-index="${idx}">
+              <div class="font-medium text-neutral-800">${safeName}</div>
+              ${city && city !== name ? `<div class="text-sm text-neutral-500">${safeCity}</div>` : ''}
+            </div>
+          `;
+        }).join('');
+        dropdown.classList.remove('hidden');
+      };
+
+      const searchOnline = async (query) => {
+        try {
+          const resp = await apiService.searchLocations(vehicleType, 50, query);
+          if (resp.success && resp.data) renderResults(resp.data); else showNoResults();
+        } catch (err) {
+          console.error('Online search error:', err);
+          dropdown.innerHTML = `<div class=\"p-3 text-center text-red-500\">Error loading locations</div>`;
+          dropdown.classList.remove('hidden');
+        }
+      };
+
+      const showFromCache = (query = '') => {
+        const cached = locationsCache.get(vehicleType) || [];
+        if (!cached.length) return false;
+        if (!query) { renderResults(cached); return true; }
+        const q = query.toLowerCase();
+        const filtered = cached.filter(loc => {
+          const name = (loc.name || loc.location_name || '').toLowerCase();
+          const city = (loc.city || '').toLowerCase();
+          return name.includes(q) || city.includes(q);
+        });
+        renderResults(filtered);
+        return true;
+      };
+
+      const performSearch = (query) => {
+        if (!query || query.length < 1) {
+          // Show cached full list if available when query empty
+          if (!showFromCache('')) hideDropdown();
+          return;
+        }
+        // Try quick local filter first; fall back to server for better results
+        if (showFromCache(query)) return;
+        showLoading();
+        if (searchTimeout) clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => searchOnline(query), 300);
+      };
+
+      input.addEventListener('input', (e) => performSearch(e.target.value.trim()));
+      input.addEventListener('focus', () => {
+        const q = input.value.trim();
+        if (q.length === 0) {
+          // On focus with empty query, show all cached locations
+          if (!showFromCache('')) performSearch('');
+        } else {
+          performSearch(q);
+        }
+      });
+      input.addEventListener('click', () => {
+        const q = input.value.trim();
+        if (q.length === 0) {
+          if (!showFromCache('')) performSearch('');
+        } else {
+          performSearch(q);
+        }
+      });
+      dropdown.addEventListener('click', (e) => {
+        const item = e.target.closest('[data-value]');
+        if (!item) return;
+        input.value = item.dataset.value || '';
+        hideDropdown();
+      });
+      document.addEventListener('click', (e) => { if (!input.contains(e.target) && !dropdown.contains(e.target)) hideDropdown(); });
+    }
+
+    async function initializeAuthButtons() {
+      const container = document.getElementById('auth-buttons');
+      if (!container) return;
+      try {
+        const isAuthenticated = await apiService.isAuthenticated();
+        if (isAuthenticated) {
+          const user = JSON.parse(localStorage.getItem('user') || '{}');
+          container.innerHTML = `
+            <a href="./pages/my-bookings.html" class="auth-btn secondary">
+              <span class="hover-circle" aria-hidden="true"></span>
+              <span class="label-stack">
+                <span class="pill-label"><i class="fas fa-ticket-alt"></i> My Bookings</span>
+                <span class="pill-label-hover" aria-hidden="true"><i class="fas fa-ticket-alt"></i> My Bookings</span>
+              </span>
+            </a>
+            <a href="./pages/profile.html" class="auth-btn secondary">
+              <span class="hover-circle" aria-hidden="true"></span>
+              <span class="label-stack">
+                <span class="pill-label"><i class="fas fa-user"></i> ${user.name || 'Profile'}</span>
+                <span class="pill-label-hover" aria-hidden="true"><i class="fas fa-user"></i> ${user.name || 'Profile'}</span>
+              </span>
+            </a>
+            <button id="logout-btn" class="auth-btn secondary">
+              <span class="hover-circle" aria-hidden="true"></span>
+              <span class="label-stack">
+                <span class="pill-label"><i class="fas fa-sign-out-alt"></i> Logout</span>
+                <span class="pill-label-hover" aria-hidden="true"><i class="fas fa-sign-out-alt"></i> Logout</span>
+              </span>
+            </button>
+          `;
+          document.getElementById('logout-btn')?.addEventListener('click', async () => { await apiService.logout(); localStorage.removeItem('user'); window.location.reload(); });
+          
+          // Show notification section for authenticated users
+          const notificationSection = document.getElementById('notification-section');
+          if (notificationSection) {
+            notificationSection.classList.remove('hidden');
+          }
+        } else {
+          container.innerHTML = `
+            <a href="./pages/login.html" class="auth-btn secondary">
+              <span class="hover-circle" aria-hidden="true"></span>
+              <span class="label-stack">
+                <span class="pill-label">Login</span>
+                <span class="pill-label-hover" aria-hidden="true">Login</span>
+              </span>
+            </a>
+            <a href="./pages/signup.html" class="auth-btn primary">
+              <span class="hover-circle" aria-hidden="true"></span>
+              <span class="label-stack">
+                <span class="pill-label">Register</span>
+                <span class="pill-label-hover" aria-hidden="true">Register</span>
+              </span>
+            </a>
+          `;
+        }
+        
+        // Initialize auth button animations after rendering
+        setTimeout(() => initReactBitsAuthButtons(), 100);
+      } catch (e) {
+        console.warn('Auth check failed:', e);
+        container.innerHTML = `
+          <a href="./pages/login.html" class="auth-btn secondary">
+            <span class="hover-circle" aria-hidden="true"></span>
+            <span class="label-stack">
+              <span class="pill-label">Login</span>
+              <span class="pill-label-hover" aria-hidden="true">Login</span>
+            </span>
+          </a>
+          <a href="./pages/signup.html" class="auth-btn primary">
+            <span class="hover-circle" aria-hidden="true"></span>
+            <span class="label-stack">
+              <span class="pill-label">Register</span>
+              <span class="pill-label-hover" aria-hidden="true">Register</span>
+            </span>
+          </a>
+        `;
+        // Initialize auth button animations after rendering
+        setTimeout(() => initReactBitsAuthButtons(), 100);
+      }
+    }
+
+    async function initializeNotifications() {
+      const isAuthenticated = await apiService.isAuthenticated();
+      if (!isAuthenticated) return;
+
+      try {
+        // Initialize notification service
+        await userNotificationService.initialize();
+
+        // Setup notification dropdown
+        setupNotificationButton();
+
+        // Show connection status
+        showConnectionStatus();
+
+        // Listen for connection status changes
+        userNotificationService.addEventListener('connectionStatus', handleConnectionStatus);
+
+        // Listen for new notifications
+        window.addEventListener('newNotification', (event) => {
+          const notification = event.detail;
+          console.log('New notification received:', notification);
+          
+          // Show welcome notification for first-time setup
+          if (notification.type === 'system_alert' && notification.title.includes('Welcome')) {
+            userNotificationService.showToast('Welcome to TicketKini notifications!', { 
+              type: 'success', 
+              duration: 5000 
+            });
+          }
+        });
+
+      } catch (error) {
+        console.error('Failed to initialize notifications:', error);
+      }
+    }
+
+    function setupNotificationButton() {
+      const notificationButton = document.getElementById('notification-button');
+
+      if (!notificationButton) return;
+
+      // Redirect to notifications page when clicked
+      notificationButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        window.location.href = './pages/notifications.html';
+      });
+    }
+
+    function showConnectionStatus() {
+      const statusElement = document.getElementById('connection-status');
+      const textElement = document.getElementById('connection-text');
+      
+      if (!statusElement || !textElement) return;
+
+      statusElement.style.display = 'flex';
+      statusElement.className = 'connection-status connected';
+      textElement.textContent = 'Connected';
+
+      // Hide after 3 seconds
+      setTimeout(() => {
+        statusElement.style.display = 'none';
+      }, 3000);
+    }
+
+    function handleConnectionStatus(status) {
+      const statusElement = document.getElementById('connection-status');
+      const textElement = document.getElementById('connection-text');
+      
+      if (!statusElement || !textElement) return;
+
+      statusElement.style.display = 'flex';
+      
+      if (status.connected) {
+        statusElement.className = 'connection-status connected';
+        textElement.textContent = 'Connected';
+        
+        // Hide after 2 seconds
+        setTimeout(() => {
+          statusElement.style.display = 'none';
+        }, 2000);
+      } else {
+        statusElement.className = 'connection-status disconnected';
+        textElement.textContent = 'Disconnected';
+        
+        // Keep showing until reconnected
+      }
+    }
+
+    async function loadPopularRoutes() {
+      // Always render the requested popular routes (override API list)
+      const customRoutes = [
+        { source: 'Mohakhali Bus Terminal', destination: 'Chittagong Central Bus Terminal' },
+        { source: 'Chittagong Central Bus Terminal', destination: 'Mohakhali Bus Terminal' },
+        { source: 'Mohakhali Bus Terminal', destination: 'Sylhet Bus Terminal' },
+      ];
+
+      const container = document.getElementById('popular-routes-container');
+      if (!container) return;
+
+      container.innerHTML = customRoutes.map(({ source, destination }) => `
+        <div class="route-chip rounded-full px-4 py-2 text-sm font-medium cursor-pointer" data-source="${source}" data-destination="${destination}">
+          ${source} → ${destination}
+        </div>
+      `).join('');
+
+      container.querySelectorAll('.route-chip').forEach((chip) => {
+        chip.addEventListener('click', () => {
+          const srcInput = document.getElementById('source');
+          const dstInput = document.getElementById('destination');
+          if (srcInput) srcInput.value = chip.dataset.source || '';
+          if (dstInput) dstInput.value = chip.dataset.destination || '';
+        });
+      });
+    }
+
+    // Load public testimonials into carousel with slow rotation
+    async function loadTestimonials() {
+      try {
+        const resp = await apiService.getPublicFeedback(12);
+        const el = document.getElementById('testimonials');
+        if (!el) return;
+        const raw = resp && resp.success ? (Array.isArray(resp.data) ? resp.data : (resp.data?.data || [])) : [];
+        const items = (raw || []).map((r) => ({
+          id: r.id,
+          rating: Number(r.rating) || 0,
+          comment: String(r.comment || '').replace(/</g, '&lt;'),
+          created_at: r.created_at,
+          user_name: r.user_name || 'Anonymous',
+        }));
+        initFeedbackCarousel('testimonials', items, { 
+          slidingSpeed: 15000, // 15 seconds for faster, smoother movement
+          pauseOnHover: true, 
+          continuousSliding: true,
+          showArrows: false,
+          showIndicators: false
+        });
+      } catch (e) {
+        console.warn('Testimonials load failed', e);
+      }
+    }
+
+    // Trigger testimonials on DOM ready too
+  document.addEventListener('DOMContentLoaded', () => { loadTestimonials(); });
+
+  // Exact ReactBits Pill Navigation Implementation
+  class ReactBitsPillNavigation {
+    constructor() {
+      this.circleRefs = [];
+      this.tlRefs = [];
+      this.activeTweenRefs = [];
+      this.pills = document.querySelectorAll('.pill');
+      this.logoRef = document.querySelector('.pill-logo');
+      this.ease = "power3.easeOut";
+      
+      this.init();
+    }
+    
+    init() {
+      this.setupCircles();
+      this.attachEventListeners();
+      this.initLogoAnimation();
+    }
+    
+    setupCircles() {
+      this.pills.forEach((pill, index) => {
+        const circle = pill.querySelector('.hover-circle');
+        if (!circle) return;
+        
+        this.circleRefs[index] = circle;
+        this.layoutCircle(index);
+      });
+    }
+    
+    layoutCircle(index) {
+      const circle = this.circleRefs[index];
+      const pill = this.pills[index];
+      
+      if (!circle || !pill) return;
+      
+      const rect = pill.getBoundingClientRect();
+      const { width: w, height: h } = rect;
+      
+      // Calculate circle geometry for perfect arc effect
+      const R = ((w * w) / 4 + h * h) / (2 * h);
+      const D = Math.ceil(2 * R) + 2;
+      const delta = Math.ceil(R - Math.sqrt(Math.max(0, R * R - (w * w) / 4))) + 1;
+      const originY = D - delta;
+      
+      // Set circle dimensions and position
+      circle.style.width = `${D}px`;
+      circle.style.height = `${D}px`;
+      circle.style.bottom = `-${delta}px`;
+      
+      // Initialize GSAP properties
+      gsap.set(circle, {
+        xPercent: -50,
+        scale: 0,
+        transformOrigin: `50% ${originY}px`,
+      });
+      
+      // Setup label animations
+      const label = pill.querySelector('.pill-label');
+      const hoverLabel = pill.querySelector('.pill-label-hover');
+      
+      if (label) gsap.set(label, { y: 0 });
+      if (hoverLabel) gsap.set(hoverLabel, { y: h + 12, opacity: 0 });
+      
+      // Create timeline for this pill
+      this.tlRefs[index]?.kill();
+      const tl = gsap.timeline({ paused: true });
+      
+      // Circle scale animation
+      tl.to(circle, { 
+        scale: 1.2, 
+        xPercent: -50, 
+        duration: 2, 
+        ease: this.ease, 
+        overwrite: "auto" 
+      }, 0);
+      
+      // Label slide up animation
+      if (label) {
+        tl.to(label, { 
+          y: -(h + 8), 
+          duration: 2, 
+          ease: this.ease, 
+          overwrite: "auto" 
+        }, 0);
+      }
+      
+      // Hover label slide in animation
+      if (hoverLabel) {
+        gsap.set(hoverLabel, { y: Math.ceil(h + 100), opacity: 0 });
+        tl.to(hoverLabel, { 
+          y: 0, 
+          opacity: 1, 
+          duration: 2, 
+          ease: this.ease, 
+          overwrite: "auto" 
+        }, 0);
+      }
+      
+      this.tlRefs[index] = tl;
+    }
+    
+    attachEventListeners() {
+      this.pills.forEach((pill, index) => {
+        pill.addEventListener('mouseenter', () => this.handleEnter(index));
+        pill.addEventListener('mouseleave', () => this.handleLeave(index));
+        pill.addEventListener('click', (e) => this.handleClick(e, index));
+      });
+      
+      // Resize handler
+      window.addEventListener('resize', () => {
+        this.pills.forEach((_, index) => this.layoutCircle(index));
+      });
+    }
+    
+    handleEnter(index) {
+      const tl = this.tlRefs[index];
+      if (!tl) return;
+      
+      this.activeTweenRefs[index]?.kill();
+      this.activeTweenRefs[index] = tl.tweenTo(tl.duration(), {
+        duration: 0.3,
+        ease: this.ease,
+        overwrite: "auto",
+      });
+    }
+    
+    handleLeave(index) {
+      const tl = this.tlRefs[index];
+      if (!tl) return;
+      
+      this.activeTweenRefs[index]?.kill();
+      this.activeTweenRefs[index] = tl.tweenTo(0, {
+        duration: 0.2,
+        ease: this.ease,
+        overwrite: "auto",
+      });
+    }
+    
+    handleClick(e, index) {
+      e.preventDefault();
+      const clickedPill = this.pills[index];
+      
+      // Remove active from all pills
+      this.pills.forEach(pill => pill.classList.remove('is-active'));
+      
+      // Add active to clicked pill
+      clickedPill.classList.add('is-active');
+      
+      // Handle navigation
+      const href = clickedPill.getAttribute('href');
+      if (href && href !== '#') {
+        if (href.startsWith('#')) {
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        } else {
+          window.location.href = href;
+        }
+      }
+    }
+    
+    initLogoAnimation() {
+      if (!this.logoRef) return;
+      
+      const logoIcon = this.logoRef.querySelector('.logo-icon');
+      if (!logoIcon) return;
+      
+      this.logoRef.addEventListener('mouseenter', () => {
+        gsap.set(logoIcon, { rotate: 0 });
+        gsap.to(logoIcon, {
+          rotate: 360,
+          duration: 0.6,
+          ease: this.ease,
+          overwrite: "auto",
+        });
+      });
+    }
+  }
+  
+  // Enhanced Auth Buttons with ReactBits Pill Animation
+  function initReactBitsAuthButtons() {
+    const authButtons = document.querySelectorAll('.auth-btn');
+    const authCircleRefs = [];
+    const authTlRefs = [];
+    const authActiveTweenRefs = [];
+    const ease = "power3.easeOut";
+    
+    // Setup circles for auth buttons
+    authButtons.forEach((button, index) => {
+      const circle = button.querySelector('.hover-circle');
+      if (!circle) return;
+      
+      authCircleRefs[index] = circle;
+      layoutAuthCircle(button, circle, index);
+    });
+    
+    function layoutAuthCircle(button, circle, index) {
+      const rect = button.getBoundingClientRect();
+      const { width: w, height: h } = rect;
+      
+      // Calculate circle geometry for perfect arc effect
+      const R = ((w * w) / 4 + h * h) / (2 * h);
+      const D = Math.ceil(2 * R) + 2;
+      const delta = Math.ceil(R - Math.sqrt(Math.max(0, R * R - (w * w) / 4))) + 1;
+      const originY = D - delta;
+      
+      // Set circle dimensions and position
+      circle.style.width = `${D}px`;
+      circle.style.height = `${D}px`;
+      circle.style.bottom = `-${delta}px`;
+      
+      // Initialize GSAP properties
+      gsap.set(circle, {
+        xPercent: -50,
+        scale: 0,
+        transformOrigin: `50% ${originY}px`,
+      });
+      
+      // Setup label animations
+      const label = button.querySelector('.pill-label');
+      const hoverLabel = button.querySelector('.pill-label-hover');
+      
+      if (label) gsap.set(label, { y: 0 });
+      if (hoverLabel) gsap.set(hoverLabel, { y: h + 12, opacity: 0 });
+      
+      // Create timeline for this button
+      authTlRefs[index]?.kill();
+      const tl = gsap.timeline({ paused: true });
+      
+      // Circle scale animation
+      tl.to(circle, { 
+        scale: 1.2, 
+        xPercent: -50, 
+        duration: 2, 
+        ease: ease, 
+        overwrite: "auto" 
+      }, 0);
+      
+      // Label slide up animation
+      if (label) {
+        tl.to(label, { 
+          y: -(h + 8), 
+          duration: 2, 
+          ease: ease, 
+          overwrite: "auto" 
+        }, 0);
+      }
+      
+      // Hover label slide in animation
+      if (hoverLabel) {
+        gsap.set(hoverLabel, { y: Math.ceil(h + 100), opacity: 0 });
+        tl.to(hoverLabel, { 
+          y: 0, 
+          opacity: 1, 
+          duration: 2, 
+          ease: ease, 
+          overwrite: "auto" 
+        }, 0);
+      }
+      
+      authTlRefs[index] = tl;
+    }
+    
+    function handleAuthEnter(index) {
+      const tl = authTlRefs[index];
+      if (!tl) return;
+      
+      authActiveTweenRefs[index]?.kill();
+      authActiveTweenRefs[index] = tl.tweenTo(tl.duration(), {
+        duration: 0.3,
+        ease: ease,
+        overwrite: "auto",
+      });
+    }
+    
+    function handleAuthLeave(index) {
+      const tl = authTlRefs[index];
+      if (!tl) return;
+      
+      authActiveTweenRefs[index]?.kill();
+      authActiveTweenRefs[index] = tl.tweenTo(0, {
+        duration: 0.2,
+        ease: ease,
+        overwrite: "auto",
+      });
+    }
+    
+    // Attach event listeners to auth buttons
+    authButtons.forEach((button, index) => {
+      button.addEventListener('mouseenter', () => handleAuthEnter(index));
+      button.addEventListener('mouseleave', () => handleAuthLeave(index));
+      
+      // Click animation
+      button.addEventListener('mousedown', () => {
+        gsap.to(button, {
+          scale: 0.98,
+          duration: 0.1,
+          ease: "power2.out"
+        });
+      });
+      
+      button.addEventListener('mouseup', () => {
+        gsap.to(button, {
+          scale: 1,
+          duration: 0.1,
+          ease: "power2.out"
+        });
+      });
+    });
+    
+    // Resize handler for auth buttons
+    window.addEventListener('resize', () => {
+      authButtons.forEach((button, index) => {
+        const circle = button.querySelector('.hover-circle');
+        if (circle) {
+          layoutAuthCircle(button, circle, index);
+        }
+      });
+    });
+  }
+  
+  // Mobile Menu Animation
+  function initReactBitsMobileMenu() {
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    let isOpen = false;
+    
+    if (!mobileMenuBtn || !mobileMenu) return;
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      if (isOpen) {
+        // Close animation
+        gsap.to(mobileMenu, {
+          height: 0,
+          opacity: 0,
+          paddingTop: 0,
+          paddingBottom: 0,
+          duration: 0.4,
+          ease: "power3.inOut",
+          onComplete: () => {
+            mobileMenu.classList.add('hidden');
+          }
+        });
+        
+        // Animate items out
+        const items = mobileMenu.querySelectorAll('.pill');
+        gsap.to(items, {
+          y: -20,
+          opacity: 0,
+          duration: 0.2,
+          stagger: 0.05,
+          ease: "power2.in"
+        });
+      } else {
+        // Open animation
+        mobileMenu.classList.remove('hidden');
+        
+        gsap.fromTo(mobileMenu, 
+          { 
+            height: 0, 
+            opacity: 0,
+            paddingTop: 0,
+            paddingBottom: 0
+          },
+          { 
+            height: 'auto',
+            opacity: 1,
+            paddingTop: '1rem',
+            paddingBottom: '1rem',
+            duration: 0.4,
+            ease: "power3.out"
+          }
+        );
+        
+        // Animate items in
+        const items = mobileMenu.querySelectorAll('.pill');
+        gsap.fromTo(items,
+          { y: -20, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.3,
+            stagger: 0.1,
+            delay: 0.2,
+            ease: "power2.out"
+          }
+        );
+      }
+      isOpen = !isOpen;
+    });
+  }
+  
+  // Initialize all ReactBits style animations
+  document.addEventListener('DOMContentLoaded', () => {
+    // Small delay to ensure DOM is fully ready and fonts loaded
+    setTimeout(() => {
+      new ReactBitsPillNavigation();
+      initReactBitsAuthButtons();
+      initReactBitsMobileMenu();
+      initBlurTextAnimation();
+    }, 100);
+  });
+
+  // BlurText Animation - GSAP Implementation
+  function initBlurTextAnimation() {
+    const heroText = document.getElementById('hero-text');
+    if (!heroText) return;
+
+    // Get the original text content
+    const originalHTML = heroText.innerHTML;
+    
+    // Split into words but handle the span separately
+    const words = [
+      'Your', 'Gateway', 'to', 
+      '<span class="text-accent-end">Seamless</span>', 
+      '<span class="text-accent-end">Travel</span>'
+    ];
+
+    // Clear and rebuild with wrapped words
+    heroText.innerHTML = '';
+    const wordElements = [];
+
+    words.forEach((word, index) => {
+      const wrapper = document.createElement('span');
+      wrapper.style.display = 'inline-block';
+      wrapper.style.filter = 'blur(10px)';
+      wrapper.style.opacity = '0';
+      wrapper.style.transform = 'translateY(-50px)';
+      wrapper.style.marginRight = '0.25em';
+      
+      if (word.includes('<span')) {
+        // For styled words, set the HTML content
+        wrapper.innerHTML = word;
+      } else {
+        // For regular words, set text content
+        wrapper.textContent = word;
+      }
+      
+      heroText.appendChild(wrapper);
+      wordElements.push(wrapper);
+    });
+
+    // Create intersection observer for trigger
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Animate each word with staggered delay
+          wordElements.forEach((element, index) => {
+            gsap.to(element, {
+              filter: 'blur(0px)',
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              delay: index * 0.15,
+              ease: "power2.out",
+              onStart: () => {
+                // Intermediate blur state
+                gsap.set(element, {
+                  filter: 'blur(5px)',
+                  opacity: 0.5,
+                  y: 5
+                });
+              }
+            });
+          });
+          
+          observer.unobserve(heroText);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    observer.observe(heroText);
+  }
+
+  </script>
+</body>
+</html>

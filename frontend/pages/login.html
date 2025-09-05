@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - TicketKini</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link href="../styles/site.css" rel="stylesheet" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        /* Background Animation Styles */
+        .animated-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .dot-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .password-strength {
+            height: 4px;
+            border-radius: 2px;
+            margin-top: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .strength-weak { background: linear-gradient(90deg, #ef4444 0%, #ef4444 33%, #e5e7eb 33%, #e5e7eb 100%); }
+        .strength-medium { background: linear-gradient(90deg, #f59e0b 0%, #f59e0b 66%, #e5e7eb 66%, #e5e7eb 100%); }
+        .strength-strong { background: linear-gradient(90deg, #10b981 0%, #10b981 100%); }
+        
+        .shimmer-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .shimmer-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .shimmer-btn:hover::before {
+            left: 100%;
+        }
+        
+        .tab-slide-enter {
+            animation: slideInRight 0.3s ease-out;
+        }
+        
+        .tab-slide-exit {
+            animation: slideOutLeft 0.3s ease-out;
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOutLeft {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(-100%); opacity: 0; }
+        }
+        
+        .loading-spinner {
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            width: 1rem;
+            height: 1rem;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .input-focus-effect {
+            transition: all 0.3s ease;
+        }
+        
+        .input-focus-effect:focus {
+            transform: scale(1.02);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .glass-form {
+            backdrop-filter: blur(16px);
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Custom cursor inspired by thebluedesert.com */
+        .blue-desert-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .cursor-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: all 0.1s cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+
+        .cursor-inner__icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 44px;
+            height: 44px;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr;
+            align-items: center;
+            justify-items: center;
+        }
+
+        .cursor-inner__icon > * {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .cursor-border {
+            width: 44px;
+            height: 44px;
+            border: 2px solid #3b82f6;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.1);
+            backdrop-filter: blur(10px);
+            transform: scale(0);
+            transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+            position: relative;
+        }
+
+        .cursor-dot {
+            width: 11px;
+            height: 11px;
+            background: #ffffff;
+            border: 1px solid #3b82f6;
+            border-radius: 50%;
+            transform: scale(1);
+            transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+            position: relative;
+        }
+
+        /* Hide default cursor on non-touch devices */
+        @media (pointer: fine) {
+            * {
+                cursor: none !important;
+            }
+        }
+
+        /* Show default cursor on touch devices */
+        @media (pointer: coarse) {
+            .blue-desert-cursor {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen neumorphic-bg relative text-gray-800 font-inter flex flex-col">
+    <!-- Custom cursor elements inspired by thebluedesert.com -->
+    <div class="blue-desert-cursor">
+        <div class="cursor-inner">
+            <div class="cursor-inner__icon">
+                <div class="cursor-border"></div>
+                <div class="cursor-dot"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <canvas id="dotCanvas" class="dot-canvas"></canvas>
+    </div>
+    
+    <!-- Minimal Navbar -->
+    <nav class="absolute top-0 w-full z-20" style="background: #e0e5ec; box-shadow: 2px 2px 4px #a8adb5, -2px -2px 4px #ffffff;">
+        <div class="max-w-6xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="../index.html" class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                    <i class="fas fa-route text-blue-600"></i> 
+                    <span class="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">TicketKini</span>
+                </a>
+                <div class="flex items-center gap-4">
+                    <a href="../index.html" class="text-gray-600 hover:text-gray-800 transition-colors">Home</a>
+                    <a href="./signup.html" class="neumorphic-btn px-4 py-2" style="color: #4f46e5; text-decoration: none;">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex-grow flex items-center justify-center p-4 pt-20">
+        <div class="w-full max-w-md">
+            <div class="neumorphic-card">
+                <!-- Logo & Title -->
+                <div class="text-center mb-8">
+                    <div class="text-5xl mb-4 relative">
+                        <i class="fas fa-route text-blue-600 drop-shadow-lg"></i>
+                        <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full blur-xl opacity-20 animate-pulse"></div>
+                    </div>
+                    <h1 class="text-3xl font-bold text-gray-800 mb-2 relative">Welcome Back</h1>
+                    <p class="text-gray-600 font-medium">Sign in to continue your journey</p>
+                    <div class="w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-3 rounded-full"></div>
+                </div>
+
+                <!-- Alert Container -->
+                <div id="alert-container" class="mb-6"></div>
+
+                <!-- Tabs -->
+                <div class="neumorphic-tab-container" role="tablist">
+                    <button 
+                        id="user-tab" 
+                        class="neumorphic-tab active flex-1 text-sm font-medium transition-all duration-300" 
+                        role="tab" 
+                        aria-selected="true"
+                    >
+                        <i class="fas fa-user mr-2"></i>User Login
+                    </button>
+                    <button 
+                        id="admin-tab" 
+                        class="neumorphic-tab flex-1 text-sm font-medium transition-all duration-300" 
+                        role="tab" 
+                        aria-selected="false"
+                    >
+                        <i class="fas fa-shield-alt mr-2"></i>Admin Login
+                    </button>
+                </div>
+
+                <!-- User Login Form -->
+                <div id="user-panel" role="tabpanel" class="tab-panel">
+                    <form id="user-form" class="space-y-6">
+                        <div>
+                            <label for="email" class="neumorphic-label">Email Address</label>
+                            <div class="relative">
+                                <div class="neumorphic-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <input 
+                                    type="email" 
+                                    id="email" 
+                                    class="neumorphic-input w-full"
+                                    placeholder="Enter your email"
+                                    required
+                                >
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                    <i id="email-icon" class="fas fa-check text-green-500 hidden"></i>
+                                </div>
+                            </div>
+                            <div id="email-message" class="text-sm mt-1 transition-all duration-300"></div>
+                        </div>
+
+                        <div>
+                            <label for="password" class="neumorphic-label">Password</label>
+                            <div class="relative">
+                                <div class="neumorphic-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <input 
+                                    type="password" 
+                                    id="password" 
+                                    class="neumorphic-input w-full pr-12"
+                                    placeholder="Enter your password"
+                                    required
+                                >
+                                <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                    <i class="fas fa-eye text-gray-400 hover:text-gray-600"></i>
+                                </button>
+                            </div>
+                            <div id="password-strength" class="password-strength mt-2 hidden"></div>
+                            <div id="password-message" class="text-sm mt-1 transition-all duration-300"></div>
+                        </div>
+
+                        <div class="flex items-center">
+                            <label class="flex items-center">
+                                <input type="checkbox" id="remember" class="neumorphic-checkbox mr-2">
+                                <span class="text-sm text-gray-600">Remember me</span>
+                            </label>
+                        </div>
+
+                        <button 
+                            type="submit" 
+                            id="login-btn" 
+                            class="neumorphic-btn w-full font-medium flex items-center justify-center gap-2"
+                        >
+                            <div id="login-spinner" class="loading-spinner hidden"></div>
+                            <span id="login-text">Sign In</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Admin Login Form -->
+                <div id="admin-panel" role="tabpanel" class="tab-panel hidden">
+                    <form id="admin-form" class="space-y-6">
+                        <div class="neumorphic-admin-accent text-center">
+                            <i class="fas fa-shield-alt text-3xl mb-2"></i>
+                            <p class="text-sm">Authorized Personnel Only</p>
+                        </div>
+
+                        <div>
+                            <label for="admin-email" class="neumorphic-label">Admin Email</label>
+                            <div class="relative">
+                                <div class="neumorphic-icon">
+                                    <i class="fas fa-user-shield"></i>
+                                </div>
+                                <input 
+                                    type="email" 
+                                    id="admin-email" 
+                                    class="neumorphic-input w-full"
+                                    placeholder="Enter admin email"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="admin-password" class="neumorphic-label">Admin Password</label>
+                            <div class="relative">
+                                <div class="neumorphic-icon">
+                                    <i class="fas fa-key"></i>
+                                </div>
+                                <input 
+                                    type="password" 
+                                    id="admin-password" 
+                                    class="neumorphic-input w-full"
+                                    placeholder="Enter admin password"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <button 
+                            type="submit" 
+                            id="admin-login-btn" 
+                            class="neumorphic-btn w-full font-medium flex items-center justify-center gap-2"
+                        >
+                            <div id="admin-spinner" class="loading-spinner hidden"></div>
+                            <span id="admin-text">Sign In as Admin</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Divider -->
+                <div class="mt-8 mb-6">
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-400"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-4 bg-neumorphic text-gray-500" style="background: #e0e5ec;">New to TicketKini?</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Signup Link -->
+                <a 
+                    href="./signup.html" 
+                    class="neumorphic-btn w-full text-center block"
+                    style="text-decoration: none; color: #4f46e5;"
+                >
+                    Create New Account
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900/90 backdrop-blur text-white py-4 mt-auto">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <p>&copy; 2025 TicketKini. All rights reserved. | Made with ❤️ in Bangladesh</p>
+        </div>
+    </footer>
+
+    <!-- Background Animation Script -->
+    <script>
+        class DotGridAnimation {
+            constructor() {
+                this.canvas = document.getElementById('dotCanvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.dots = [];
+                this.mouse = { x: 0, y: 0, vx: 0, vy: 0, speed: 0, lastX: 0, lastY: 0, lastTime: 0 };
+                this.config = {
+                    dotSize: 4,
+                    gap: 25,
+                    baseColor: 'rgba(79, 70, 229, 0.3)',
+                    activeColor: 'rgba(79, 70, 229, 0.8)',
+                    proximity: 60,
+                    speedTrigger: 200,
+                    shockRadius: 80,
+                    shockStrength: 1,
+                    resistance: 0.98,
+                    returnSpeed: 0.02
+                };
+                
+                this.init();
+            }
+            
+            init() {
+                this.resizeCanvas();
+                this.buildGrid();
+                this.animate();
+                this.bindEvents();
+            }
+            
+            resizeCanvas() {
+                const dpr = window.devicePixelRatio || 1;
+                const rect = this.canvas.getBoundingClientRect();
+                
+                this.canvas.width = rect.width * dpr;
+                this.canvas.height = rect.height * dpr;
+                this.canvas.style.width = rect.width + 'px';
+                this.canvas.style.height = rect.height + 'px';
+                
+                this.ctx.scale(dpr, dpr);
+                this.width = rect.width;
+                this.height = rect.height;
+            }
+            
+            buildGrid() {
+                this.dots = [];
+                const { dotSize, gap } = this.config;
+                const cell = dotSize + gap;
+                
+                const cols = Math.floor((this.width + gap) / cell);
+                const rows = Math.floor((this.height + gap) / cell);
+                
+                const gridW = cell * cols - gap;
+                const gridH = cell * rows - gap;
+                
+                const startX = (this.width - gridW) / 2 + dotSize / 2;
+                const startY = (this.height - gridH) / 2 + dotSize / 2;
+                
+                for (let y = 0; y < rows; y++) {
+                    for (let x = 0; x < cols; x++) {
+                        this.dots.push({
+                            x: startX + x * cell,
+                            y: startY + y * cell,
+                            originalX: startX + x * cell,
+                            originalY: startY + y * cell,
+                            offsetX: 0,
+                            offsetY: 0,
+                            vx: 0,
+                            vy: 0
+                        });
+                    }
+                }
+            }
+            
+            animate() {
+                this.ctx.clearRect(0, 0, this.width, this.height);
+                
+                this.dots.forEach(dot => {
+                    // Return to original position
+                    const dx = dot.originalX - dot.x;
+                    const dy = dot.originalY - dot.y;
+                    
+                    dot.vx += dx * this.config.returnSpeed;
+                    dot.vy += dy * this.config.returnSpeed;
+                    
+                    dot.vx *= this.config.resistance;
+                    dot.vy *= this.config.resistance;
+                    
+                    dot.x += dot.vx;
+                    dot.y += dot.vy;
+                    
+                    // Calculate distance to mouse
+                    const distToMouse = Math.hypot(dot.originalX - this.mouse.x, dot.originalY - this.mouse.y);
+                    
+                    // Determine color based on proximity to mouse
+                    let opacity = 0.3;
+                    if (distToMouse < this.config.proximity) {
+                        const factor = 1 - (distToMouse / this.config.proximity);
+                        opacity = 0.3 + (factor * 0.5);
+                    }
+                    
+                    // Draw dot
+                    this.ctx.fillStyle = `rgba(79, 70, 229, ${opacity})`;
+                    this.ctx.beginPath();
+                    this.ctx.arc(dot.x, dot.y, this.config.dotSize / 2, 0, Math.PI * 2);
+                    this.ctx.fill();
+                });
+                
+                requestAnimationFrame(() => this.animate());
+            }
+            
+            bindEvents() {
+                let lastTime = 0;
+                
+                const handleMouseMove = (e) => {
+                    const rect = this.canvas.getBoundingClientRect();
+                    const currentTime = performance.now();
+                    const dt = currentTime - lastTime || 16;
+                    
+                    const newX = e.clientX - rect.left;
+                    const newY = e.clientY - rect.top;
+                    
+                    if (lastTime) {
+                        this.mouse.vx = (newX - this.mouse.x) / dt * 1000;
+                        this.mouse.vy = (newY - this.mouse.y) / dt * 1000;
+                        this.mouse.speed = Math.hypot(this.mouse.vx, this.mouse.vy);
+                    }
+                    
+                    this.mouse.x = newX;
+                    this.mouse.y = newY;
+                    lastTime = currentTime;
+                    
+                    // Apply force to nearby dots when moving fast
+                    if (this.mouse.speed > this.config.speedTrigger) {
+                        this.dots.forEach(dot => {
+                            const dist = Math.hypot(dot.originalX - this.mouse.x, dot.originalY - this.mouse.y);
+                            if (dist < this.config.proximity) {
+                                const force = (this.config.proximity - dist) / this.config.proximity;
+                                const angle = Math.atan2(dot.originalY - this.mouse.y, dot.originalX - this.mouse.x);
+                                
+                                dot.vx += Math.cos(angle) * force * this.config.shockStrength;
+                                dot.vy += Math.sin(angle) * force * this.config.shockStrength;
+                            }
+                        });
+                    }
+                };
+                
+                const handleClick = (e) => {
+                    const rect = this.canvas.getBoundingClientRect();
+                    const clickX = e.clientX - rect.left;
+                    const clickY = e.clientY - rect.top;
+                    
+                    this.dots.forEach(dot => {
+                        const dist = Math.hypot(dot.originalX - clickX, dot.originalY - clickY);
+                        if (dist < this.config.shockRadius) {
+                            const force = (this.config.shockRadius - dist) / this.config.shockRadius;
+                            const angle = Math.atan2(dot.originalY - clickY, dot.originalX - clickX);
+                            
+                            dot.vx += Math.cos(angle) * force * this.config.shockStrength;
+                            dot.vy += Math.sin(angle) * force * this.config.shockStrength;
+                        }
+                    });
+                };
+                
+                const handleResize = () => {
+                    this.resizeCanvas();
+                    this.buildGrid();
+                };
+                
+                // Throttle mouse move for performance
+                let moveTimeout;
+                const throttledMouseMove = (e) => {
+                    if (!moveTimeout) {
+                        moveTimeout = setTimeout(() => {
+                            handleMouseMove(e);
+                            moveTimeout = null;
+                        }, 16);
+                    }
+                };
+                
+                document.addEventListener('mousemove', throttledMouseMove);
+                document.addEventListener('click', handleClick);
+                window.addEventListener('resize', handleResize);
+                
+                // Cleanup function
+                this.cleanup = () => {
+                    document.removeEventListener('mousemove', throttledMouseMove);
+                    document.removeEventListener('click', handleClick);
+                    window.removeEventListener('resize', handleResize);
+                };
+            }
+            
+            destroy() {
+                if (this.cleanup) this.cleanup();
+            }
+        }
+        
+        // Initialize the animation when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            const animation = new DotGridAnimation();
+        });
+    </script>
+
+    <!-- Custom Cursor JavaScript inspired by thebluedesert.com -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Only activate on non-touch devices
+            if (window.matchMedia("(pointer: coarse)").matches) {
+                return;
+            }
+
+            const cursor = document.querySelector('.cursor-inner');
+            const cursorBorder = document.querySelector('.cursor-border');
+            const cursorDot = document.querySelector('.cursor-dot');
+            
+            if (!cursor || !cursorBorder || !cursorDot) return;
+
+            let mouseX = 0;
+            let mouseY = 0;
+
+            // Mouse move handler
+            document.addEventListener('mousemove', function(e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                
+                // Update cursor position with smooth transform
+                cursor.style.transform = `translateX(${mouseX}px) translateY(${mouseY}px)`;
+            });
+
+            // Hover effects for interactive elements
+            const interactiveElements = document.querySelectorAll('a, button, input, textarea, select, [role="button"], [tabindex="0"]');
+            
+            interactiveElements.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    cursorBorder.style.transform = 'scale(1)';
+                    cursorDot.style.transform = 'scale(0.8)';
+                    cursor.style.transition = 'all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)';
+                });
+
+                element.addEventListener('mouseleave', () => {
+                    cursorBorder.style.transform = 'scale(0)';
+                    cursorDot.style.transform = 'scale(1)';
+                    cursor.style.transition = 'all 0.1s cubic-bezier(0.215, 0.61, 0.355, 1)';
+                });
+            });
+
+            // Click animation
+            document.addEventListener('mousedown', () => {
+                cursorBorder.style.transform = 'scale(1.2)';
+                cursorDot.style.transform = 'scale(0.6)';
+                cursorBorder.style.background = 'rgba(59, 130, 246, 0.3)';
+            });
+
+            document.addEventListener('mouseup', () => {
+                cursorBorder.style.transform = 'scale(0)';
+                cursorDot.style.transform = 'scale(1)';
+                cursorBorder.style.background = 'rgba(59, 130, 246, 0.1)';
+            });
+
+            // Initialize cursor position
+            cursor.style.transform = `translateX(${window.innerWidth / 2}px) translateY(${window.innerHeight / 2}px)`;
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                cursor.style.transform = `translateX(${mouseX}px) translateY(${mouseY}px)`;
+            });
+        });
+    </script>
+
+    <script type="module" src="login.ts"></script>
+</body>
+</html>

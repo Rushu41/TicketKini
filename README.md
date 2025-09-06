@@ -381,8 +381,8 @@ JWT_ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 
 # Email Configuration (Optional)
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
+EMAIL_HOST=SMTP_EMAIL.COM
+EMAIL_PORT=PORT
 EMAIL_USER=your-email@gmail.com
 EMAIL_PASSWORD=your-app-password
 

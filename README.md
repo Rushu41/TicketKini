@@ -55,6 +55,9 @@ In the era of digital transformation, travel booking systems require sophisticat
 <img width="1297" height="864" alt="Screenshot 2025-09-06 032544" src="https://github.com/user-attachments/assets/821b88d2-1e32-4fb7-afde-5f06286eec0b" />
 *Advanced search results with filters, sorting, and real-time availability*
 
+#### 🪑 **Notification Selection**
+<img width="1287" height="865" alt="Screenshot 2025-09-06 192736" src="https://github.com/user-attachments/assets/93a44bed-538e-44ab-9a8c-23d27c28cded" />
+
 #### 🪑 **Interactive Seat Selection**
 <img width="1104" height="841" alt="Screenshot 2025-09-06 032718" src="https://github.com/user-attachments/assets/6c7e2460-6fbd-4593-a7de-f30b57e9080b" />
 *Real-time seat map with visual seat selection and pricing breakdown*
@@ -63,9 +66,17 @@ In the era of digital transformation, travel booking systems require sophisticat
 <img width="1002" height="867" alt="Screenshot 2025-09-06 032829" src="https://github.com/user-attachments/assets/77ec38eb-adf6-4730-bb85-b4a2dd774702" />
 *Secure login interface with user and admin access options*
 
+#### 📊 **Admin Dashboard**
+<img width="1873" height="869" alt="Screenshot 2025-09-06 192858" src="https://github.com/user-attachments/assets/86bfdcc7-41bc-4717-973d-069036777d01" />
+
+
 #### 📊 **Admin Analytics Dashboard**
 <img width="1877" height="860" alt="Screenshot 2025-09-06 032933" src="https://github.com/user-attachments/assets/854dc5e8-b2ba-45a1-af20-6bc009e3ee46" />
 *Comprehensive analytics with revenue trends and route popularity charts*
+
+#### 📅 **Vehicles Management**
+<img width="1878" height="856" alt="Screenshot 2025-09-06 192922" src="https://github.com/user-attachments/assets/ee6292fc-3373-46f2-8463-4df68ad2ad2b" />
+
 
 #### 📅 **Schedule Management**
 <img width="1881" height="846" alt="Screenshot 2025-09-06 033010" src="https://github.com/user-attachments/assets/aca5e63f-0a78-41bf-9d87-f3eec5d0c565" />
